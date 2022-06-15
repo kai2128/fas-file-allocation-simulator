@@ -8,14 +8,16 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 export default defineConfig({
   shortcuts: [
-    ['btn', 'px-4 py-1 rounded inline-block bg-teal-700 text-white cursor-pointer hover:bg-teal-800 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
-    ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600'],
+    ['btn', 'flex items-center px-2 py-1 rounded bg-#f0f1f4 outline-black text-black cursor-pointer outline-300 hover:bg-gray-300 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
+    ['icon-btn', 'text-2xl text-gray hover:text-cool-gray-700 inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100'],
   ],
   presets: [
     presetUno(),
+    presetScrollbar(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
@@ -27,8 +29,12 @@ export default defineConfig({
         sans: 'DM Sans',
         serif: 'DM Serif Display',
         mono: 'DM Mono',
+        inter: 'Inter',
       },
     }),
+  ],
+  rules: [
+    [/^area-\[(.*)\]$/, ([, c]) => ({ 'grid-area': `${c}` })],
   ],
   transformers: [
     transformerDirectives(),

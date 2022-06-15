@@ -9,6 +9,8 @@ import { ERRCODE, ERRSTR, FSError } from '~/libs/error/fserror'
 import type { Block, Disk } from '~/libs/volume/disk'
 
 export class FatFs implements FSApi {
+  name = 'FAT'
+
   bpb: Fat32_BPB = {
     BPB_BytesPerSec: 0x0200, // 512
     BPB_SecPerClus: 0x01, // 1

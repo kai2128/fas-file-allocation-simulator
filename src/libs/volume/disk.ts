@@ -132,5 +132,72 @@ export class Disk {
   setUsedList(from: number, until: number, color: BlockColor | string, data?: any) {
     this.write(from, until, generateState('used', color, data))
   }
+
+  getLargestFreeBlocks() {
+    const diskUnits = this.units
+    const largestFreeBlocks = []
+    let largestFreeBlock = 0
+    let largestFreeBlockSize = 0
+    let currentFreeBlockSize = 0
+    for (let i = 0; i < diskUnits.length; i++) {
+      if (diskUnits[i].state.used === false) {
+        currentFreeBlockSize++
+        if (currentFreeBlockSize > largestFreeBlockSize) {
+          largestFreeBlockSize = currentFreeBlockSize
+          largestFreeBlock = i - currentFreeBlockSize + 1
+        }
+      }
+      else {
+        currentFreeBlockSize = 0
+      }
+    }
+    for (let i = largestFreeBlock; i < largestFreeBlock + largestFreeBlockSize; i++)
+      largestFreeBlocks.push(diskUnits[i])
+
+    return largestFreeBlocks
+  }
+
+  getDiskInfo() {
+    const free = this.units.filter(v => v.state.free).length
+    return {
+      total: this.disk_size,
+      reserved: this.units.filter(v => v.state.reserved).length,
+      used: this.units.filter(v => v.state.reserved).length,
+      free,
+      largestFreeBlock: this.getLargestFreeBlocks().length,
+      fragmentation: (free - this.getLargestFreeBlocks().length) / free * 100 || 0,
+      bytesPerSector: '-',
+      sectorsPerCluster: '-',
+    }
+  }
+
+  generateDiskGraph() {
+    const diskUnits = this.units
+    const total = diskUnits.length
+    const graph = []
+    let color = diskUnits[0].state.color
+    let count = 0
+    for (let i = 0; i < total; i++) {
+      const block = diskUnits[i]
+      count++
+      if (color !== block.state.color) {
+        graph.push({
+          width: `${String(count * 100 / total)}%`,
+          color,
+        })
+        color = block.state.color
+        count = 0
+      }
+    }
+
+    if (color === diskUnits[total - 1].state.color) {
+      graph.push({
+        width: count * 100 / total,
+        color,
+      })
+    }
+
+    return graph
+  }
 }
 

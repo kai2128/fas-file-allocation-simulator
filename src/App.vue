@@ -22,5 +22,8 @@ useHead({
 </script>
 
 <template>
-  <RouterView />
+  <main font-inter>
+    <RouterView />
+    <Notification />
+  </main>
 </template>

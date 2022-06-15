@@ -5,11 +5,20 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Counter: typeof import('./components/Counter.vue')['default']
+    Actions: typeof import('./components/Actions.vue')['default']
+    Disk: typeof import('./components/Disk.vue')['default']
+    DiskInfo: typeof import('./components/DiskInfo.vue')['default']
+    FileExplorer: typeof import('./components/FileExplorer.vue')['default']
+    FileInput: typeof import('./components/FileInput.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
+    Header: typeof import('./components/Header.vue')['default']
+    Log: typeof import('./components/Log.vue')['default']
+    'Log copy': typeof import('./components/Log copy.vue')['default']
+    Notification: typeof import('./components/Notification.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VolumeBlocks: typeof import('./components/VolumeBlocks.vue')['default']
   }
 }
 
