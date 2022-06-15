@@ -69,7 +69,7 @@ export class Disk {
   }
 
   read(from: number, until: number) {
-    return this.units.slice(from, until)
+    return this.units.slice(from, until + 1)
   }
 
   writeUnit(offset: number, blockState: BlockState) {

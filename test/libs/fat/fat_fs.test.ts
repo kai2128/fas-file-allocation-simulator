@@ -1,0 +1,216 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { Disk } from '~/libs/volume/disk'
+import { FatFs, FatItemState } from '~/libs/fs/fat'
+
+function setupFat() {
+  const disk = new Disk(20)
+  return {
+    disk,
+    fat: FatFs.format(disk),
+  }
+}
+
+describe('FAT', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2020-01-01T00:00:00.000Z'))
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('should format disk with 4 reserved sectors, and fat table with free cluster starting at offset 3', () => {
+    const { fat } = setupFat()
+    expect(fat.fatTable.table.length).toBe(16)
+
+    // 0, 1 is reserved for flag, 2 is root directory
+    expect(fat.fatTable.table[3]).toMatchObject(
+      {
+        nextCluster: FatItemState.FREE_CLUSTER,
+        offset: 7,
+      },
+    )
+    expect(fat.fatTable.freeClusterCount()).toBe(13)
+    expect(fat.fsInfo()).toMatchInlineSnapshot(`
+      {
+        "freeClusterCount": 13,
+        "nextFreeCluster": 3,
+      }
+    `)
+    expect(fat.fatTable.getFatIndexesForAllocation(5)).toMatchInlineSnapshot(`
+      [
+        3,
+        4,
+        5,
+        6,
+        7,
+      ]
+    `)
+    expect(fat.fatTable.freeClusterCount()).toBe(13)
+  })
+
+  it('should create root directory properly at fat index 2 and disk sector 6', () => {
+    const { fat, disk } = setupFat()
+    expect(fat.fatTable.table[2]).toMatchObject(
+      {
+        nextCluster: FatItemState.END_OF_CLUSTER,
+        offset: 6,
+      },
+    )
+    expect(disk.readUnit(fat.fatTable.table[2].offset)).toMatchObject(
+      {
+        offset: 6,
+        state: {
+          data: {
+            entry: {
+              firstClusterNumber: 2,
+              name: 'root',
+              size: 1,
+              type: 'directory',
+            },
+            path: '/root',
+          },
+          free: false,
+          reserved: false,
+          used: true,
+        },
+      },
+    )
+  })
+
+  it('should create and read file correctly on correct fat table', () => {
+    const fileName = 'file.txt'
+    const { fat } = setupFat()
+
+    fat.createFile(fileName, 3)
+    expect(fat.readFile(fileName)).toMatchInlineSnapshot(`
+      {
+        "data": {
+          "dateCreated": 1577836800000,
+          "firstClusterNumber": 3,
+          "name": "file.txt",
+          "size": 3,
+          "type": "file",
+        },
+        "diskOffsets": [
+          7,
+          8,
+          9,
+        ],
+        "fatIndexes": [
+          3,
+          4,
+          5,
+        ],
+        "fatItems": [
+          FatItem {
+            "nextCluster": 4,
+            "offset": 7,
+          },
+          FatItem {
+            "nextCluster": 5,
+            "offset": 8,
+          },
+          FatItem {
+            "nextCluster": 268435448,
+            "offset": 9,
+          },
+        ],
+      }
+    `)
+    expect(fat.fatTable.table.slice(3, 6)).toMatchInlineSnapshot(`
+      [
+        FatItem {
+          "nextCluster": 4,
+          "offset": 7,
+        },
+        FatItem {
+          "nextCluster": 5,
+          "offset": 8,
+        },
+        FatItem {
+          "nextCluster": 268435448,
+          "offset": 9,
+        },
+      ]
+    `)
+  })
+
+  it('should delete file correctly', () => {
+    const fileName = 'file.txt'
+    const { fat } = setupFat()
+    fat.createFile(fileName, 3)
+    fat.deleteFile(fileName)
+    expect(fat.fatTable.table.slice(3, 6)).toMatchInlineSnapshot(`
+      [
+        FatItem {
+          "nextCluster": 0,
+          "offset": 7,
+        },
+        FatItem {
+          "nextCluster": 0,
+          "offset": 8,
+        },
+        FatItem {
+          "nextCluster": 0,
+          "offset": 9,
+        },
+      ]
+    `)
+  })
+
+  it('should append file correctly', () => {
+    const fileName = 'file.txt'
+    const { fat } = setupFat()
+    fat.createFile(fileName, 3)
+    fat.appendFile(fileName, 3)
+    expect(fat.fatTable.table.slice(3, 9)).toMatchInlineSnapshot(`
+      [
+        FatItem {
+          "nextCluster": 4,
+          "offset": 7,
+        },
+        FatItem {
+          "nextCluster": 5,
+          "offset": 8,
+        },
+        FatItem {
+          "nextCluster": 6,
+          "offset": 9,
+        },
+        FatItem {
+          "nextCluster": 7,
+          "offset": 10,
+        },
+        FatItem {
+          "nextCluster": 8,
+          "offset": 11,
+        },
+        FatItem {
+          "nextCluster": 268435448,
+          "offset": 12,
+        },
+      ]
+    `)
+  })
+
+  it('should write file correctly', () => {
+    const fileName = 'file.txt'
+    const { fat } = setupFat()
+    fat.createFile(fileName, 10)
+    fat.fs_write(fileName, 2)
+    expect(fat.fatTable.table.slice(3, 5)).toMatchInlineSnapshot(`
+      [
+        FatItem {
+          "nextCluster": 4,
+          "offset": 7,
+        },
+        FatItem {
+          "nextCluster": 268435448,
+          "offset": 8,
+        },
+      ]
+    `)
+  })
+})

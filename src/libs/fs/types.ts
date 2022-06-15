@@ -1,6 +1,6 @@
 export interface FSApi {
-  fs_create(path: string, fileName: string): void
-  fs_append(path: string, size: number): void
-  fs_read(path: string): void
-  fs_delete(path: string): void
+  fs_create(fileName: string, size: number): void
+  fs_append(fileName: string, size: number): void
+  fs_read(fileName: string): void
+  fs_delete(fileName: string): void
 }

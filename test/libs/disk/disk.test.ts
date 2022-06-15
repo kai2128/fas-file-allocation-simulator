@@ -81,6 +81,16 @@ describe('Disk', () => {
             "used": false,
           },
         },
+        {
+          "offset": 2,
+          "state": {
+            "color": "#ffffff",
+            "data": {},
+            "free": true,
+            "reserved": false,
+            "used": false,
+          },
+        },
       ]
     `)
 
