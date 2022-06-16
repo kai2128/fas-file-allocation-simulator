@@ -1,3 +1,4 @@
+import type { FileDetails, FileReaded } from '../types'
 import type { FatItem } from './fatTable'
 
 export interface Fat32_BPB {
@@ -29,20 +30,15 @@ export interface Fat32_BPB {
   BS_FilSysType: number
 }
 
-export interface FileReaded {
-  data: FileDetails
+export interface FatFileReaded extends FileReaded {
+  data: FatFileDetails
   diskOffsets: Array<number>
   fatIndexes: Array<number>
   fatItems: Array<FatItem>
 }
-export interface FileDetails {
-  color: string
-  dateCreated: number | Date
+export interface FatFileDetails extends FileDetails {
   diskOffsets: number[]
   firstClusterNumber: number
-  name: string
-  size: number
-  type: 'file' | 'directory'
 }
 
 export interface Directory {
@@ -62,5 +58,4 @@ export interface FSInfo {
   freeClusterCount: number
   nextFreeCluster: number | false
 }
-
 

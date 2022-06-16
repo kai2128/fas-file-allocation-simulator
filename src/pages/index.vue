@@ -11,28 +11,7 @@ function formatHandler() {
     <div id="grid-container">
       <FileInput />
       <FileExplorer />
-      <section class="area-[fat]">
-        <h1 class="font-bold text-2xl">
-          File Allocation Table
-        </h1>
-        <table class="w-full">
-          <thead>
-            <tr class="text-gray-400">
-              <td>Cluster No.</td>
-              <td>Value</td>
-              <td>File Name</td>
-              <td>Label</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b border-b-gray-300">
-              <td text="gray/50 center" colspan="4">
-                -
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <FatTable></FatTable>
       <VolumeBlocks />
       <Actions />
       <Log />

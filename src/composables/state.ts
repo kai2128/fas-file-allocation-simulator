@@ -14,7 +14,7 @@ export interface Inputs {
 
   fileName: string
   fileAction: string
-  fileSize: string
+  fileSize: number | string
 
   fileSelected: string
 }
@@ -42,3 +42,8 @@ export function createAndFormatDisk(size: number, fsType: string) {
       fs.value = FatFs.format(disk.value)
   }
 }
+
+export const files = computed(() => {
+  return fs.value.fs_files
+})
+

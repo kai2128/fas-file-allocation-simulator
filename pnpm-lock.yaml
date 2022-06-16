@@ -55,6 +55,7 @@ specifiers:
   vue-i18n: ^9.1.10
   vue-router: ^4.0.15
   vue-tsc: ^0.36.0
+  vue-use-popperjs: ^2.3.1
 
 dependencies:
   '@vueuse/core': 8.6.0_vue@3.2.36
@@ -71,6 +72,7 @@ dependencies:
   vue-demi: 0.13.1_vue@3.2.36
   vue-i18n: 9.1.10_vue@3.2.36
   vue-router: 4.0.15_vue@3.2.36
+  vue-use-popperjs: 2.3.1_vue@3.2.36
 
 devDependencies:
   '@antfu/eslint-config': 0.25.1_eslint@8.16.0+typescript@4.7.2
@@ -1636,6 +1638,10 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
+  /@popperjs/core/2.11.5:
+    resolution: {integrity: sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==}
+    dev: false
+
   /@rollup/plugin-babel/5.3.1_@babel+core@7.17.9+rollup@2.72.1:
     resolution: {integrity: sha512-WFfdLWU/xVWKeRQnKmIAQULUI7Il0gZnBIH/ZFO069wYIfPu+8zrfp/KMW0atmELoRDq8FbiP3VCss9MhCut7Q==}
     engines: {node: '>= 10.0.0'}
@@ -3067,6 +3073,11 @@ packages:
       browserslist: 4.20.2
       semver: 7.0.0
     dev: true
+
+  /core-js/3.23.1:
+    resolution: {integrity: sha512-wfMYHWi1WQjpgZNC9kAlN4ut04TM9fUTdi7CqIoTVM7yaiOUQTklOzfb+oWH3r9edQcT3F887swuVmxrV+CC8w==}
+    requiresBuild: true
+    dev: false
 
   /core-util-is/1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -7725,6 +7736,17 @@ packages:
       '@volar/vue-typescript': 0.36.0
       typescript: 4.7.2
     dev: true
+
+  /vue-use-popperjs/2.3.1_vue@3.2.36:
+    resolution: {integrity: sha512-EdabiNZmKGLqm4hnZdZf/naQ0a/8v3k32DZbrbgwn8yye9HJf90uJel/HAICD+/7FfRH8A02JRsEeIFmG7sOiw==}
+    engines: {node: ^12.13.0 || ^14.15.0 || >=16.5.0}
+    peerDependencies:
+      vue: ^3.2.21
+    dependencies:
+      '@popperjs/core': 2.11.5
+      core-js: 3.23.1
+      vue: 3.2.36
+    dev: false
 
   /vue/3.2.36:
     resolution: {integrity: sha512-5yTXmrE6gW8IQgttzHW5bfBiFA6mx35ZXHjGLDmKYzW6MMmYvCwuKybANRepwkMYeXw2v1buGg3/lPICY5YlZw==}

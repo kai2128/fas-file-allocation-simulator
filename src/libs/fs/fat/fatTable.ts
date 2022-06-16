@@ -1,4 +1,5 @@
 import { filter, findIndex, take } from 'lodash-es'
+import { BlockColor } from '~/libs/volume'
 
 export enum FatItemState {
   END_OF_CLUSTER = 0x0FFFFFF8,
@@ -12,14 +13,14 @@ export class FatTable {
 
   constructor(fatTableLength: number, dataSectorStartingCluster: number) {
     this.table = new Array(fatTableLength).fill({}).map((v, i) => {
-      return new FatItem(i + dataSectorStartingCluster, FatItemState.FREE_CLUSTER)
+      return new FatItem(i + dataSectorStartingCluster, FatItemState.FREE_CLUSTER, 'free', BlockColor.free)
     })
   }
 
   initTable() {
     // cluster 0 and 1 is reserved
-    this.table[0].nextCluster = 0xF8FFF0F
-    this.table[1].nextCluster = 0xFFFFFFF
+    this.table[0].setState(0xF8FFF0F, '-', BlockColor.reserved)
+    this.table[1].setState(0xFFFFFFF, '-', BlockColor.reserved)
   }
 
   getFatItem(fatIndex: number): FatItem {
@@ -56,12 +57,23 @@ export class FatItem {
   offset: number // maps to disk sectors
   nextCluster: number | FatItemState // points to next fat item (cluster)
 
-  constructor(offset: number, nextCluster: number | FatItemState) {
+  name: string
+  color: string
+
+  constructor(offset: number, nextCluster: number | FatItemState, name: string, color: string) {
     this.offset = offset
     this.nextCluster = nextCluster
+    this.name = name
+    this.color = color
   }
 
   markAsEndOfFile() {
     this.nextCluster = FatItemState.END_OF_CLUSTER
+  }
+
+  setState(nextCluser: number | FatItemState, name: string, color: string) {
+    this.nextCluster = nextCluser
+    this.name = name
+    this.color = color
   }
 }

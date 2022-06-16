@@ -87,6 +87,7 @@ describe('FAT', () => {
     expect(fat.readFile(fileName)).toMatchInlineSnapshot(`
       {
         "data": {
+          "color": "#bbbcf7",
           "dateCreated": 1577836800000,
           "firstClusterNumber": 3,
           "name": "file.txt",
@@ -105,14 +106,20 @@ describe('FAT', () => {
         ],
         "fatItems": [
           FatItem {
+            "color": "#bbbcf7",
+            "name": "file.txt",
             "nextCluster": 4,
             "offset": 7,
           },
           FatItem {
+            "color": "#bbbcf7",
+            "name": "file.txt",
             "nextCluster": 5,
             "offset": 8,
           },
           FatItem {
+            "color": "#bbbcf7",
+            "name": "file.txt",
             "nextCluster": 268435448,
             "offset": 9,
           },
@@ -122,14 +129,20 @@ describe('FAT', () => {
     expect(fat.fatTable.table.slice(3, 6)).toMatchInlineSnapshot(`
       [
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 4,
           "offset": 7,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 5,
           "offset": 8,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 268435448,
           "offset": 9,
         },
@@ -145,14 +158,20 @@ describe('FAT', () => {
     expect(fat.fatTable.table.slice(3, 6)).toMatchInlineSnapshot(`
       [
         FatItem {
+          "color": "#ffffff",
+          "name": "free",
           "nextCluster": 0,
           "offset": 7,
         },
         FatItem {
+          "color": "#ffffff",
+          "name": "free",
           "nextCluster": 0,
           "offset": 8,
         },
         FatItem {
+          "color": "#ffffff",
+          "name": "free",
           "nextCluster": 0,
           "offset": 9,
         },
@@ -168,26 +187,38 @@ describe('FAT', () => {
     expect(fat.fatTable.table.slice(3, 9)).toMatchInlineSnapshot(`
       [
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 4,
           "offset": 7,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 5,
           "offset": 8,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 6,
           "offset": 9,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 7,
           "offset": 10,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 8,
           "offset": 11,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 268435448,
           "offset": 12,
         },
@@ -203,10 +234,14 @@ describe('FAT', () => {
     expect(fat.fatTable.table.slice(3, 5)).toMatchInlineSnapshot(`
       [
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 4,
           "offset": 7,
         },
         FatItem {
+          "color": "#bbbcf7",
+          "name": "file.txt",
           "nextCluster": 268435448,
           "offset": 8,
         },

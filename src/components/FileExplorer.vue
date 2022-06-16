@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
-import { fs } from '~/composables/state'
+import { files, fs } from '~/composables/state'
+
+const selectFileHandler = (fileName: string) => {
+  inputs.value.fileSelected = fileName
+  inputs.value.fileName = fileName
+  if (inputs.value.fileAction === 'create')
+    inputs.value.fileAction = 'read'
+}
 </script>
 
 <template>
@@ -27,16 +34,16 @@ import { fs } from '~/composables/state'
         </thead>
         <tbody>
           <tr
-            v-for="file in files" :key="file.name" class="hover:bg-white/30 cursor-pointer"
-            @click="selectFileHandler(file.name)"
+            v-for="file in files" :key="file.data.name" class="hover:bg-white/30 cursor-pointer"
+            @click="selectFileHandler(file.data.name)"
           >
-            <td>{{ file.name }}</td>
-            <td>{{ file.size }}</td>
-            <td>{{ dayjs(file.timeCreated).format('hh:mm:ss A') }}</td>
+            <td>{{ file.data.name }}</td>
+            <td>{{ file.data.size }}</td>
+            <td>{{ dayjs(file.data.dateCreated).format('hh:mm:ss A') }}</td>
             <td>
               <div
                 border="2px gray-1" class="mx-a h-0.75rem w-0.75rem rounded-full"
-                :style="{ backgroundColor: file.color }"
+                :style="{ backgroundColor: file.data.color }"
               />
             </td>
           </tr>
