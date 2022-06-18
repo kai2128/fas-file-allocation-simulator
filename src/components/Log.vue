@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 const { logs, clearLogs } = useLog()
+const logEl = ref<HTMLDivElement>()
+
+onMounted(() => {
+  watch(logs, () => {
+    requestAnimationFrame(() => {
+      logEl.value!.scrollTop = logEl.value!.scrollHeight
+    })
+  }, {
+    deep: true,
+  })
+})
 </script>
 
 <template>

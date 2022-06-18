@@ -39,7 +39,6 @@ export function generateState(state: 'free' | 'reserved' | 'used', color: string
       break
     case 'reserved':
       blockState.reserved = true
-      blockState.used = true
       blockState.color = BlockColor.reserved
       break
     case 'used':
@@ -140,7 +139,7 @@ export class Disk {
     let largestFreeBlockSize = 0
     let currentFreeBlockSize = 0
     for (let i = 0; i < diskUnits.length; i++) {
-      if (diskUnits[i].state.used === false) {
+      if (diskUnits[i].state.free === true) {
         currentFreeBlockSize++
         if (currentFreeBlockSize > largestFreeBlockSize) {
           largestFreeBlockSize = currentFreeBlockSize
@@ -153,7 +152,6 @@ export class Disk {
     }
     for (let i = largestFreeBlock; i < largestFreeBlock + largestFreeBlockSize; i++)
       largestFreeBlocks.push(diskUnits[i])
-
     return largestFreeBlocks
   }
 
@@ -162,7 +160,7 @@ export class Disk {
     return {
       total: this.disk_size,
       reserved: this.units.filter(v => v.state.reserved).length,
-      used: this.units.filter(v => v.state.reserved).length,
+      used: this.units.filter(v => v.state.used).length,
       free,
       largestFreeBlock: this.getLargestFreeBlocks().length,
       fragmentation: (free - this.getLargestFreeBlocks().length) / free * 100 || 0,

@@ -20,14 +20,19 @@ function fatClusterToString(nextCluster: number) {
 
 <template>
   <section class="area-[fat]">
-    <h1 class="font-bold text-2xl">
+    <h1 class="font-bold text-xl">
       File Allocation Table
     </h1>
     <div scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-420px">
       <table class="w-full">
         <thead>
           <tr class="text-gray-400">
-            <td>Cluster No.</td>
+            <td text-xs>
+              Index
+            </td>
+            <td text-sm>
+              Cluster No.
+            </td>
             <td>Value</td>
             <td>Label</td>
           </tr>
@@ -38,8 +43,16 @@ function fatClusterToString(nextCluster: number) {
               -
             </td>
           </tr>
-          <tr v-for="fatItem of fatTable" v-else :key="fatItem.offset" hover="bg-blue-gray-200/50 cursor-default">
-            <td>{{ fatItem.offset }}</td>
+          <tr
+            v-for="fatItem, idx of fatTable" v-else :key="fatItem.offset" hover="bg-blue-gray-200/50 cursor-default"
+            border="b gray2" relative
+          >
+            <td text="gray5">
+              {{ idx }}
+            </td>
+            <td>
+              {{ fatItem.offset }}
+            </td>
             <td>
               <Popper reference-is="span" popper-is="span" :popper-props="{ class: 'tooltips' }">
                 <template #reference>
@@ -60,6 +73,6 @@ function fatClusterToString(nextCluster: number) {
 
 <style>
 .tooltips {
-  --at-apply: inline-block bg-white shadow-md rounded text-sm px2 py2
+  --at-apply: inline-block bg-white shadow-md rounded text-sm px2 py2 z-1
 }
 </style>

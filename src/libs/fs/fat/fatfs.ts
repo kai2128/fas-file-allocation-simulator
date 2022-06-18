@@ -189,6 +189,7 @@ export class FatFs implements FSApi {
       this.disk.setUsed(this.fatTable.getFatItem(fatItemIndex).offset, file.data.color, file.data)
       this.fatTable.getFatItem(fatItemIndex).setState(fatItemIndexes[i + 1] || FatItemState.END_OF_CLUSTER, fileName, file.data.color)
     }
+    this.searchFileInDirectory(fileName)!.size += size
   }
 
   // #region fat table
@@ -263,6 +264,7 @@ export class FatFs implements FSApi {
   // #region FSApi
   fs_create(fileName: string, size: number) {
     this.createFile(fileName, size)
+    log(`File ${fileName} created with size ${size}.`)
   }
 
   fs_append(fileName: string, size: number) {
@@ -271,7 +273,9 @@ export class FatFs implements FSApi {
   }
 
   fs_write(fileName: string, size: number) {
-    this.checkSpace(size)
+    if (size > this.searchFileInDirectory(fileName)!.size) { // only check disk space if new size is larger than old size{
+      this.checkSpace(size - this.searchFileInDirectory(fileName)!.size)
+    }
     this.deleteFile(fileName)
     this.createFile(fileName, size)
     log(`File ${fileName} written with size ${size}.`)
