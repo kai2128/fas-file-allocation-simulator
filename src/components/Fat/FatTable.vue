@@ -3,6 +3,8 @@ import { Popper } from 'vue-use-popperjs'
 import { fs } from '~/composables/state'
 import type { FatFs } from '~/libs/fs/fat'
 import { FatItemState } from '~/libs/fs/fat'
+import { actionsState } from '~/composables/actions'
+
 const fatTable = $computed(() => { return ((fs.value) as FatFs)?.fatTable?.table || null })
 
 function fatClusterToString(nextCluster: number) {
@@ -16,6 +18,12 @@ function fatClusterToString(nextCluster: number) {
       return nextCluster
   }
 }
+
+watchEffect(() => {
+  const selectedFatId = actionsState.value.fat?.selected[0]
+  if (selectedFatId != null && !isNaN(selectedFatId!))
+    document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth' })
+})
 </script>
 
 <template>
@@ -23,7 +31,7 @@ function fatClusterToString(nextCluster: number) {
     <h1 class="font-bold text-xl">
       File Allocation Table
     </h1>
-    <div scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-420px">
+    <div ref="fatEl" scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-420px">
       <table class="w-full">
         <thead>
           <tr class="text-gray-400">
@@ -44,8 +52,8 @@ function fatClusterToString(nextCluster: number) {
             </td>
           </tr>
           <tr
-            v-for="fatItem, idx of fatTable" v-else :key="fatItem.offset" hover="bg-blue-gray-200/50 cursor-default"
-            border="b gray2" relative
+            v-for="fatItem, idx of fatTable" v-else :id="`fat-${idx}`" :key="fatItem.offset"
+            hover="bg-blue-gray-200/50 cursor-default" border="b gray2" :class="{ ...renderStateClass(idx, 'fat') }" relative
           >
             <td text="gray5">
               {{ idx }}
@@ -74,5 +82,11 @@ function fatClusterToString(nextCluster: number) {
 <style>
 .tooltips {
   --at-apply: inline-block bg-white shadow-md rounded text-sm px2 py2 z-1
+}
+</style>
+
+<style scoped>
+.selected {
+  --at-apply: bg-gray/20
 }
 </style>

@@ -31,7 +31,7 @@ body,
 
 input:focus,
 select:focus {
-  --at-apply: outline outline-1 outline-#7f8497
+  --at-apply: outline outline-1 outline-#7f8497 
 }
 
 input,
@@ -86,4 +86,16 @@ select {
     "files fat fat blocks blocks blocks blocks"
     "action action log log log info info"
     "action action log log log info info";
+}
+
+.selected {
+  --at-apply: outline-2px border-black/50 brightness-60
+}
+
+.selected-flash {
+  animation: flash 1.5s ease infinite;
+}
+
+@keyframes flash {  
+  50% { opacity: 0; }
 }

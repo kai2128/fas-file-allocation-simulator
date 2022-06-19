@@ -11,7 +11,7 @@ function formatHandler() {
     <div id="grid-container">
       <FileInput />
       <FileExplorer />
-      <FatTable></FatTable>
+      <FatTable />
       <VolumeBlocks />
       <Actions />
       <Log />

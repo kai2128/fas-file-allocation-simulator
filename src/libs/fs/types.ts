@@ -1,3 +1,5 @@
+import type { Code, Step } from '~/composables/actions'
+
 export interface FSApi {
   name: string
   fs_create(fileName: string, size: number): void
@@ -18,4 +20,27 @@ export interface FileDetails {
   size: number
   type: 'file' | 'directory'
   dateCreated: Date | number
+}
+
+export interface FSActions {
+  create: {
+    codes: Code[]
+    steps: Step[]
+  }
+  delete: {
+    codes: Code[]
+    steps: Step[]
+  }
+  append: {
+    codes: Code[]
+    steps: Step[]
+  }
+  write: {
+    codes: Code[]
+    steps: Step[]
+  }
+  read: {
+    codes: Code[]
+    steps: Step[]
+  }
 }

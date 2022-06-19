@@ -1,5 +1,26 @@
 <script setup lang="ts">
-const action = {}
+import { actions } from '~/composables/actions'
+
+function bold(str: string) {
+  return `<b>${str}</b>`
+}
+
+const renderSteps = computed(() => {
+  const steps = actions.value.steps
+  const currentStep = actions.value.state.stepIndex
+  const htmlSteps = steps.reduce((str, step, i) => {
+    return `${str}
+              <li>${i === currentStep ? bold(step.description) : step.description}</li>`
+  }, '<ol>')
+  return `${htmlSteps}</ol>`
+})
+
+const renderCode = computed(() => {
+  const code = actions.value.codes.map((code) => {
+    return `<pre>${code.code}</pre>`
+  }).join('\n')
+  return code
+})
 </script>
 
 <template>
@@ -7,7 +28,7 @@ const action = {}
     <h1 class="font-bold text-2xl">
       Action
       <span text="sm" font="normal">
-        {{ action.name || '-' }}
+        {{ actions.name || '-' }}
       </span>
     </h1>
     <div class="grid grid-cols-2 flex-1">
@@ -19,11 +40,11 @@ const action = {}
       </div>
       <div
         class="prose" scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line"
-        v-html="action.steps?.replace(/(?:\r\n|\r|\n)/g, '<br />')"
+        v-html="renderSteps"
       />
       <div
         class="bg-gray-200 before:content-[Peusdocode] min-h-[7rem] font-mono"
-        scrollbar="~ rounded hover:thumb-color-#55626f transition-color" v-html="action.code"
+        scrollbar="~ rounded hover:thumb-color-#55626f transition-color" v-html="renderCode"
       />
     </div>
     <div />

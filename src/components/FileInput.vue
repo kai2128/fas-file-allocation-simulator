@@ -45,6 +45,7 @@ const executeHandler = () => {
 
   try {
     fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
+    setActions(inputs.value.fileAction.substring(3))
   }
   catch (err) {
     notify(err.message, 'ERROR')

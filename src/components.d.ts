@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     Actions: typeof import('./components/Actions.vue')['default']
     DiskInfo: typeof import('./components/DiskInfo.vue')['default']
     FatTable: typeof import('./components/Fat/FatTable.vue')['default']
+    FileBlocks: typeof import('./components/FileBlocks.vue')['default']
     FileExplorer: typeof import('./components/FileExplorer.vue')['default']
     FileInput: typeof import('./components/FileInput.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
