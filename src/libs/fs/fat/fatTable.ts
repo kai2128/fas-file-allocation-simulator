@@ -1,4 +1,4 @@
-import { filter, findIndex, take } from 'lodash-es'
+import { filter, find, findIndex, take } from 'lodash-es'
 import { BlockColor } from '~/libs/volume'
 
 export enum FatItemState {
@@ -50,6 +50,10 @@ export class FatTable {
 
   getNextFreeCluster() {
     return findIndex(this.table, item => item.nextCluster === FatItemState.FREE_CLUSTER)
+  }
+
+   getNextFreeClusterItem() {
+    return find(this.table, item => item.nextCluster === FatItemState.FREE_CLUSTER)
   }
 }
 

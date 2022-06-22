@@ -5,22 +5,50 @@ export const fatActions: FSActions = {
     steps: [
       {
         index: 0,
-        description: `
-        Create a directory entry for file metadata (check if directory entry with same name already exists then allocate empty directory entry)
-        `,
+        description: ' Check if directory entry with same name already exists then allocate empty directory entry',
       },
       {
         index: 1,
         description: `
-        Find first free cluster from FAT table, allocate the cluster and mark it as end of file in FAT table, update first allocated cluster in file directory entry.
+        Create a directory entry to store file's metadata
         `,
       },
       {
         index: 2,
         description: `
-        If file havent completely allocated, continue to look to free cluster from FAT table, allocate the cluster and mark it as end of file in FAT table, update previous FAT table value to current cluster number. Repeat this step until file completely allocated.
+        Find first free cluster from FAT table
         `,
       },
+      {
+        index: 3,
+        description: `
+        Allocate the cluster and set it as end of file (0xFFF) in FAT table, update the first allocated cluster in file directory entry.
+        `
+      },
+      {
+        index: 4,
+        description: `
+        If file havent completely allocated, continue to:
+        `,
+      },
+      {
+        index: 5,
+        description: `
+        - look to free cluster from FAT table, 
+        `
+      },
+      {
+        index: 6,
+        description: `
+        - allocate the cluster and set it as end of file in FAT table
+        `
+      },
+      {
+        index: 7,
+        description: `
+        - update previous FAT table value to current cluster number. Repeat until all clusters are allocated.
+        `
+      }
     ],
     codes: [
       {

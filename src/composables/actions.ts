@@ -1,7 +1,6 @@
 import { includes } from 'lodash-es'
 import randomColor from 'randomcolor'
 import type { Ref } from 'vue'
-import type { ActionState } from './actions'
 
 export interface Actions {
   steps: Step[]
@@ -23,11 +22,12 @@ export interface ActionState {
   block?: UIState
   file?: UIState
   fat?: UIState
+  directory?: UIState
 }
 
 export interface UIState {
-  selected: number[]
-  flash: number[]
+  selected: number[] | string[]
+  flash: number[] | string[]
 }
 
 export interface Step {
@@ -49,10 +49,10 @@ export interface ActionFile {
   currentSize: number
 }
 
-const defaultActions: Partial<Actions> = {
+const defaultActions: Actions = {
   steps: [],
   codes: [],
-  name: undefined,
+  name: '',
   file: {
     name: '',
     size: 0,
@@ -63,6 +63,22 @@ const defaultActions: Partial<Actions> = {
   state: {
     codeIndex: 0,
     stepIndex: 0,
+    block: {
+      flash: [],
+      selected: [],
+    },
+    directory: {
+      flash: [],
+      selected: [],
+    },
+    fat: {
+      flash: [],
+      selected: [],
+    },
+    file: {
+      flash: [],
+      selected: [],
+    },
   },
   actionsToBeExecuted: [],
 }
@@ -73,8 +89,8 @@ export const actionsFile = computed(() => {
   if (actions.value.file.name !== undefined && actions.value.file.name !== '')
     return actions.value.file
 })
-export function renderStateClass(itemIndex: number, type: 'fat' | 'block' | 'file') {
-  const { block, file, fat } = actionsState.value
+export function renderStateClass(itemIndex: number | string, type: 'fat' | 'block' | 'file' | 'dir') {
+  const { block, file, fat, directory } = actionsState.value
   switch (type) {
     case 'fat':
       return {
@@ -91,6 +107,11 @@ export function renderStateClass(itemIndex: number, type: 'fat' | 'block' | 'fil
         'selected': includes(file?.selected, itemIndex),
         'selected-flash': includes(file?.flash, itemIndex),
       }
+    case 'dir':
+      return {
+        'selected': includes(directory?.selected, itemIndex),
+        'selected-flash': includes(directory?.flash, itemIndex),
+      }
   }
 }
 export function setActions(actionName: Actions['name'], options?: Partial<Omit<Actions, 'interval, state'>>) {
@@ -105,4 +126,6 @@ export function setActions(actionName: Actions['name'], options?: Partial<Omit<A
   }
   actions.value = { ...defaultActions, ...newAction, ...options } as Actions
 }
-
+export function resetActionsState() {
+  actions.value = defaultActions as Actions
+}

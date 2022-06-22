@@ -261,6 +261,19 @@ export class FatFs implements FSApi {
   }
   // #endregion
 
+  initDirectoryEntry(directoryEntry: Omit<DirectoryEntry, 'firstClusterNumber'>) {
+    this.rootDirectory.files.push(directoryEntry)
+    return directoryEntry
+  }
+
+  allocateCluster(fatItem: FatItem, data?: DirectoryEntry) {
+    this.disk.setUsed(fatItem.offset, fatItem.color, data)
+  }
+
+  updateFirstCluster(fileName: string, firstFat: number) {
+    this.searchFileInDirectory(fileName)!.firstClusterNumber = firstFat
+  }
+
   // #region FSApi
   fs_create(fileName: string, size: number) {
     this.createFile(fileName, size)

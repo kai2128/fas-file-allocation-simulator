@@ -50,7 +50,7 @@ export interface DirectoryEntry {
   name: string
   type: 'file' | 'directory'
   size: number
-  firstClusterNumber: number
+  firstClusterNumber?: number
   dateCreated: Date | number
 }
 

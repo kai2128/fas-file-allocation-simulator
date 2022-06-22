@@ -35,6 +35,7 @@ const selectFileHandler = (fileName: string) => {
         <tbody>
           <tr
             v-for="file in files" :key="file.data.name" class="hover:bg-white/30 cursor-pointer"
+            :class="[{ ...renderStateClass(file.data.name, 'dir') }]"
             @click="selectFileHandler(file.data.name)"
           >
             <td>{{ file.data.name }}</td>

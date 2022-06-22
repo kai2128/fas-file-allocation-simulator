@@ -3,6 +3,7 @@ import { notify } from '~/composables/useNotify'
 import { createAndFormatDisk, disk, fs, inputs } from '~/composables/state'
 import { FatFs } from '~/libs/fs/fat'
 import { Disk } from '~/libs/volume'
+import { resetActionsState } from '~/composables/actions'
 
 const formatDisk = () => {
   if (!inputs.value.fileSystemSelected) {
@@ -14,6 +15,7 @@ const formatDisk = () => {
     return
   }
 
+  resetActionsState()
   createAndFormatDisk(Number(inputs.value.diskSize), inputs.value.fileSystemSelected)
 }
 </script>
