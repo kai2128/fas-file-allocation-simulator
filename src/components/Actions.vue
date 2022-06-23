@@ -21,6 +21,15 @@ const renderCode = computed(() => {
   }).join('\n')
   return code
 })
+
+watch(renderSteps, () => {
+  console.log(actions.value.state.stepIndex)
+  const currentStep = document.querySelector('#steps li b')
+  if (currentStep != null)
+    currentStep.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+}, {
+
+})
 </script>
 
 <template>
@@ -31,7 +40,7 @@ const renderCode = computed(() => {
         {{ actions.name || '-' }}
       </span>
     </h1>
-    <div>{{actions.state.msg}}</div>
+    <div>{{ actions.state.msg }}</div>
     <div class="grid grid-cols-2 flex-1">
       <div text="sm">
         Steps
@@ -40,7 +49,8 @@ const renderCode = computed(() => {
         Pseudocode
       </div>
       <div
-        class="prose" scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line"
+        id="steps"
+        class="prose max-h-220px" scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line"
         v-html="renderSteps"
       />
       <div

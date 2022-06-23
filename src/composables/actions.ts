@@ -134,14 +134,21 @@ export function setStepsDesc(steps: Step[]) {
 export function resetActionsState() {
   actions.value = defaultActions as Actions
 }
-export function resetActionsSelectedState() {
-  actions.value.state.block!.selected = []
-  actions.value.state.fat!.selected = []
-  actions.value.state.file!.selected = []
-  actions.value.state.directory!.selected = []
-  actions.value.state.block!.flash = []
-  actions.value.state.fat!.flash = []
-  actions.value.state.file!.flash = []
-  actions.value.state.directory!.flash = []
+export function resetActionsSelectedState(stateTypes?: Array<'block' | 'fat' | 'directory' | 'file'>) {
+  if (stateTypes == null) {
+    actions.value.state.block!.selected = []
+    actions.value.state.fat!.selected = []
+    actions.value.state.file!.selected = []
+    actions.value.state.directory!.selected = []
+    actions.value.state.block!.flash = []
+    actions.value.state.fat!.flash = []
+    actions.value.state.file!.flash = []
+    actions.value.state.directory!.flash = []
+  }
+
+  stateTypes?.forEach((t) => {
+    actions.value.state[t]!.selected = []
+    actions.value.state[t]!.flash = []
+  })
 }
 

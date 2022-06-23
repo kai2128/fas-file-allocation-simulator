@@ -13,14 +13,11 @@ interface AppState {
   fs: FSApi
 }
 
-type AnimationCallback = () => void
-
 let initialState: AppState
 
-export const appStates: AnimationCallback[] = []
+let animationStates: Generator
 
 export function initInitialState() {
-  appStates.length = 0
   const clonedDisk = disk.value.clone()
   initialState = {
     actions: cloneDeep(actions.value),
@@ -49,23 +46,20 @@ export function addState(callBack: () => void, toResetState = true) {
 }
 
 export async function startAnimation() {
-  for (let i = 0; i < appStates.length; i++) {
-    animateState(appStates[i])
-    await sleep(1000) // TODO: make this to reactive inputs
-  }
+  while (!animationStates.next().done)
+    await sleep(1000) // TODO: set interval reactive
 }
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function animateState(states: AnimationCallback) {
-  states()
-}
+// function animateState(states: AnimationCallback) {
+//   states()
+// }
 
 export function initAnimation() {
   initInitialState()
   const { create } = fatAnimation(fs.value as any as FatFs, disk.value, actions.value)
-  
-  create()
+  animationStates = create()
 }
