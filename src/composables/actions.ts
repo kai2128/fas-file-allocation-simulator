@@ -1,4 +1,4 @@
-import { includes } from 'lodash-es'
+import { cloneDeep, includes } from 'lodash-es'
 import randomColor from 'randomcolor'
 import type { Ref } from 'vue'
 
@@ -17,6 +17,7 @@ export interface ActionCallback {
 }
 
 export interface ActionState {
+  msg: string
   stepIndex: number
   codeIndex: number
   block?: UIState
@@ -61,6 +62,7 @@ const defaultActions: Actions = {
   },
   interval: 1000,
   state: {
+    msg: '',
     codeIndex: 0,
     stepIndex: 0,
     block: {
@@ -126,6 +128,20 @@ export function setActions(actionName: Actions['name'], options?: Partial<Omit<A
   }
   actions.value = { ...defaultActions, ...newAction, ...options } as Actions
 }
+export function setStepsDesc(steps: Step[]) {
+  actions.value.steps = steps
+}
 export function resetActionsState() {
   actions.value = defaultActions as Actions
 }
+export function resetActionsSelectedState() {
+  actions.value.state.block!.selected = []
+  actions.value.state.fat!.selected = []
+  actions.value.state.file!.selected = []
+  actions.value.state.directory!.selected = []
+  actions.value.state.block!.flash = []
+  actions.value.state.fat!.flash = []
+  actions.value.state.file!.flash = []
+  actions.value.state.directory!.flash = []
+}
+

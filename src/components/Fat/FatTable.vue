@@ -22,7 +22,7 @@ function fatClusterToString(nextCluster: number) {
 watchEffect(() => {
   const selectedFatId = actionsState.value.fat?.selected[0]
   if (selectedFatId != null && !isNaN(selectedFatId!))
-    document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 })
 </script>
 

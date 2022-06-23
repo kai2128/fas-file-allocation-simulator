@@ -10,10 +10,14 @@ import { actionsFile, renderStateClass } from '~/composables/actions'
       <span text="">Size: {{ actionsFile.size }}</span>
     </div>
     <div>
-      <div flex="~ row gap-x-1" class="of-x-auto pb1 w-100"
-        scrollbar="~ rounded hover:thumb-color-#55626f transition-color">
-        <div v-for="i in Number(actionsFile.currentSize)" :key="i" v-bg-color="actionsFile.color" class="blocks"
-          flex="none" :class="{ ...renderStateClass(i, 'file') }" />
+      <div
+        flex="~ row gap-x-1" class="of-x-auto pb1 w-100"
+        scrollbar="~ rounded hover:thumb-color-#55626f transition-color"
+      >
+        <div
+          v-for="(i, idx) in Number(actionsFile.currentSize)" :key="i" v-bg-color="actionsFile.color" class="blocks"
+          flex="none" :class="{ ...renderStateClass(idx, 'file') }"
+        />
       </div>
     </div>
   </div>

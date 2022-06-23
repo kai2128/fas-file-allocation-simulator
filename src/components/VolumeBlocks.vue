@@ -6,7 +6,7 @@ import { actionsFile, renderStateClass } from '~/composables/actions'
 watchEffect(() => {
   const selectedBlockId = actionsState.value.block?.selected[0]
   if (selectedBlockId != null && !isNaN(selectedBlockId!))
-    document.getElementById(`block-${selectedBlockId}`)?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(`block-${selectedBlockId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 })
 </script>
 

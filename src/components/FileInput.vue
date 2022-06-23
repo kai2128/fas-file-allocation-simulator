@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { random, sample } from 'lodash-es'
+import { animateState, initAnimation } from '~/composables/animations'
 import { files, fs, inputs } from '~/composables/state'
+import { fatAnimation } from '~/libs/fs/fat/fatAnimation'
 
 const generateInputHandler = () => {
   inputs.value.fileAction = sample(['fs_create', 'fs_delete', 'fs_append', 'fs_write', 'fs_read'])!
@@ -42,10 +44,11 @@ const executeHandler = () => {
       return
     }
   }
-
+  setActions(inputs.value.fileAction.substring(3))
+  initAnimation()
+  startAnimation()
   try {
-    fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
-    setActions(inputs.value.fileAction.substring(3))
+    // fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
   }
   catch (err) {
     notify(err.message, 'ERROR')

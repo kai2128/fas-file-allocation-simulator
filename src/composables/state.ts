@@ -20,8 +20,8 @@ export interface Inputs {
 }
 
 export const inputs = ref({
-  fileSystemSelected: '',
-  diskSize: '',
+  fileSystemSelected: 'FAT',
+  diskSize: 20,
 
   fileName: '',
   fileAction: '',

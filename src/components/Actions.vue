@@ -31,6 +31,7 @@ const renderCode = computed(() => {
         {{ actions.name || '-' }}
       </span>
     </h1>
+    <div>{{actions.state.msg}}</div>
     <div class="grid grid-cols-2 flex-1">
       <div text="sm">
         Steps

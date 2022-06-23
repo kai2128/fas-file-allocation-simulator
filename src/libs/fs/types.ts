@@ -8,6 +8,7 @@ export interface FSApi {
   fs_delete(fileName: string): void
   fs_write(fileName: string, size: number): void
   fs_files: Array<FileReaded>
+  clone: () => FSApi
 }
 
 export interface FileReaded {

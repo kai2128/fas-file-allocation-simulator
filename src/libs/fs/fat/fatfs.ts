@@ -1,4 +1,4 @@
-import { find, remove } from 'lodash-es'
+import { cloneDeep, find, remove } from 'lodash-es'
 import randomColor from 'randomcolor'
 import type { FSApi } from './../types'
 import type { FatItem } from './fatTable'
@@ -43,7 +43,7 @@ export class FatFs implements FSApi {
 
   fatTable: FatTable = new FatTable(0, 0)
   disk: Disk
-  rootDirectory: Directory
+  rootDirectory: Directory = <Directory>{ files: [] }
 
   private constructor(disk: Disk, options?: Fat32_BPB) {
     Object.assign(this.bpb, options)
@@ -61,9 +61,9 @@ export class FatFs implements FSApi {
     this.initFatTable()
   }
 
-  static format(Disk: Disk, options?: Fat32_BPB) {
-    const fs = new FatFs(Disk, options)
-    log(`Created disk with size of ${Disk.total_units} and formatted with ${fs.name}`)
+  static format(disk: Disk, options?: Fat32_BPB) {
+    const fs = new FatFs(disk, options)
+    log(`Created disk with size of ${disk.total_units} and formatted with ${fs.name}`)
     return fs
   }
 
@@ -267,7 +267,7 @@ export class FatFs implements FSApi {
   }
 
   allocateCluster(fatItem: FatItem, data?: DirectoryEntry) {
-    this.disk.setUsed(fatItem.offset, fatItem.color, data)
+    this.disk.setUsed(fatItem.offset, data.color, data)
   }
 
   updateFirstCluster(fileName: string, firstFat: number) {
@@ -305,7 +305,27 @@ export class FatFs implements FSApi {
   }
 
   get fs_files() {
-    return this.rootDirectory.files.map(v => this.readFile(v.name))
+    return this.rootDirectory.files.map((v) => {
+      return {
+        data: {
+          name: v.name,
+          size: v.size,
+          dateCreated: v.dateCreated,
+          firstClusterNumber: v.firstClusterNumber,
+          color: v.color,
+        },
+      }
+    })
+  }
+
+  clone(disk: Disk) {
+    const cloneFs = new FatFs(disk)
+    cloneFs.bpb = cloneDeep(this.bpb)
+    cloneFs.fatTable = cloneDeep(this.fatTable)
+    cloneFs.rootDirectory = cloneDeep(this.rootDirectory)
+    cloneFs.disk = disk
+    cloneFs.name = this.name
+    return cloneFs
   }
   // #endregion
 }

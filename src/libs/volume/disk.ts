@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash-es'
 import range from 'lodash-es/range'
 
 export interface DiskOptions {
@@ -61,6 +62,12 @@ export class Disk {
     this.total_units = total_size / size_per_unit
     this.disk_size = this.total_units * size_per_unit
     this.reset()
+  }
+
+  clone() {
+    const clonedDisk = new Disk(this.total_size, this.size_per_block)
+    clonedDisk.units = cloneDeep(this.units)
+    return clonedDisk
   }
 
   readUnit(offset: number) {

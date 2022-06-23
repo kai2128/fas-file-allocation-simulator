@@ -54,5 +54,8 @@ const selectFileHandler = (fileName: string) => {
   </section>
 </template>
 
-<style>
+<style scoped>
+.selected{
+  --at-apply: bg-gray/50 brightness-100
+}
 </style>
