@@ -1,15 +1,14 @@
 import { cloneDeep, find, remove } from 'lodash-es'
-import randomColor from 'randomcolor'
-import type { FSApi } from './../types'
-import type { FatItem } from './fatTable'
-import { FatItemState, FatTable } from './fatTable'
-import type { Directory, DirectoryEntry, FSInfo, Fat32_BPB, FatFileReaded } from './types'
-
+import { DirectoryEntry } from './directoryEntry'
+import { FatTable } from './fatTable'
+import type { FSInfo, Fat32_BPB, FatFileReaded } from './types'
+import type { FatItem } from './fatItem'
+import { FatItemState } from './fatItem'
+import type { Block, Disk } from '~/libs/volume'
+import { BlockColor } from '~/libs/volume'
 import { ERRCODE, ERRSTR, FSError } from '~/libs/error/fserror'
-import type { Block, Disk } from '~/libs/volume/disk'
-import { BlockColor } from '~/libs/volume/disk'
 
-export class FatFs implements FSApi {
+export class FatFs {
   name = 'FAT'
 
   bpb: Fat32_BPB = {
@@ -41,9 +40,9 @@ export class FatFs implements FSApi {
     BS_FilSysType: 0,
   }
 
-  fatTable: FatTable = new FatTable(0, 0)
+  fatTable = new FatTable(0, 0)
   disk: Disk
-  rootDirectory: Directory = <Directory>{ files: [] }
+  rootDirectory: DirectoryEntry
 
   private constructor(disk: Disk, options?: Fat32_BPB) {
     Object.assign(this.bpb, options)
@@ -61,12 +60,6 @@ export class FatFs implements FSApi {
     this.initFatTable()
   }
 
-  static format(disk: Disk, options?: Fat32_BPB) {
-    const fs = new FatFs(disk, options)
-    log(`Created disk with size of ${disk.total_units} and formatted with ${fs.name}`)
-    return fs
-  }
-
   private initFatTable() {
     const fatTableLength = this.disk.total_units - this.dataSectorStartingCluster()
     this.fatTable = new FatTable(fatTableLength, this.dataSectorStartingCluster())
@@ -74,51 +67,74 @@ export class FatFs implements FSApi {
     this.disk.setReservedList(this.fatTable.table[0].offset, this.fatTable.table[1].offset, undefined, 'reserved fat table')
 
     const createRootDirectory = () => {
-      const directory: Directory = {
-        entry: {
-          dateCreated: Date.now(),
-          name: 'root',
-          type: 'directory',
-          size: 1,
-          firstClusterNumber: 2, // root directory allcoated at cluster 2
-        },
-        files: [],
-        path: '/root',
-      }
+      const rootFatOffset = 2
+      const rootDir = new DirectoryEntry('root', 1, rootFatOffset, 'directory')
 
-      const rootColor = randomColor({ luminosity: 'light', seed: 'root' })
-      this.disk.setUsed(this.fatTable.getFatItem(2).offset, rootColor, directory)
+      this.disk.setUsed(this.fatTable.getFatItem(rootFatOffset).offset, rootDir.color, rootDir)
       // directory is only 1 cluster, so mark end of file
-      this.fatTable.getFatItem(2).setState(FatItemState.END_OF_CLUSTER, 'root dir', rootColor) // update fat table
-      return directory
+      this.fatTable.getFatItem(rootFatOffset).setState(FatItemState.END_OF_CLUSTER, 'root dir', rootDir.color) // update fat table
+      return rootDir
     }
 
     // cluster 2 is root directory
     this.rootDirectory = createRootDirectory()
   }
 
+  dataSectorStartingCluster() {
+    return this.bpb.BPB_RsvdSecCnt + this.bpb.BPB_NumFATs * this.bpb.BPB_FATSz32
+  }
+
+  static format(disk: Disk, options?: Fat32_BPB) {
+    const fs = new FatFs(disk, options)
+    log(`Created disk with size of ${disk.total_units} and formatted with ${fs.name}`)
+    return fs
+  }
+
+  // #region helper
+  private readCluster(offset: number) {
+    return this.disk.readUnit(offset)
+  }
+
+  checkSpace(size?: number) {
+    if (this.fatTable.getNextFreeCluster() < 1)
+      throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
+
+    if (size) {
+      if (this.fatTable.freeClusterCount() - size < 0)
+        throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
+    }
+  }
+
+  checkUniqueFileName(fileName: string) {
+    this.rootDirectory.files.forEach((child) => {
+      if (child.name === fileName)
+        throw new FSError(ERRCODE.EEXIST, `${fileName} already exists`)
+    })
+  }
+
+  checkExist(obj: any, name = 'file') {
+    if (obj == null || obj === undefined)
+      throw new FSError(ERRCODE.ENOENT, `${name} not found`)
+  }
+  // #endregion
+
   createFile(fileName: string, size: number) {
     // if file size is only 1 cluster, then mark end of file
     this.checkSpace(size)
     this.checkUniqueFileName(fileName)
 
-    const fileColor = randomColor({ luminosity: 'light', seed: fileName })
     const fatIndexes = this.fatTable.getFatIndexesForAllocation(size)
     this.checkExist(fatIndexes, 'Cluster ')
 
-    const directoryEntry: DirectoryEntry = {
-      name: fileName,
-      type: 'file',
-      size,
-      dateCreated: Date.now(),
-      firstClusterNumber: fatIndexes[0],
-    }
+    const directoryEntry = new DirectoryEntry(fileName, size, fatIndexes[0])
+
     // write to disk and update fat table
     for (let i = 0; i < fatIndexes.length; i++) {
       const fatIndex = fatIndexes[i]!
-      this.disk.setUsed(this.fatTable.getFatItem(fatIndex).offset, fileColor, directoryEntry)
-      this.fatTable.getFatItem(fatIndex).setState(fatIndexes[i + 1] || FatItemState.END_OF_CLUSTER, fileName, fileColor)
+      this.disk.setUsed(this.fatTable.getFatItem(fatIndex).offset, directoryEntry.color)
+      this.fatTable.getFatItem(fatIndex).setState(fatIndexes[i + 1] || FatItemState.END_OF_CLUSTER, fileName, directoryEntry.color)
     }
+    this.disk.setUsed(this.fatTable.getFatItem(fatIndexes[0]).offset, directoryEntry.color, directoryEntry) // not related to fat (save file directory entry to first disk block)
     this.rootDirectory.files.push(directoryEntry)
   }
 
@@ -129,7 +145,7 @@ export class FatFs implements FSApi {
       this.checkExist(dirEntry, fileName)
       return dirEntry
     }
-    const firstCluster = searchFile(fileName)!.firstClusterNumber
+    const firstCluster = searchFile(fileName)!.firstClusterNumber!
 
     let nextCluster = firstCluster
     while (true) {
@@ -220,10 +236,6 @@ export class FatFs implements FSApi {
     return this.rootDirectory.entry
   }
 
-  dataSectorStartingCluster() {
-    return this.bpb.BPB_RsvdSecCnt + this.bpb.BPB_NumFATs * this.bpb.BPB_FATSz32
-  }
-
   fsInfo(): FSInfo {
     return {
       freeClusterCount: this.fatTable.freeClusterCount(),
@@ -231,49 +243,8 @@ export class FatFs implements FSApi {
       nextFreeCluster: this.fatTable.getNextFreeCluster() || -1,
     }
   }
+
   // #endregion props
-
-  // #region helper
-  private readCluster(offset: number) {
-    return this.disk.readUnit(offset)
-  }
-
-  checkSpace(size?: number) {
-    if (this.fatTable.getNextFreeCluster() < 1)
-      throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
-
-    if (size) {
-      if (this.fatTable.freeClusterCount() - size < 0)
-        throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
-    }
-  }
-
-  checkUniqueFileName(fileName: string) {
-    this.rootDirectory.files.forEach((child) => {
-      if (child.name === fileName)
-        throw new FSError(ERRCODE.EEXIST, `${fileName} already exists`)
-    })
-  }
-
-  checkExist(obj: any, name = 'file') {
-    if (obj == null || obj === undefined)
-      throw new FSError(ERRCODE.ENOENT, `${name} not found`)
-  }
-  // #endregion
-
-  initDirectoryEntry(directoryEntry: Omit<DirectoryEntry, 'firstClusterNumber'>) {
-    this.rootDirectory.files.push(directoryEntry)
-    return directoryEntry
-  }
-
-  allocateCluster(fatItem: FatItem, data?: DirectoryEntry) {
-    this.disk.setUsed(fatItem.offset, data.color, data)
-  }
-
-  updateFirstCluster(fileName: string, firstFat: number) {
-    this.searchFileInDirectory(fileName)!.firstClusterNumber = firstFat
-  }
-
   // #region FSApi
   fs_create(fileName: string, size: number) {
     this.createFile(fileName, size)

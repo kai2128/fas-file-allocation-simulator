@@ -1,3 +1,7 @@
 export * from './fatTable'
 export * from './types'
 export * from './fatfs'
+export * from './fatAction'
+export * from './fatItem'
+export * from './fatAnimation'
+export * from './directoryEntry'

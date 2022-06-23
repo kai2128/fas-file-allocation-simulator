@@ -15,15 +15,14 @@ const renderSteps = computed(() => {
   return `${htmlSteps}</ol>`
 })
 
-const renderCode = computed(() => {
-  const code = actions.value.codes.map((code) => {
-    return `<pre>${code.code}</pre>`
-  }).join('\n')
-  return code
-})
+// const renderCode = computed(() => {
+//   const code = actions.value.codes.map((code) => {
+//     return `<pre>${code.code}</pre>`
+//   }).join('\n')
+//   return code
+// })
 
-watch(renderSteps, () => {
-  console.log(actions.value.state.stepIndex)
+watch(() => actions.value.state.stepIndex, () => {
   const currentStep = document.querySelector('#steps li b')
   if (currentStep != null)
     currentStep.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
@@ -41,22 +40,22 @@ watch(renderSteps, () => {
       </span>
     </h1>
     <div>{{ actions.state.msg }}</div>
-    <div class="grid grid-cols-2 flex-1">
+    <div class="flex-1 min-h-100px">
       <div text="sm">
         Steps
       </div>
-      <div text="gray/70 xs" class="vertical-bottom">
+      <!-- <div text="gray/70 xs" class="vertical-bottom">
         Pseudocode
-      </div>
+      </div> -->
       <div
         id="steps"
         class="prose max-h-220px" scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line"
         v-html="renderSteps"
       />
-      <div
+      <!-- <div
         class="bg-gray-200 before:content-[Peusdocode] min-h-[7rem] font-mono"
         scrollbar="~ rounded hover:thumb-color-#55626f transition-color" v-html="renderCode"
-      />
+      /> -->
     </div>
     <div />
     <div class="flex items-center justify-center " text="#3b5978 2xl" mt="5">

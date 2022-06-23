@@ -5,9 +5,12 @@ import { actionsFile, renderStateClass } from '~/composables/actions'
 <template>
   <div ma>
     <div flex="~ gap-x-2" items-end>
+      <span font="semibold">File {{ actions.value.name }}</span>
       <span text="">Name: {{ actionsFile.name }}</span>
       <span text="gray/80">|</span>
       <span text="">Size: {{ actionsFile.size }}</span>
+      <span text="gray/80">|</span>
+      <span text="">{{ actions.value.name === 'read' ? 'Readed' : 'Allocated'}}: {{ actionsFile.size - actionsFile.currentSize }}</span>
     </div>
     <div>
       <div

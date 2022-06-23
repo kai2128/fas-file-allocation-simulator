@@ -5,7 +5,7 @@ export function isValidPath(path: string): boolean {
 }
 
 export function isDir(path: string) {
-  return parsePath(path).ext === '' 
+  return parsePath(path).ext === ''
 }
 
 export function isFile(path: string) {

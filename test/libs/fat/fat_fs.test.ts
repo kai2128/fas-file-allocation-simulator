@@ -58,25 +58,26 @@ describe('FAT', () => {
         offset: 6,
       },
     )
-    expect(disk.readUnit(fat.fatTable.table[2].offset)).toMatchObject(
+    expect(disk.readUnit(fat.fatTable.table[2].offset)).toMatchInlineSnapshot(`
       {
-        offset: 6,
-        state: {
-          data: {
-            entry: {
-              firstClusterNumber: 2,
-              name: 'root',
-              size: 1,
-              type: 'directory',
-            },
-            path: '/root',
+        "offset": 6,
+        "state": {
+          "color": "#c8ef88",
+          "data": DirectoryEntry {
+            "color": "#c8ef88",
+            "dateCreated": 1577836800000,
+            "files": [],
+            "firstClusterNumber": 2,
+            "name": "root",
+            "size": 1,
+            "type": "directory",
           },
-          free: false,
-          reserved: false,
-          used: true,
+          "free": false,
+          "reserved": false,
+          "used": true,
         },
-      },
-    )
+      }
+    `)
   })
 
   it('should create and read file correctly on correct fat table', () => {
@@ -86,7 +87,7 @@ describe('FAT', () => {
     fat.createFile(fileName, 3)
     expect(fat.readFile(fileName)).toMatchInlineSnapshot(`
       {
-        "data": {
+        "data": DirectoryEntry {
           "color": "#bbbcf7",
           "dateCreated": 1577836800000,
           "firstClusterNumber": 3,
