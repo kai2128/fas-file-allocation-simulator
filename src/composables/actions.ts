@@ -1,4 +1,4 @@
-import { cloneDeep, includes } from 'lodash-es'
+import { cloneDeep, curry, includes } from 'lodash-es'
 import randomColor from 'randomcolor'
 import type { Ref } from 'vue'
 
@@ -151,4 +151,45 @@ export function resetActionsSelectedState(stateTypes?: Array<'block' | 'fat' | '
     actions.value.state[t]!.flash = []
   })
 }
+export function setMsg(msg: string, type: 'info' | 'error' | 'warning' = 'info') {
+  actions.value.state.msg = msg
+}
 
+function state(stateTypes: 'block' | 'fat' | 'directory' | 'file', selected: number[] | string[] | undefined, flash: number[] | string[] | undefined) {
+  if (flash)
+    actions.value.state[stateTypes]!.flash = flash
+  if (selected)
+    actions.value.state[stateTypes]!.selected = selected
+}
+const curriedState = curry(state)
+export const setState = {
+  block: curriedState('block'),
+  blockFlash(flash: number[] | string[]) {
+    curriedState('block', undefined, flash)
+  },
+  blockSelected(selected: number[] | string[]) {
+    curriedState('block', selected, undefined)
+  },
+  fat: curriedState('fat'),
+  fatFlash(flash: number[] | string[]) {
+    curriedState('fat', undefined, flash)
+  },
+  fatSelected(selected: number[] | string[]) {
+    curriedState('fat', selected, undefined)
+  },
+  directory: curriedState('directory'),
+  directoryFlash(flash: number[] | string[]) {
+    curriedState('directory', undefined, flash)
+  },
+  directorySelected(selected: number[] | string[]) {
+    curriedState('directory', selected, undefined)
+  },
+  file: curriedState('file'),
+  fileFlash(flash: number[] | string[]) {
+    curriedState('file', undefined, flash)
+  },
+  fileSelected(selected: number[] | string[]) {
+    curriedState('file', selected, undefined)
+  },
+  reset: resetActionsSelectedState,
+}

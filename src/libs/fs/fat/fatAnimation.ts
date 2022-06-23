@@ -1,11 +1,13 @@
+import { isEmpty } from 'lodash-es'
+import { setState } from './../../../composables/actions'
+import { DirectoryEntry } from './directoryEntry'
 import { fatActions } from './fatAction'
-import type { FatFs } from './FatFs'
-import type { FatItem } from './FatItem'
-import type { DirectoryEntry } from './DirectoryEntry'
-import { addState, initInitialState } from '~/composables/animations'
+import type { FatFs } from './fatfs'
+import type { FatItem } from './fatItem'
 import type { Disk } from '~/libs/volume'
+import { setMsg, setStepsDesc } from '~/composables/actions'
 import type { Actions } from '~/composables/actions'
-import { actions as ractions, setStepsDesc } from '~/composables/actions'
+
 import { FatItemState } from '~/libs/fs/fat'
 
 export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
@@ -23,68 +25,69 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       // scan root dir for repeated file name
       actions.state.stepIndex = 0
       yield { actions, disk, fs }
+      if (isEmpty(fs.rootDirectory.files)) {
+        setMsg('Directory has no files')
+        yield { actions, disk, fs }
+      }
       for (const file of fs.rootDirectory.files) {
-        actions.state.directory!.selected = [file.name]
-        actions.state.msg = `Compare ${file.name} with ${actions.file.name}`
+        if (file.name === actions.file.name) {
+          setMsg('File already exists', 'error')
+          return
+        }
+        setState.directorySelected([file.name])
+        setMsg(`Compare ${file.name} with ${actions.file.name}`)
         yield { actions, disk, fs }
       }
 
       // init directory entry in root
       actions.state.stepIndex = 1
-      createState.directoryEntry = {
-        name: actions.file.name,
-        type: 'file',
-        size: actions.file.currentSize,
-        dateCreated: Date.now(),
-        firstClusterNumber: 1,
-        color: actions.file.color,
-      }
+      setMsg(`Create new directory entry for ${actions.file.name}`)
+      createState.directoryEntry = new DirectoryEntry(actions.file.name, actions.file.size)
       fs.rootDirectory.files.push(createState.directoryEntry)
       yield { actions, disk, fs }
 
       actions.state.stepIndex = 2
       for (const [i, fatItem] of fs.fatTable.table.entries()) {
-        actions.state.fat!.selected = [i]
-        actions.state.msg = `Check if fat ${i} is free`
+        setState.fatSelected([i])
+        setMsg(`Check if fat ${i} is free`)
         yield { actions, disk, fs }
 
         if (fatItem.nextCluster === FatItemState.FREE_CLUSTER) {
-          actions.state.fat!.flash = [i]
-          actions.state.msg = `Free cluster found at ${i}`
-          createState.directoryEntry.firstClusterNumber = fatItem.offset
+          setState.fatFlash([i])
+          setMsg(`Free cluster found at ${i}`)
           createState.fatItem = fatItem
           createState.selectedFatIndex = i
+          setState.blockSelected([createState.fatItem.offset])
           yield { actions, disk, fs }
           break
         }
       }
 
       actions.state.stepIndex = 3
-      actions.state.msg = `Allocate cluster for ${actions.file.name}`
+      setMsg(`Allocate cluster for ${actions.file.name}`)
       yield { actions, disk, fs }
 
-      actions.state.msg = `Write file data into cluster ${createState.fatItem.offset}`
-      actions.state.file!.flash = [0]
-      actions.state.block!.selected = [createState.fatItem.offset]
+      setMsg(`Write file data into cluster ${createState.fatItem.offset}`)
+      setState.fileFlash([0])
+      setState.blockSelected([createState.fatItem.offset])
       yield { actions, disk, fs }
 
-      actions.state.file!.flash = [0]
-      actions.state.block!.selected = [createState.fatItem.offset]
-      fs.allocateCluster(createState.fatItem, createState.directoryEntry)
+      fs.allocateFirstCluster(createState.fatItem, createState.directoryEntry)
       actions.file.currentSize--
+      setState.fileFlash([])
       yield { actions, disk, fs }
 
       actions.state.msg = `Set fat ${createState.selectedFatIndex}'s next cluster as EOF`
+      setState.fatSelected([createState.selectedFatIndex])
       createState.fatItem.setState(FatItemState.END_OF_CLUSTER, createState.directoryEntry.name, createState.directoryEntry.color)
       yield { actions, disk, fs }
 
       actions.state.msg = 'Update first cluster number in directory entry'
-      fs.updateFirstCluster(createState.directoryEntry.name, createState.selectedFatIndex)
+      createState.directoryEntry.firstClusterNumber = createState.selectedFatIndex
       yield { actions, disk, fs }
 
       actions.state.stepIndex = 4
-      actions.state.block!.selected = []
-      actions.state.fat!.flash = []
+      setState.reset()
       yield { actions, disk, fs }
 
       while (actions.file.currentSize > 0) {
@@ -93,46 +96,47 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
         yield { actions, disk, fs }
 
         for (const [i, fatItem] of fs.fatTable.table.entries()) {
-          actions.state.fat!.selected = [i]
-          actions.state.msg = `Check if fat ${i} is free`
+          setState.fatSelected([i])
+          setMsg(`Check if fat ${i} is free`)
           yield { actions, disk, fs }
 
           if (fatItem.nextCluster === FatItemState.FREE_CLUSTER) {
-            actions.state.fat!.flash = [i]
-            actions.state.msg = `Free cluster found at ${i}`
+            setState.fatFlash([i])
+            setMsg(`Free cluster found at ${i}`)
             createState.fatItem = fatItem
             createState.selectedFatIndex = i
+            setState.blockSelected([createState.fatItem.offset])
             yield { actions, disk, fs }
             break
           }
         }
 
         actions.state.stepIndex = 6
-        actions.state.msg = `Write file data into cluster ${createState.fatItem.offset}`
-        actions.state.file!.flash = [0]
-        actions.state.block!.selected = [createState.fatItem.offset]
+        setMsg(`Write file data into cluster ${createState.fatItem.offset}`)
+        setState.fileFlash([0])
+        setState.blockSelected([createState.fatItem.offset])
         yield { actions, disk, fs }
 
-        actions.state.file!.flash = [0]
-        actions.state.block!.selected = [createState.fatItem.offset]
+        setState.fileFlash([])
         fs.allocateCluster(createState.fatItem, createState.directoryEntry)
         actions.file.currentSize--
         yield { actions, disk, fs }
 
-        createState.fatItem.markAsEndOfFile()
-        actions.state.msg = `Mark current fat ${createState.selectedFatIndex} as EOF`
+        setMsg(`Mark current fat ${createState.selectedFatIndex} as EOF`)
+        createState.fatItem.setEndState(createState.directoryEntry.name, createState.directoryEntry.color)
         yield { actions, disk, fs }
 
         actions.state.stepIndex = 7
-        actions.state.msg = `Update previous fat ${createState.previousFatItem.offset}'s next cluster as ${createState.fatItem.offset}`
+        setMsg(`Update previous fat ${createState.previousFatItem.offset}'s next cluster current FAT number(${createState.fatItem.offset})`)
+        setState.fatSelected([createState.previousFatItem.offset])
         createState.previousFatItem.nextCluster = createState.fatItem.offset
-        resetActionsSelectedState(['block', 'fat'])
+        setState.reset(['block', 'fat'])
         yield { actions, disk, fs }
       }
 
       actions.state.msg = 'All file data has been allocated'
       actions.state.stepIndex = 7
-      resetActionsSelectedState()
+      setState.reset()
       yield { actions, disk, fs }
     },
   }

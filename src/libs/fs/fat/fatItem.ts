@@ -28,4 +28,10 @@ export class FatItem {
     this.name = name
     this.color = color
   }
+
+  setEndState(name: string, color: string) {
+    this.nextCluster = FatItemState.END_OF_CLUSTER
+    this.name = name
+    this.color = color
+  }
 }

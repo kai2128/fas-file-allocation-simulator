@@ -95,6 +95,14 @@ export class FatFs {
     return this.disk.readUnit(offset)
   }
 
+  allocateCluster(fatItem: FatItem, data: DirectoryEntry) {
+    this.disk.setUsed(fatItem.offset, data.color)
+  }
+
+  allocateFirstCluster(fatItem: FatItem, data: DirectoryEntry) {
+    this.disk.setUsed(fatItem.offset, data.color, data)
+  }
+
   checkSpace(size?: number) {
     if (this.fatTable.getNextFreeCluster() < 1)
       throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
