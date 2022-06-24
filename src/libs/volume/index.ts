@@ -1,1 +1,1 @@
-export * from './Disk'
+export * from './disk'

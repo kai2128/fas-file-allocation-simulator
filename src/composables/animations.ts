@@ -41,10 +41,6 @@ export function generateAnimationState(callBack: () => void, toResetState = true
   return callBack
 }
 
-export function addState(callBack: () => void, toResetState = true) {
-  appStates.push(generateAnimationState(callBack, toResetState))
-}
-
 export async function startAnimation() {
   while (!animationStates.next().done)
     await sleep(1000) // TODO: set interval reactive
@@ -60,6 +56,16 @@ function sleep(ms: number) {
 
 export function initAnimation() {
   initInitialState()
-  const { create } = fatAnimation(fs.value as any as FatFs, disk.value, actions.value)
-  animationStates = create()
+  const fatAniGenerator = fatAnimation(fs.value as any as FatFs, disk.value, actions.value)
+  switch (actions.value.name) {
+    // case 'create':
+    //   animationStates = fatAniGenerator.create()
+    //   break
+    case 'delete':
+      animationStates = fatAniGenerator.delete()
+      break
+    case 'read':
+      animationStates = fatAniGenerator.read()
+      break
+  }
 }

@@ -1,3 +1,4 @@
+import { remove } from 'lodash-es'
 import randomColor from 'randomcolor'
 
 export class DirectoryEntry {
@@ -24,6 +25,15 @@ export class DirectoryEntry {
       type: this.type,
       dateCreated: this.dateCreated,
       color: this.color,
+    }
+  }
+
+  deleteDirEntry(file: string | DirectoryEntry) {
+    if (this.type === 'directory') {
+      if (file instanceof DirectoryEntry)
+        remove(this.files, file)
+      else
+        remove(this.files, { name: file })
     }
   }
 }

@@ -122,7 +122,7 @@ export function setActions(actionName: Actions['name'], options?: Partial<Omit<A
     file: {
       name: inputs.value.fileName,
       size: inputs.value.fileSize,
-      currentSize: inputs.value.fileAction === 'read' ? 0 : inputs.value.fileSize,
+      currentSize: actionName === 'read' ? 0 : inputs.value.fileSize,
       color: randomColor({ luminosity: 'light', seed: inputs.value.fileName }),
     },
   }
@@ -151,7 +151,7 @@ export function resetActionsSelectedState(stateTypes?: Array<'block' | 'fat' | '
     actions.value.state[t]!.flash = []
   })
 }
-export function setMsg(msg: string, type: 'info' | 'error' | 'warning' = 'info') {
+export function setMsg(msg: string, type: 'info' | 'error' | 'warning' | 'done' = 'info') {
   actions.value.state.msg = msg
 }
 

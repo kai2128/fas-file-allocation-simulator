@@ -74,13 +74,13 @@ export const fatActions: FSActions = {
       {
         index: 2,
         description: `
-        From FAT table, find all the clusters allocated to the file by using the first cluster number. (read FAT table next cluster value until EOF)
+        From FAT table, find all the clusters allocated to the file by using the first cluster number. Repeat until EOF.
         `,
       },
       {
         index: 3,
         description: `
-        The data of the files is readed in this cluster
+        The data of the file is fully readed.
         `,
       },
     ],

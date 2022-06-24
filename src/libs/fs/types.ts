@@ -1,3 +1,4 @@
+import type { Disk } from '../volume'
 import type { Code, Step } from '~/composables/actions'
 
 export interface FSApi {
@@ -8,7 +9,7 @@ export interface FSApi {
   fs_delete(fileName: string): void
   fs_write(fileName: string, size: number): void
   fs_files: Array<FileReaded>
-  clone: () => FSApi
+  clone: (disk: Disk) => FSApi
 }
 
 export interface FileReaded {

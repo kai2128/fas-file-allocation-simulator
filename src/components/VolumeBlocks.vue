@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import { last } from 'lodash-es'
 import { disk } from '~/composables/state'
 import { Disk } from '~/libs/volume/disk'
 import { actionsFile, renderStateClass } from '~/composables/actions'
 
 watchEffect(() => {
-  const selectedBlockId = actionsState.value.block?.selected[0]
-  if (selectedBlockId != null && !isNaN(selectedBlockId!))
-    document.getElementById(`block-${selectedBlockId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  const selectedBlockId = last(actionsState.value.block?.selected)
+  const flashBlockId = last(actionsState.value.block?.flash)
+  if (flashBlockId !== null) {
+    requestAnimationFrame(() => {
+      document.getElementById(`block-${selectedBlockId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    })
+  }
+
+  else if (selectedBlockId !== null) {
+    requestAnimationFrame(() => {
+      document.getElementById(`block-${selectedBlockId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    })
+  }
 })
 </script>
 

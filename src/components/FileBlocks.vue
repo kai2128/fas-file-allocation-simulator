@@ -1,5 +1,24 @@
 <script setup lang="ts">
 import { actionsFile, renderStateClass } from '~/composables/actions'
+
+const readedSize = computed(() => {
+  return actionsFile.value!.currentSize
+})
+const allocatedSize = computed(() => {
+  return actionsFile.value!.size - actionsFile.value!.currentSize
+})
+const computedSize = computed(() => {
+  switch (actions.value.name) {
+    case 'create':
+    case 'append':
+    case 'write':
+      return allocatedSize.value
+    case 'read':
+      return readedSize.value
+    case 'delete':
+      return '-'
+  }
+})
 </script>
 
 <template>
@@ -10,7 +29,7 @@ import { actionsFile, renderStateClass } from '~/composables/actions'
       <span text="gray/80">|</span>
       <span text="">Size: {{ actionsFile.size }}</span>
       <span text="gray/80">|</span>
-      <span text="">{{ actions.value.name === 'read' ? 'Readed' : 'Allocated'}}: {{ actionsFile.size - actionsFile.currentSize }}</span>
+      <span text="">{{ actions.value.name === 'read' ? 'Readed' : 'Allocated' }}: {{ computedSize }}</span>
     </div>
     <div>
       <div

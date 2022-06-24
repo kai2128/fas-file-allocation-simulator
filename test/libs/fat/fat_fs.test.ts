@@ -108,18 +108,21 @@ describe('FAT', () => {
         "fatItems": [
           FatItem {
             "color": "#bbbcf7",
+            "index": 3,
             "name": "file.txt",
             "nextCluster": 4,
             "offset": 7,
           },
           FatItem {
             "color": "#bbbcf7",
+            "index": 4,
             "name": "file.txt",
             "nextCluster": 5,
             "offset": 8,
           },
           FatItem {
             "color": "#bbbcf7",
+            "index": 5,
             "name": "file.txt",
             "nextCluster": 268435448,
             "offset": 9,
@@ -131,18 +134,21 @@ describe('FAT', () => {
       [
         FatItem {
           "color": "#bbbcf7",
+          "index": 3,
           "name": "file.txt",
           "nextCluster": 4,
           "offset": 7,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 4,
           "name": "file.txt",
           "nextCluster": 5,
           "offset": 8,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 5,
           "name": "file.txt",
           "nextCluster": 268435448,
           "offset": 9,
@@ -160,18 +166,21 @@ describe('FAT', () => {
       [
         FatItem {
           "color": "#ffffff",
+          "index": 3,
           "name": "free",
           "nextCluster": 0,
           "offset": 7,
         },
         FatItem {
           "color": "#ffffff",
+          "index": 4,
           "name": "free",
           "nextCluster": 0,
           "offset": 8,
         },
         FatItem {
           "color": "#ffffff",
+          "index": 5,
           "name": "free",
           "nextCluster": 0,
           "offset": 9,
@@ -189,36 +198,42 @@ describe('FAT', () => {
       [
         FatItem {
           "color": "#bbbcf7",
+          "index": 3,
           "name": "file.txt",
           "nextCluster": 4,
           "offset": 7,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 4,
           "name": "file.txt",
           "nextCluster": 5,
           "offset": 8,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 5,
           "name": "file.txt",
           "nextCluster": 6,
           "offset": 9,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 6,
           "name": "file.txt",
           "nextCluster": 7,
           "offset": 10,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 7,
           "name": "file.txt",
           "nextCluster": 8,
           "offset": 11,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 8,
           "name": "file.txt",
           "nextCluster": 268435448,
           "offset": 12,
@@ -236,12 +251,14 @@ describe('FAT', () => {
       [
         FatItem {
           "color": "#bbbcf7",
+          "index": 3,
           "name": "file.txt",
           "nextCluster": 4,
           "offset": 7,
         },
         FatItem {
           "color": "#bbbcf7",
+          "index": 4,
           "name": "file.txt",
           "nextCluster": 268435448,
           "offset": 8,

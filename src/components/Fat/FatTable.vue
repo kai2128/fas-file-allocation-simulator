@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Popper } from 'vue-use-popperjs'
+import { last } from 'lodash-es'
 import { fs } from '~/composables/state'
 import type { FatFs } from '~/libs/fs/fat'
 import { FatItemState } from '~/libs/fs/fat'
@@ -20,9 +21,19 @@ function fatClusterToString(nextCluster: number) {
 }
 
 watchEffect(() => {
-  const selectedFatId = actionsState.value.fat?.selected[0]
-  if (selectedFatId != null && !isNaN(selectedFatId!))
-    document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  const selectedFatId = last(actionsState.value.fat?.selected)
+  const flashFatId = last(actionsState.value.fat?.flash)
+  if (flashFatId !== null) {
+    requestAnimationFrame(() => {
+      document.getElementById(`fat-${flashFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    })
+  }
+
+  else if (selectedFatId !== null) {
+    requestAnimationFrame(() => {
+      document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    })
+  }
 })
 </script>
 

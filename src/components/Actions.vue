@@ -23,9 +23,11 @@ const renderSteps = computed(() => {
 // })
 
 watch(() => actions.value.state.stepIndex, () => {
-  const currentStep = document.querySelector('#steps li b')
-  if (currentStep != null)
-    currentStep.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  requestAnimationFrame(() => {
+    const currentStep = document.querySelector('#steps li b')
+    if (currentStep != null)
+      currentStep.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
 }, {
 
 })

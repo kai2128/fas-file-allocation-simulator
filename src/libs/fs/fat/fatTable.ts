@@ -7,7 +7,7 @@ export class FatTable {
 
   constructor(fatTableLength: number, dataSectorStartingCluster: number) {
     this.table = new Array(fatTableLength).fill({}).map((v, i) => {
-      return new FatItem(i + dataSectorStartingCluster, FatItemState.FREE_CLUSTER, 'free', BlockColor.free)
+      return new FatItem(i, i + dataSectorStartingCluster, FatItemState.FREE_CLUSTER, 'free', BlockColor.free)
     })
   }
 

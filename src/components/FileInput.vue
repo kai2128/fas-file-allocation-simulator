@@ -44,10 +44,13 @@ const executeHandler = () => {
       return
     }
   }
+
+  // TODO: animation interval, cancel, skip, disable, manual control.
   setActions(inputs.value.fileAction.substring(3))
   initAnimation()
   startAnimation()
   try {
+    fs.value.fs_create(inputs.value.fileName, fileSize)
     // fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
   }
   catch (err) {

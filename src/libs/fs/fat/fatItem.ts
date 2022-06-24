@@ -6,13 +6,15 @@ export enum FatItemState {
 }
 
 export class FatItem {
+  index: number
   offset: number // maps to disk sectors
   nextCluster: number | FatItemState // points to next fat item (cluster)
 
   name: string
   color: string
 
-  constructor(offset: number, nextCluster: number | FatItemState, name: string, color: string) {
+  constructor(index: number, offset: number, nextCluster: number | FatItemState, name: string, color: string) {
+    this.index = index
     this.offset = offset
     this.nextCluster = nextCluster
     this.name = name
@@ -33,5 +35,11 @@ export class FatItem {
     this.nextCluster = FatItemState.END_OF_CLUSTER
     this.name = name
     this.color = color
+  }
+
+  setFreeState() {
+    this.nextCluster = FatItemState.FREE_CLUSTER
+    this.name = ''
+    this.color = BlockState.FREE_BLOCK
   }
 }
