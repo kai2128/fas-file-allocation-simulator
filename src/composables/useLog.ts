@@ -3,11 +3,11 @@ import type { Ref } from 'vue'
 interface Log {
   time: number
   msg: string
-  type: string
+  type: 'INFO' | 'ERROR' | 'WARN' | 'SUCCESS'
 }
 
 const logs = ref([]) as Ref<Log[]>
-export const log = (msg: string, type = 'INFO') => {
+export const log = (msg: string, type: Log['type'] = 'INFO') => {
   logs.value.push({
     time: Date.now(),
     type,
@@ -15,7 +15,7 @@ export const log = (msg: string, type = 'INFO') => {
   })
 }
 export function useLog() {
-  const log = (msg: string, type = 'INFO') => {
+  const log = (msg: string, type: Log['type'] = 'INFO') => {
     logs.value.push({
       time: Date.now(),
       type,

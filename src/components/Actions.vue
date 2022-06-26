@@ -35,12 +35,18 @@ watch(() => actions.value.state.stepIndex, () => {
 
 <template>
   <section class="area-[action]">
-    <h1 class="font-bold text-2xl">
-      Action
-      <span text="sm" font="normal">
-        {{ actions.name || '-' }}
-      </span>
-    </h1>
+    <div class="flex justify-between">
+      <h1 class="font-bold text-2xl">
+        Action
+        <span text="sm" font="normal">
+          {{ actions.name || '-' }}
+        </span>
+      </h1>
+      <div flex="~ gap-x-5">
+        <button i-mdi:cancel class="icon-btn" @click="toggleAniInput.disabled(true)" title="Disable animation" />
+      </div>
+    </div>
+
     <div>{{ actions.state.msg }}</div>
     <div class="flex-1 min-h-100px">
       <div text="sm">
@@ -49,11 +55,8 @@ watch(() => actions.value.state.stepIndex, () => {
       <!-- <div text="gray/70 xs" class="vertical-bottom">
         Pseudocode
       </div> -->
-      <div
-        id="steps"
-        class="prose max-h-220px" scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line"
-        v-html="renderSteps"
-      />
+      <div id="steps" class="prose max-h-220px"
+        scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line" v-html="renderSteps" />
       <!-- <div
         class="bg-gray-200 before:content-[Peusdocode] min-h-[7rem] font-mono"
         scrollbar="~ rounded hover:thumb-color-#55626f transition-color" v-html="renderCode"

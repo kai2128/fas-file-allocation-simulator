@@ -131,8 +131,52 @@ export const fatActions: FSActions = {
       {
         index: 1,
         description: `
-        Locate the last cluster of the 
+        Locate the last cluster of the file
         `,
+      },
+      {
+        index: 2,
+        description: `
+        Allocate new cluster and set it as end of file (0xFFF) in FAT table, update the last cluster of the file to current cluster number.
+        `,
+      },
+      {
+        index: 3,
+        description: `
+        If file havent completely allocated, continue to:
+        `,
+      },
+      {
+        index: 4,
+        description: `
+        - look to free cluster from FAT table, 
+        `,
+      },
+      {
+        index: 5,
+        description: `
+        - allocate the cluster and set it as end of file in FAT table
+        `,
+      },
+      {
+        index: 6,
+        description: `
+        - update previous FAT table value to current cluster number. Repeat until all clusters are allocated.
+        `,
+      },
+      {
+        index: 7,
+        description: `
+        File append completed
+        `,
+      },
+    ],
+  },
+  write: {
+    steps: [
+      {
+        index: 0,
+        description: 'Delete original file and create new one',
       },
     ],
   },

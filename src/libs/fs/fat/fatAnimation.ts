@@ -88,15 +88,15 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
   function * updatePreviousFat(aniState: Omit<FatAnimationState, 'selectedFatItems'>) {
     setMsg(`Update previous fat ${aniState.previousFatItem.index}'s next cluster current FAT number(${aniState.fatItem.offset})`)
     setState.fatSelected([aniState.previousFatItem.index])
-    aniState.previousFatItem.nextCluster = aniState.fatItem.offset
+    aniState.previousFatItem.nextCluster = aniState.fatItem.index
     yield { actions, disk, fs }
     setState.reset(['block', 'fat'])
   }
 
   return {
     *create() {
+      fs.checkUniqueFileName(actions.file.name)
       const createState = {} as Omit<FatAnimationState, 'selectedFatItems'>
-      setStepsDesc(fatActions.create.steps)
 
       // scan root dir for repeated file name
       actions.state.stepIndex = 0
@@ -153,13 +153,14 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       actions.state.msg = 'All file data has been allocated'
       actions.state.stepIndex = 7
       setState.reset()
+      log(`File ${actions.file.name} created with size ${actions.file.size}.`)
       yield { actions, disk, fs }
     },
     *delete() {
+      fs.checkExist(actions.file.name)
       const deleteState = {
         selectedFatItemsIndex: [] as number[],
       } as FatAnimationState
-      setStepsDesc(fatActions.delete.steps)
 
       // scan root dir for repeated file name
       actions.state.stepIndex = 0
@@ -211,9 +212,9 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       yield { actions, disk, fs }
     },
     *read() {
+      fs.checkExist(actions.file.name)
       const readState = {
       } as FatAnimationState
-      setStepsDesc(fatActions.read.steps)
 
       // scan root dir for repeated file name
       actions.state.stepIndex = 0
@@ -223,34 +224,131 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       yield * getFirstFatItemAfterSearchingInDirectory(readState)
 
       actions.state.stepIndex = 2
+      const selectedFatItemsIndex = [] as number[]
+      const selectedBlockIndex = [] as number[]
+      setState.fatSelected(selectedFatItemsIndex)
+      setState.blockSelected(selectedBlockIndex)
       while (true) {
-        readState.previousFatItem = readState.fatItem
-        setMsg(`From cluster ${readState.fatItem.index}, next cluster: ${readState.fatItem.nextCluster}`)
-        readState.fatItem = fs.fatTable.getFatItem(readState.previousFatItem.nextCluster)
-
         setMsg(`From fat ${readState.fatItem.index} read data from cluster ${readState.fatItem.offset}`)
-        setState.blockSelected([readState.fatItem.offset])
+        selectedFatItemsIndex.push(readState.fatItem.index)
+        yield { actions, disk, fs }
+        setState.blockFlash([readState.fatItem.offset])
+        yield { actions, disk, fs }
+
+        selectedBlockIndex.push(readState.fatItem.offset)
         actions.file.currentSize++
         yield { actions, disk, fs }
 
-        const nextFat = fs.fatTable.getFatItem(readState.fatItem.nextCluster!)
-        readState.selectedFatItemsIndex.push(readState.fatItem.index)
-        setState.fatSelected(readState.selectedFatItemsIndex)
+        setMsg(`From fat ${readState.fatItem.index} locate next fat item`)
+        const nextFat = fs.fatTable.getFatItem(readState.fatItem.nextCluster!) // next fat might be null
+        setState.fatFlash([nextFat?.index])
         yield { actions, disk, fs }
 
-        if (nextFat.nextCluster === FatItemState.END_OF_CLUSTER) {
-          setMsg(`Reach end of cluster at ${readState.fatItem.offset}`)
-          readState.selectedFatItemsIndex.push(readState.fatItem.index)
-          setState.fatSelected(readState.selectedFatItemsIndex)
+        setMsg(`From fat ${readState.fatItem.index}, next fat: ${readState.fatItem.nextCluster}`)
+        selectedFatItemsIndex.push(readState.fatItem.index)
+        readState.fatItem = nextFat
+        yield { actions, disk, fs }
+
+        if (readState.fatItem === null || readState.fatItem === undefined || readState.fatItem?.nextCluster === FatItemState.END_OF_CLUSTER) {
+          if (readState.fatItem === undefined) {
+            // for file only have 1 size
+            setMsg(`Reach end of file at fat ${readState.directoryEntry.firstClusterNumber}`)
+            yield { actions, disk, fs }
+            break
+          }
+
+          setMsg(`Reach end of file at fat ${readState.fatItem?.index}`)
+          selectedFatItemsIndex.push(readState.fatItem?.index)
+          yield { actions, disk, fs }
+
+          setMsg(`From fat ${readState.fatItem.index} read data from last cluster ${readState.fatItem.offset}`)
+          selectedFatItemsIndex.push(readState.fatItem?.index)
+          yield { actions, disk, fs }
+          setState.blockFlash([readState.fatItem?.offset])
+          yield { actions, disk, fs }
+
+          selectedBlockIndex.push(readState.fatItem?.offset)
+          actions.file.currentSize++
           yield { actions, disk, fs }
           break
         }
-        readState.fatItem = nextFat
       }
 
-      setMsg(`All data has been readed for ${readState.directoryEntry.name}`)
+      // to set all fat and block become selected
       setState.reset()
+      setState.fatSelected(selectedFatItemsIndex)
+      setState.blockSelected(selectedBlockIndex)
+      actions.state.stepIndex = 3
+      setMsg(`All data has been readed for ${readState.directoryEntry.name}`)
       yield { actions, disk, fs }
+    },
+    *append() {
+      fs.checkExist(actions.file.name)
+      const appendState = {} as FatAnimationState
+      setStepsDesc(fatActions.append.steps)
+
+      // scan root dir for repeated file name
+      actions.state.stepIndex = 0
+      yield * searchFileInDirectory(appendState)
+
+      actions.state.stepIndex = 1
+      yield * getFirstFatItemAfterSearchingInDirectory(appendState)
+
+      while (true) {
+        setMsg(`From fat ${appendState.fatItem.index} locate next fat item`)
+        setState.fatSelected([appendState.fatItem.index])
+        yield { actions, disk, fs }
+
+        setMsg(`From fat ${appendState.fatItem.index}, next fat: ${appendState.fatItem.nextCluster}`)
+        setState.fatSelected([appendState.fatItem.index])
+        yield { actions, disk, fs }
+
+        appendState.fatItem = fs.fatTable.getFatItem(appendState.fatItem.nextCluster!) // next fat might be null
+
+        if (appendState.fatItem === undefined || appendState.fatItem.nextCluster === FatItemState.END_OF_CLUSTER) {
+          setMsg(`Reach end of file at fat ${appendState.fatItem.index}`)
+          setState.fatSelected([appendState.fatItem.index])
+          yield { actions, disk, fs }
+          break
+        }
+      }
+
+      actions.state.stepIndex = 2
+      appendState.previousFatItem = appendState.fatItem
+      yield * searchForFreeCluster(appendState)
+      yield * allocateClusterAfterFoundFreeCluster(appendState)
+      yield * updatePreviousFat(appendState)
+
+      actions.state.stepIndex = 3
+      while (actions.file.currentSize > 0) {
+        appendState.previousFatItem = appendState.fatItem
+        actions.state.stepIndex = 4
+        yield * searchForFreeCluster(appendState)
+
+        actions.state.stepIndex = 5
+        yield * allocateClusterAfterFoundFreeCluster(appendState)
+
+        actions.state.stepIndex = 6
+        yield * updatePreviousFat(appendState)
+      }
+
+      actions.state.stepIndex = 7
+      setMsg(`Size ${actions.file.size} has been appended for ${appendState.directoryEntry.name}`)
+      yield { actions, disk, fs }
+    },
+    *write() {
+      fs.checkExist(actions.file.name)
+      // size check
+      if (actions.file.size > fs.searchFileInDirectory(actions.file.name)!.size) { // only check disk space if new size is larger than old size{
+        fs.checkSpace(actions.file.size - fs.searchFileInDirectory(actions.file.name)!.size)
+      }
+
+      setMsg('For writing file is just delete and create new file')
+      yield { actions, disk, fs }
+      yield { actions, disk, fs }
+      yield * this.delete()
+      yield * this.create()
+      setMsg('File write completed', 'done')
     },
   }
 }

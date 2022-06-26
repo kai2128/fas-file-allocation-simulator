@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { random, sample } from 'lodash-es'
-import { animateState, initAnimation } from '~/composables/animations'
-import { files, fs, inputs } from '~/composables/state'
+import { animateState, animating, initAnimation } from '~/composables/animations'
+import { files, fs, inputs, toggleAniInput } from '~/composables/state'
 import { fatAnimation } from '~/libs/fs/fat/fatAnimation'
 
 const generateInputHandler = () => {
@@ -17,6 +17,11 @@ const generateInputHandler = () => {
 }
 
 const executeHandler = () => {
+  if (animating.value) {
+    toggleAniInput.skip()
+    return
+  }
+
   const fileSize = Number(inputs.value.fileSize)
 
   if (fs.value.name == null) {
@@ -46,18 +51,27 @@ const executeHandler = () => {
   }
 
   // TODO: animation interval, cancel, skip, disable, manual control.
-  setActions(inputs.value.fileAction.substring(3))
-  initAnimation()
-  startAnimation()
   try {
-    fs.value.fs_create(inputs.value.fileName, fileSize)
-    // fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
+    setActions(inputs.value.fileAction.substring(3))
+    initAnimation()
+
+    if (aniInput.value.disabled)
+      fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
+    else
+      startAnimation()
   }
   catch (err) {
     notify(err.message, 'ERROR')
     log(err.message)
   }
 }
+
+const computedButtonText = computed(() => {
+  if (animating.value)
+    return 'Skip Animation'
+  else
+    return 'Execute'
+})
 </script>
 
 <template>
@@ -66,7 +80,9 @@ const executeHandler = () => {
       <h1 class="font-bold text-2xl">
         Input
       </h1>
-      <button i-mdi:cogs class="icon-btn" @click="generateInputHandler" />
+      <div flex="~ gap-x-5">
+        <button i-mdi:cogs class="icon-btn" @click="generateInputHandler" title="Generate Random Input" />
+      </div>
     </div>
     <div class="grid grid-cols-2 gap-y-4 gap-x-5 mt-5 w-[clamp(19rem,22rem,35rem)] mx-a">
       <label class="flex items-center gap-x-2 col-span-2">
@@ -86,13 +102,11 @@ const executeHandler = () => {
       </label>
       <label class="flex items-center gap-x-2">
         <span>Size</span>
-        <input
-          v-model="inputs.fileSize" :disabled="inputs.fileAction == 'read' || inputs.fileAction == 'delete'"
-          type="text" class="rounded px-1 py-1 w-full" border="2px cool-gray-200"
-        >
+        <input v-model="inputs.fileSize" :disabled="inputs.fileAction == 'read' || inputs.fileAction == 'delete'"
+          type="text" class="rounded px-1 py-1 w-full" border="2px cool-gray-200">
       </label>
       <button class="col-span-2 btn justify-self-center text-center" @click="executeHandler">
-        Execute
+        {{ computedButtonText }}
       </button>
     </div>
   </section>

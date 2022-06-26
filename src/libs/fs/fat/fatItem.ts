@@ -1,3 +1,5 @@
+import { BlockColor } from './../../volume/disk'
+
 export enum FatItemState {
   END_OF_CLUSTER = 0x0FFFFFF8,
   BAD_CLUSTER = 0x0FFFFFF7,
@@ -40,6 +42,6 @@ export class FatItem {
   setFreeState() {
     this.nextCluster = FatItemState.FREE_CLUSTER
     this.name = ''
-    this.color = BlockState.FREE_BLOCK
+    this.color = BlockColor.free
   }
 }

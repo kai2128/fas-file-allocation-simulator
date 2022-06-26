@@ -20,8 +20,8 @@ export interface Inputs {
 }
 
 export const inputs = ref({
-  fileSystemSelected: 'FAT',
-  diskSize: 20,
+  fileSystemSelected: '',
+  diskSize: '',
 
   fileName: '',
   fileAction: '',
@@ -47,3 +47,25 @@ export const files = computed(() => {
   return fs.value.fs_files
 })
 
+interface AnimationInput {
+  interval: number
+  cancel: boolean
+  skip: boolean
+  disabled: boolean
+  manualMode: boolean
+}
+
+export const aniInput = ref({
+  interval: 1000,
+  cancel: false,
+  skip: false, // skip animation straight complete the file action
+  disabled: false, // disable animation
+  manualMode: false, // control animation manually
+}) as Ref<AnimationInput>
+
+export const toggleAniInput = {
+  cancel: (bool?: boolean) => aniInput.value.cancel = bool || !aniInput.value.cancel,
+  skip: (bool?: boolean) => aniInput.value.skip = bool || !aniInput.value.skip!,
+  disabled: (bool?: boolean) => aniInput.value.disabled = bool || !aniInput.value.disabled!,
+  manualMode: (bool?: boolean) => aniInput.value.manualMode = bool || !aniInput.value.manualMode!,
+}

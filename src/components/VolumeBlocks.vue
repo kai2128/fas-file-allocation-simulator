@@ -46,7 +46,7 @@ watchEffect(() => {
               v-for="num in Array.from(Array(10).keys())" :key="num"
               :class="{ 'translate-x--2': num === 9, 'translate-x--0.6': num === 8 }"
             >
-              {{ num + 1 }}
+              {{ num }}
             </div>
           </div>
         </div>
