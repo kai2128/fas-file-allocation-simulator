@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { notify } from '~/composables/useNotify'
-import { createAndFormatDisk, disk, fs, inputs } from '~/composables/state'
-import { FatFs } from '~/libs/fs/fat'
-import { Disk } from '~/libs/volume'
 import { resetActionsState } from '~/composables/actions'
+import { createAndFormatDisk, inputs } from '~/composables/state'
+import { notify } from '~/composables/useNotify'
+import { animating } from '~/composables/animations'
 
 const formatDisk = () => {
   if (!inputs.value.fileSystemSelected) {
@@ -35,7 +34,7 @@ const formatDisk = () => {
       <div class="flex items-center gap-x-5">
         <label flex="~ col">
           <span font-bold>File system</span>
-          <select v-model="inputs.fileSystemSelected" rounded px-3 py-1>
+          <select v-model="inputs.fileSystemSelected" rounded px-3 py-1 :disabled="animating">
             <option>FAT</option>
             <option disabled>ext4</option>
             <option disabled>btrfs</option>
@@ -43,10 +42,14 @@ const formatDisk = () => {
         </label>
         <label flex="~ col">
           <span font-bold>Disk size:</span>
-          <input v-model="inputs.diskSize" type="text" rounded px-3 py-1>
+          <input v-model="inputs.diskSize" type="text" rounded px-3 py-1 :disabled="animating">
         </label>
-        <button btn class="group transition-all" border="2 #cfd8db" @click="formatDisk">
-          <div i-ant-design:format-painter-filled text="#cccccc" class="group-hover:text-cool-gray-700 mr-1" /> Format
+        <button btn class="group transition-all" border="2 #cfd8db" :disabled="animating" @click="formatDisk">
+          <div
+            i-ant-design:format-painter-filled text="#cccccc"
+            :disabled="animating"
+            class="group-hover:text-cool-gray-700 mr-1 group-hover:disabled:text-cool-gray-300"
+          /> Format
         </button>
       </div>
     </section>

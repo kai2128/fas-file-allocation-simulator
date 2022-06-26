@@ -95,7 +95,6 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
 
   return {
     *create() {
-      fs.checkUniqueFileName(actions.file.name)
       const createState = {} as Omit<FatAnimationState, 'selectedFatItems'>
 
       // scan root dir for repeated file name
@@ -157,7 +156,6 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       yield { actions, disk, fs }
     },
     *delete() {
-      fs.checkExist(actions.file.name)
       const deleteState = {
         selectedFatItemsIndex: [] as number[],
       } as FatAnimationState
@@ -165,6 +163,10 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       // scan root dir for repeated file name
       actions.state.stepIndex = 0
       yield * searchFileInDirectory(deleteState)
+      if (deleteState.directoryEntry === undefined) {
+        setMsg('File not found')
+        return
+      }
 
       actions.state.stepIndex = 1
       yield * getFirstFatItemAfterSearchingInDirectory(deleteState)
@@ -212,7 +214,6 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       yield { actions, disk, fs }
     },
     *read() {
-      fs.checkExist(actions.file.name)
       const readState = {
       } as FatAnimationState
 
@@ -337,12 +338,6 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       yield { actions, disk, fs }
     },
     *write() {
-      fs.checkExist(actions.file.name)
-      // size check
-      if (actions.file.size > fs.searchFileInDirectory(actions.file.name)!.size) { // only check disk space if new size is larger than old size{
-        fs.checkSpace(actions.file.size - fs.searchFileInDirectory(actions.file.name)!.size)
-      }
-
       setMsg('For writing file is just delete and create new file')
       yield { actions, disk, fs }
       yield { actions, disk, fs }

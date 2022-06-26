@@ -16,8 +16,8 @@ interface AppState {
 }
 
 let initialState: AppState
-
 let animationStates: Generator
+export const [nextAniStep, toggleNextStep] = useToggle(false)
 
 export const [animating, toggleAnimating] = useToggle(false)
 export function initInitialState() {
@@ -48,21 +48,30 @@ export async function startAnimation() {
   toggleAnimating(true)
   while (!animationStates.next().done) {
     if (aniInput.value.skip)
-      break
+      continue
 
-    if (aniInput.value.cancel)
+    if (aniInput.value.cancel) {
       revertToInitialState()
+      break
+    }
 
+    toggleNextStep(false)
     if (!aniInput.value.manualMode)
       await sleep(aniInput.value.interval)
     else
-      await waitForUserNext()
+      await until(nextAniStep).toBe(true)
   }
   toggleAnimating(false)
-  revertAniInputState()
+  resetAniInputState()
 }
+export function nextStep() {
+  toggleNextStep(true)
+}
+watch(() => aniInput.value.manualMode, () => {
+  nextStep()
+})
 
-function revertAniInputState() {
+function resetAniInputState() {
   toggleAniInput.skip(false)
   toggleAniInput.cancel(false)
 }
@@ -74,36 +83,43 @@ function revertToInitialState() {
   actions.value = initialState.actions
 }
 
-function waitForUserNext() {
-  return Promise.resolve()
-}
-
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 export function initAnimation() {
   initInitialState()
-  revertAniInputState()
+  resetAniInputState()
+  setMsg('')
   const fatAniGenerator = fatAnimation(fs.value as any as FatFs, disk.value, actions.value)
   switch (actions.value.name) {
     case 'create':
+      fs.value.checkUniqueFileName(actions.value.file.name)
+      fs.value.checkSpace(actions.value.file.size)
       setStepsDesc(fatActions.create.steps)
       animationStates = fatAniGenerator.create()
       break
     case 'delete':
+      fs.value.checkExist(actions.value.file.name)
       setStepsDesc(fatActions.delete.steps)
       animationStates = fatAniGenerator.delete()
       break
     case 'read':
+      fs.value.checkExist(actions.value.file.name)
       setStepsDesc(fatActions.read.steps)
       animationStates = fatAniGenerator.read()
       break
     case 'write':
+      fs.value.checkExist(actions.value.file.name)
+      // size check
+      if (actions.file.size > fs.value.searchFileInDirectory(actions.value.file.name)!.size) { // only check disk space if new size is larger than old size{
+        fs.value.checkSpace(actions.value.file.size - fs.value.searchFileInDirectory(actions.value.file.name)!.size)
+      }
       setStepsDesc(fatActions.write.steps)
       animationStates = fatAniGenerator.write()
       break
     case 'append':
+      fs.value.checkExist(actions.value.file.name)
       setStepsDesc(fatActions.append.steps)
       animationStates = fatAniGenerator.append()
       break

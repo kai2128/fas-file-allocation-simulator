@@ -64,8 +64,8 @@ export const aniInput = ref({
 }) as Ref<AnimationInput>
 
 export const toggleAniInput = {
-  cancel: (bool?: boolean) => aniInput.value.cancel = bool || !aniInput.value.cancel,
-  skip: (bool?: boolean) => aniInput.value.skip = bool || !aniInput.value.skip!,
-  disabled: (bool?: boolean) => aniInput.value.disabled = bool || !aniInput.value.disabled!,
-  manualMode: (bool?: boolean) => aniInput.value.manualMode = bool || !aniInput.value.manualMode!,
+  cancel: (bool?: boolean) => { typeof bool == 'boolean' ? aniInput.value.cancel = bool : aniInput.value.cancel = !aniInput.value.cancel },
+  skip: (bool?: boolean) => { typeof bool == 'boolean' ? aniInput.value.skip = bool : aniInput.value.skip = !aniInput.value.skip },
+  disabled: (bool?: boolean) => { typeof bool == 'boolean' ? aniInput.value.disabled = bool : aniInput.value.disabled = !aniInput.value.disabled },
+  manualMode: (bool?: boolean) => { typeof bool == 'boolean' ? aniInput.value.manualMode = bool : aniInput.value.manualMode = !aniInput.value.manualMode },
 }
