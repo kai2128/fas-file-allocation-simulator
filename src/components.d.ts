@@ -7,6 +7,8 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Actions: typeof import('./components/Actions.vue')['default']
     DiskInfo: typeof import('./components/DiskInfo.vue')['default']
+    DocHeader: typeof import('./components/DocHeader.vue')['default']
+    DocSideBar: typeof import('./components/DocSideBar.vue')['default']
     FatTable: typeof import('./components/Fat/FatTable.vue')['default']
     FileBlocks: typeof import('./components/FileBlocks.vue')['default']
     FileExplorer: typeof import('./components/FileExplorer.vue')['default']

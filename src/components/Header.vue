@@ -30,7 +30,7 @@ const formatDisk = () => {
         </div>
       </div>
     </section>
-    <section bg="#f3f7fc" class="px-23 h-full flex items-center">
+    <section bg="#f3f7fc" class="px-16 h-full flex items-center ml-24vw">
       <div class="flex items-center gap-x-5">
         <label flex="~ col">
           <span font-bold>File system</span>
@@ -42,17 +42,22 @@ const formatDisk = () => {
         </label>
         <label flex="~ col">
           <span font-bold>Disk size:</span>
-          <input v-model="inputs.diskSize" type="text" rounded px-3 py-1 :disabled="animating">
+          <input v-model="inputs.diskSize" type="text" rounded px-3 py-1 w-20 :disabled="animating">
         </label>
         <button btn class="group transition-all" border="2 #cfd8db" :disabled="animating" @click="formatDisk">
           <div
-            i-ant-design:format-painter-filled text="#cccccc"
-            :disabled="animating"
+            i-ant-design:format-painter-filled text="#cccccc" :disabled="animating"
             class="group-hover:text-cool-gray-700 mr-1 group-hover:disabled:text-cool-gray-300"
           /> Format
         </button>
       </div>
     </section>
+    <RouterLink to="/docs" class="h-full flex items-center justify-center px-10" bg="#d7e3f4">
+      <div class="icon-link items-center text-5" flex="~" bg="#d7e3f4">
+        Help
+        <div i-mdi:help-circle />
+      </div>
+    </RouterLink>
   </nav>
 </template>
 

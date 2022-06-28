@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { inputs } from '~/composables/state'
-
-function formatHandler() {
-}
 </script>
 
 <template>
-  <Header @format-disk="formatHandler" />
+  <Header/>
   <div class="px-20 py-10">
     <div id="grid-container">
       <FileInput />
