@@ -43,6 +43,15 @@ function nearestInterval(equation: 'add' | 'sub') {
   else
     aniInput.value.interval = interval - 1000
 }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'p')
+    toggleAniInput.manualMode()
+  if (e.key === 'n') {
+    if (aniInput.value.manualMode)
+      nextStep()
+  }
+})
 </script>
 
 <template>
@@ -56,16 +65,21 @@ function nearestInterval(equation: 'add' | 'sub') {
         </span>
       </h1>
       <div flex="~ gap-x-5" class="items-center justify-end">
+        <div class="flex items-center justify-center mr-15" text="#3b5978 2xl">
+          <button
+            v-if="!aniInput.manualMode" class="opa-btn" i-ic:round-pause-circle
+            @click="toggleAniInput.manualMode(true)"
+          />
+          <button v-else class="opa-btn" i-ic:round-play-circle @click="toggleAniInput.manualMode(false)" />
+          <button v-if="aniInput.manualMode" class="opa-btn" i-fluent:fast-forward-16-filled @click="nextStep()" title="Next Step" />
+        </div>
+
         <div class="relative w-25 block">
           <div flex="~ col gap-y--4" class="absolute left--4 top-0.5">
-            <button
-              class="icon-btn text-sm my--0.25" i-fluent:caret-up-24-filled
-              @click="nearestInterval('add')"
-            />
+            <button class="icon-btn text-sm my--0.25" i-fluent:caret-up-24-filled @click="nearestInterval('add')" />
             <button
               class="icon-btn text-sm my--0.25 disabled:cursor-pointer disabled:hover:opacity-70"
-              i-fluent:caret-down-24-filled :disabled="aniInput.interval <= 1000"
-              @click=" nearestInterval('sub')"
+              i-fluent:caret-down-24-filled :disabled="aniInput.interval <= 1000" @click=" nearestInterval('sub')"
             />
           </div>
           <span class=" absolute bottom-5.75 left-2 text-xs z-1 bg-white rounded">Interval</span>
@@ -98,14 +112,6 @@ function nearestInterval(equation: 'add' | 'sub') {
       /> -->
     </div>
     <div />
-    <div class="flex items-center justify-center " text="#3b5978 2xl" mt="5">
-      <button
-        v-if="!aniInput.manualMode" class="opa-btn" i-ic:round-pause-circle
-        @click="toggleAniInput.manualMode(true)"
-      />
-      <button v-else class="opa-btn" i-ic:round-play-circle @click="toggleAniInput.manualMode(false)" />
-      <button v-if="aniInput.manualMode" class="opa-btn" i-fluent:fast-forward-16-filled @click="nextStep()" />
-    </div>
   </section>
 </template>
 

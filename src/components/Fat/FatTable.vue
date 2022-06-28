@@ -27,13 +27,10 @@ watchEffect(() => {
     requestAnimationFrame(() => {
       document.getElementById(`fat-${flashFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
     })
-  }
-
-  else if (selectedFatId !== null) {
-    requestAnimationFrame(() => {
-      document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    })
-  }
+  } 
+  requestAnimationFrame(() => {
+    document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
 })
 </script>
 

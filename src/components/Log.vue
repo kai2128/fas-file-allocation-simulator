@@ -20,7 +20,7 @@ onMounted(() => {
       <h1 class="font-bold text-2xl">
         Log
       </h1>
-      <button i-ic:twotone-format-clear class="icon-btn" @click="clearLogs" />
+      <button class="icon-btn text-5" @click="clearLogs" >Clear</button>
     </div>
 
     <div
