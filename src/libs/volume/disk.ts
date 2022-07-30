@@ -1,5 +1,4 @@
-import { cloneDeep } from 'lodash-es'
-import range from 'lodash-es/range'
+import { cloneDeep, range } from 'lodash-es'
 
 export interface DiskOptions {
   size_per_unit: number

@@ -11,6 +11,7 @@ export interface IInode {
   name: string
 }
 
+
 export interface IDiskBlock {
   next_block_num: number
   data: string

@@ -7,6 +7,7 @@ import generatedRoutes from '~pages'
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
+import 'shepherd.js/dist/css/shepherd.css'
 
 const routes = setupLayouts(generatedRoutes)
 
