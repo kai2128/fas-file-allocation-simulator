@@ -22,7 +22,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <section class="area-[blocks]">
+  <section class="area-[blocks]" data-tour="volume-blocks">
     <h1 class="font-bold text-2xl">
       Volume Blocks
     </h1>
@@ -38,31 +38,23 @@ watchEffect(() => {
       </div>
       <div class="disk relative flex justify-center overflow-x-visible mt-7">
         <div class="absolute" transform="translate-y-[-1.5rem] translate-x-[1.61rem]">
-          <div
-            v-if="disk.units?.length !== 0 && disk instanceof Disk" flex="~ gap-x-7.2"
-            transform="translate-x-[-0.58rem]"
-          >
-            <div
-              v-for="num in Array.from(Array(10).keys())" :key="num"
-              :class="{ 'translate-x--2': num === 9, 'translate-x--0.6': num === 8 }"
-            >
+          <div v-if="disk.units?.length !== 0 && disk instanceof Disk" flex="~ gap-x-7.2"
+            transform="translate-x-[-0.58rem]">
+            <div v-for="num in Array.from(Array(10).keys())" :key="num"
+              :class="{ 'translate-x--2': num === 9, 'translate-x--0.6': num === 8 }">
               {{ num }}
             </div>
           </div>
         </div>
-        <div
-          id="disk-blocks" ref="diskBlocksEl"
+        <div id="disk-blocks" ref="diskBlocksEl"
           class="grid grid-cols-10 gap-x-2 gap-y-3 max-h-19rem min-w-420px pl-10 pr-2 scroll-smooth"
-          scrollbar="~ rounded hover:thumb-color-#55626f transition-color"
-        >
+          scrollbar="~ rounded hover:thumb-color-#55626f transition-color">
           <div v-if="!disk.units" col-span-full text="center gray-300">
             Disk not formatted
           </div>
-          <div
-            v-for="(block, i) in disk.units" v-else :id="`block-${block.offset.toString()}`" :key="block.offset"
+          <div v-for="(block, i) in disk.units" v-else :id="`block-${block.offset.toString()}`" :key="block.offset"
             v-bg-color="block.state.color" class="blocks"
-            :class="[{ relative: !(i % 10), ...renderStateClass(i, 'block') }]"
-          >
+            :class="[{ relative: !(i % 10), ...renderStateClass(i, 'block') }]">
             <div v-if="!(i % 10)" absolute transform="translate-x-[-2.5rem]" v-text="i" />
           </div>
         </div>

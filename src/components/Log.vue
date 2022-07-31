@@ -15,12 +15,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="!pb-0 area-[log]" flex="~ col">
+  <section class="!pb-0 area-[log]" flex="~ col" data-tour="log">
     <div class="flex justify-between">
       <h1 class="font-bold text-2xl">
         Log
       </h1>
-      <button class="icon-btn text-5" @click="clearLogs" >Clear</button>
+      <button class="icon-btn text-5" @click="clearLogs">
+        Clear
+      </button>
     </div>
 
     <div

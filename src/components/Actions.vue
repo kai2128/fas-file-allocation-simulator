@@ -55,7 +55,7 @@ document.addEventListener('keydown', (e) => {
 </script>
 
 <template>
-  <section class="area-[action] of-clip">
+  <section class="area-[action] of-clip" data-tour="action">
     <div v-if="aniInput.disabled" class="bg-gray/20 absolute inset-0 z-2" />
     <div class="flex justify-between">
       <h1 class="font-bold text-2xl">
@@ -66,31 +66,27 @@ document.addEventListener('keydown', (e) => {
       </h1>
       <div flex="~ gap-x-5" class="items-center justify-end">
         <div class="flex items-center justify-center mr-15" text="#3b5978 2xl">
-          <button
-            v-if="!aniInput.manualMode" class="opa-btn" i-ic:round-pause-circle
-            @click="toggleAniInput.manualMode(true)"
-          />
+          <button v-if="!aniInput.manualMode" class="opa-btn" i-ic:round-pause-circle
+            @click="toggleAniInput.manualMode(true)" data-tour="action-pause-button" />
           <button v-else class="opa-btn" i-ic:round-play-circle @click="toggleAniInput.manualMode(false)" />
-          <button v-if="aniInput.manualMode" class="opa-btn" i-fluent:fast-forward-16-filled @click="nextStep()" title="Next Step" />
+          <button v-if="aniInput.manualMode" class="opa-btn" i-fluent:fast-forward-16-filled @click="nextStep()"
+            title="Next Step" />
         </div>
 
-        <div class="relative w-25 block">
+        <div class="relative w-25 block" data-tour="action-interval">
           <div flex="~ col gap-y--4" class="absolute left--4 top-0.5">
             <button class="icon-btn text-sm my--0.25" i-fluent:caret-up-24-filled @click="nearestInterval('add')" />
-            <button
-              class="icon-btn text-sm my--0.25 disabled:cursor-pointer disabled:hover:opacity-70"
-              i-fluent:caret-down-24-filled :disabled="aniInput.interval <= 1000" @click=" nearestInterval('sub')"
-            />
+            <button class="icon-btn text-sm my--0.25 disabled:cursor-pointer disabled:hover:opacity-70"
+              i-fluent:caret-down-24-filled :disabled="aniInput.interval <= 1000" @click="nearestInterval('sub')" />
           </div>
           <span class=" absolute bottom-5.75 left-2 text-xs z-1 bg-white rounded">Interval</span>
           <input v-model="aniInput.interval" class="flex py-1 text-sm" type="number">
           <span class="absolute top-1.2 right-2 text-sm z-1 bg-white rounded text-gray/80">ms</span>
         </div>
-        <button
-          i-mdi:cancel class="icon-btn z-3 disabled:cursor-not-allowed disabled:hover:opacity-75"
+        <button i-mdi:cancel class="icon-btn z-3 disabled:cursor-not-allowed disabled:hover:opacity-75"
           :class="{ 'text-cool-gray-700 opacity-100 shadow-white hover:scale-120 shadow-lg': aniInput.disabled }"
-          :disabled="animating" :title="computeDisableTitle" @click=" toggleAniInput.disabled()"
-        />
+          :disabled="animating" :title="computeDisableTitle" @click="toggleAniInput.disabled()"
+          data-tour="action-disable-button" />
       </div>
     </div>
 
@@ -102,10 +98,8 @@ document.addEventListener('keydown', (e) => {
       <!-- <div text="gray/70 xs" class="vertical-bottom">
         Pseudocode
       </div> -->
-      <div
-        id="steps" class="prose max-h-220px"
-        scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line" v-html="renderSteps"
-      />
+      <div id="steps" class="prose max-h-220px"
+        scrollbar="~ rounded hover:thumb-color-#55626f transition-color whitespace-pre-line" v-html="renderSteps" />
       <!-- <div
         class="bg-gray-200 before:content-[Peusdocode] min-h-[7rem] font-mono"
         scrollbar="~ rounded hover:thumb-color-#55626f transition-color" v-html="renderCode"
@@ -116,7 +110,7 @@ document.addEventListener('keydown', (e) => {
 </template>
 
 <style scoped>
-.opa-btn{
+.opa-btn {
   --at-apply: opacity-70 hover:opacity-100 transition-opacity duration-200
 }
 </style>

@@ -31,7 +31,7 @@ const formatDisk = () => {
       </div>
     </section>
     <section bg="#f3f7fc" class="px-16 h-full flex items-center ml-24vw">
-      <div class="flex items-center gap-x-5">
+      <div class="flex items-center gap-x-5" data-tour="disk-input">
         <label flex="~ col">
           <span font-bold>File system</span>
           <select v-model="inputs.fileSystemSelected" rounded px-3 py-1 :disabled="animating">
@@ -52,15 +52,19 @@ const formatDisk = () => {
         </button>
       </div>
     </section>
-    <RouterLink to="/docs" class="h-full flex items-center justify-center px-10" bg="#d7e3f4">
-      <div class="icon-link items-center text-5" flex="~" bg="#d7e3f4">
-        Help
-        <div i-mdi:help-circle />
-      </div>
-    </RouterLink>
+    <section class="flex">
+      <button class="icon-link text-5" @click="useTour().start()">
+        Guides
+        <div i-mdi:help-circle inline-block align-text-top />
+      </button>
+      <RouterLink to="/docs" class="h-full flex items-center justify-center px-10" bg="#d7e3f4">
+        <div class="icon-link items-center text-5" flex="~" bg="#d7e3f4">
+          Docs
+        </div>
+      </RouterLink>
+    </section>
   </nav>
 </template>
 
 <style scoped>
-
 </style>

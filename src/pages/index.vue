@@ -1,26 +1,4 @@
 <script setup lang="ts">
-import Shepherd from 'shepherd.js'
-const tour = new Shepherd.Tour({
-  useModalOverlay: true,
-  defaultStepOptions: {
-    cancelText: 'Cancel',
-    classes: 'shepherd-theme-arrows',
-    scrollTo: true,
-    showCancelLink: true,
-    useModalOverlay: true,
-  },
-})
-tour.addStep({
-  title: 'Welcome to the Shepherd Tour',
-  text: 'This tour will show you around the application.',
-  buttons: [
-    {
-      text: 'Next',
-      action: tour.next,
-    },
-  ],
-})
-tour.start()
 </script>
 
 <template>

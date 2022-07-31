@@ -5,7 +5,7 @@ const diskGraph = $computed(() => disk.value.generateDiskGraph())
 </script>
 
 <template>
-  <section class="area-[info]">
+  <section class="area-[info]" data-tour="disk-info">
     <h1 class="font-bold text-2xl">
       Disk Info
       <span text="lg" font="normal">

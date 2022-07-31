@@ -67,7 +67,7 @@ const executeHandler = () => {
 </script>
 
 <template>
-  <section class="area-[input]" data-hint="test" data-intro="test1" data-title="title">
+  <section class="area-[input]" data-tour="file-input">
     <div class="flex justify-between">
       <h1 class="font-bold text-2xl">
         Input
@@ -83,7 +83,6 @@ const executeHandler = () => {
           :disabled="animating">
       </label>
       <label class="flex items-center gap-x-2">
-
         <span>Action</span>
         <select v-model="inputs.fileAction" rounded px-1 py-1 w-full border="2px cool-gray-200" :disabled="animating">
           <option value="fs_create">Create</option>
@@ -99,7 +98,7 @@ const executeHandler = () => {
           :disabled="animating || inputs.fileAction === 'read' || inputs.fileAction === 'delete'" type="text"
           class="rounded px-1 py-1 w-full" border="2px cool-gray-200">
       </label>
-      <button v-if="!animating || aniInput.value.disabled" class="input-btn col-span-2" @click="executeHandler">
+      <button v-if="!animating || aniInput.value.disabled" class="input-btn col-span-2" @click="executeHandler" data-tour="file-input-button">
         Execute
       </button>
       <button v-if="animating && !aniInput.value.disabled" class="input-btn" @click="toggleAniInput.skip()">

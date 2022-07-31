@@ -103,3 +103,11 @@ select {
 @keyframes flash {  
   50% { opacity: 0; }
 }
+
+.shepherd-content{
+  --at-apply: shadow-md text-red
+}
+
+.shepherd-arrow:before{
+  --at-apply: bg-#e6e6e6 shadow-lg
+}
