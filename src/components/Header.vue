@@ -54,7 +54,7 @@ const formatDisk = () => {
     </section>
     <section class="flex">
       <button class="icon-link text-5" @click="useTour().start()">
-        Guides
+        Guide
         <div i-mdi:help-circle inline-block align-text-top />
       </button>
       <RouterLink to="/docs" class="h-full flex items-center justify-center px-10" bg="#d7e3f4">
