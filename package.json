@@ -1,6 +1,7 @@
 {
   "private": true,
   "packageManager": "pnpm@7.1.6",
+  "homepage": "https://kai2128.github.io/fas-file-allocation-simulator",
   "scripts": {
     "build": "vite-ssg build",
     "dev": "vite --port 3333 --open",
