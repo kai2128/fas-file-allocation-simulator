@@ -16,6 +16,8 @@ import Unocss from 'unocss/vite'
 const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
 
 export default defineConfig({
+  base: import.meta.env.BASE_URL,
+
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
