@@ -2,7 +2,7 @@
 
 #### Implemented File System
   - <router-link class="hover:text-blue-500" to="/docs/fat">FAT</router-link>
-  - <router-link class="hover:text-blue-500" to="/docs/ext4">ext4</router-link>
+  <!-- - <router-link class="hover:text-blue-500" to="/docs/ext4">ext4</router-link> -->
 
 ## Introduction
 
