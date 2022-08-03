@@ -112,7 +112,7 @@ export function initAnimation() {
     case 'write':
       fs.value.checkExist(actions.value.file.name)
       // size check
-      if (actions.file.size > fs.value.searchFileInDirectory(actions.value.file.name)!.size) { // only check disk space if new size is larger than old size{
+      if (actions.value.file.size > fs.value.searchFileInDirectory(actions.value.file.name)!.size) { // only check disk space if new size is larger than old size{
         fs.value.checkSpace(actions.value.file.size - fs.value.searchFileInDirectory(actions.value.file.name)!.size)
       }
       setStepsDesc(fatActions.write.steps)
