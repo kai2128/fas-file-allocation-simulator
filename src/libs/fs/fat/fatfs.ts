@@ -139,7 +139,7 @@ export class FatFs {
           break
       }
     })
-
+    
     this.rootDirectory.files.forEach((file) => {
       const fatIndexes = this.fatTable.getFatIndexesForAllocation(file.size)
       for (let i = 0; i < fatIndexes.length; i++) {

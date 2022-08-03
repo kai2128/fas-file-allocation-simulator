@@ -167,7 +167,7 @@ export function useTour() {
   // #region File Allocation Table
   tour.addStep({
     title: 'File Allocation Table',
-    text: 'Here is the file allocation table (data structure used by FAT file system in mapping file into clusters), for more information please refer to the documentation.',
+    text: 'Here is the file allocation table (data structure used by FAT file system in mapping file into clusters), hover on the value of each entry will show the file name of the entry, for more information please refer to the documentation.',
     attachTo: {
       element: '[data-tour="fat-table"]',
       on: 'bottom',
