@@ -76,6 +76,9 @@ select {
   margin-right: 0.4rem;
 }
 
+.input-btn{
+  --at-apply: btn justify-self-center text-center
+}
 
 #grid-container {
   display: grid;

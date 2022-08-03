@@ -47,7 +47,7 @@ watchEffect(() => {
               Index
             </td>
             <td text-sm>
-              Cluster No.
+              Block No.
             </td>
             <td>Value</td>
             <td>Label</td>

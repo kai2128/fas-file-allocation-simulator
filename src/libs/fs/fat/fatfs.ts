@@ -124,7 +124,33 @@ export class FatFs {
     if (obj == null || obj === undefined)
       throw new FSError(ERRCODE.ENOENT, `${name} not found`)
   }
+
   // #endregion
+  fs_defragmentation() {
+    this.rootDirectory.files.forEach((file) => {
+      let nextCluster = file.firstClusterNumber!
+      while (true) {
+        const fatItem = this.fatTable.getFatItem(nextCluster)
+        nextCluster = fatItem.nextCluster
+
+        fatItem.setState(FatItemState.FREE_CLUSTER, 'free', BlockColor.free)
+        this.disk.setFree(fatItem.offset) // disk will not be updated in real implementation, only fat table update
+        if (nextCluster === FatItemState.END_OF_CLUSTER)
+          break
+      }
+    })
+
+    this.rootDirectory.files.forEach((file) => {
+      const fatIndexes = this.fatTable.getFatIndexesForAllocation(file.size)
+      for (let i = 0; i < fatIndexes.length; i++) {
+        const fatIndex = fatIndexes[i]!
+        this.disk.setUsed(this.fatTable.getFatItem(fatIndex).offset, file.color)
+        this.fatTable.getFatItem(fatIndex).setState(fatIndexes[i + 1] || FatItemState.END_OF_CLUSTER, file.name, file.color)
+      }
+      this.disk.setUsed(this.fatTable.getFatItem(fatIndexes[0]).offset, file.color, file) // not related to fat (save file directory entry to first disk block)
+    })
+    log('Defragmentation done')
+  }
 
   createFile(fileName: string, size: number) {
     // if file size is only 1 cluster, then mark end of file

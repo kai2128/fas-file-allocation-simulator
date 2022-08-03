@@ -23,7 +23,7 @@ const computedSize = computed(() => {
 
 <template>
   <div ma>
-    <div flex="~ gap-x-2" items-end>
+    <div flex="~ gap-x-2 nowrap" items-end>
       <span font="semibold">File {{ actions.value.name }}</span>
       <span text="">Name: {{ actionsFile.name }}</span>
       <span text="gray/80">|</span>

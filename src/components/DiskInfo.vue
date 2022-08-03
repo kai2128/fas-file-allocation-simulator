@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { disk, fs } from '~/composables/state'
+import { animating } from '~/composables/animations'
+
 const diskInfo = $computed(() => disk.value.getDiskInfo())
 const diskGraph = $computed(() => disk.value.generateDiskGraph())
+const defragmentation = () => fs.value.fs_defragmentation()
 </script>
 
 <template>
@@ -44,6 +47,11 @@ const diskGraph = $computed(() => disk.value.generateDiskGraph())
           v-for="(block, i) in diskGraph" :key="i" class="h-full"
           :style="{ width: block.width, backgroundColor: block.color }"
         />
+      </div>
+      <div mt-3>
+        <button class="input-btn" :disabled="animating" @click="defragmentation()">
+          Perform Defragmentation
+        </button>
       </div>
     </div>
   </section>

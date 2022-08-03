@@ -79,8 +79,10 @@ const executeHandler = () => {
     <div class="grid grid-cols-2 gap-y-4 gap-x-5 mt-5 w-[clamp(19rem,22rem,35rem)] mx-a">
       <label class="flex items-center gap-x-2 col-span-2">
         <span>Name</span>
-        <input v-model="inputs.fileName" type="text" class="rounded px-1 py-1 w-full ml-1.5" border="2px cool-gray-200"
-          :disabled="animating">
+        <input
+          v-model="inputs.fileName" type="text" class="rounded px-1 py-1 w-full ml-1.5" border="2px cool-gray-200"
+          :disabled="animating"
+        >
       </label>
       <label class="flex items-center gap-x-2">
         <span>Action</span>
@@ -94,11 +96,13 @@ const executeHandler = () => {
       </label>
       <label class="flex items-center gap-x-2">
         <span>Size</span>
-        <input v-model="inputs.fileSize"
+        <input
+          v-model="inputs.fileSize"
           :disabled="animating || inputs.fileAction === 'read' || inputs.fileAction === 'delete'" type="text"
-          class="rounded px-1 py-1 w-full" border="2px cool-gray-200">
+          class="rounded px-1 py-1 w-full" border="2px cool-gray-200"
+        >
       </label>
-      <button v-if="!animating || aniInput.value.disabled" class="input-btn col-span-2" @click="executeHandler" data-tour="file-input-button">
+      <button v-if="!animating || aniInput.value.disabled" class="input-btn col-span-2" data-tour="file-input-button" @click="executeHandler">
         Execute
       </button>
       <button v-if="animating && !aniInput.value.disabled" class="input-btn" @click="toggleAniInput.skip()">
@@ -112,7 +116,4 @@ const executeHandler = () => {
 </template>
 
 <style scoped>
-.input-btn{
-  --at-apply: btn justify-self-center text-center
-}
 </style>

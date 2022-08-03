@@ -8,6 +8,7 @@ export interface FSApi {
   fs_read(fileName: string): void
   fs_delete(fileName: string): void
   fs_write(fileName: string, size: number): void
+  fs_defragmentation(): void
   fs_files: Array<FileReaded>
   clone: (disk: Disk) => FSApi
 }
@@ -26,23 +27,18 @@ export interface FileDetails {
 
 export interface FSActions {
   create: {
-    codes: Code[]
     steps: Step[]
   }
   delete: {
-    codes: Code[]
     steps: Step[]
   }
   append: {
-    codes: Code[]
     steps: Step[]
   }
   write: {
-    codes: Code[]
     steps: Step[]
   }
   read: {
-    codes: Code[]
     steps: Step[]
   }
 }

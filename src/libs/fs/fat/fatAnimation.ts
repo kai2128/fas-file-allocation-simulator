@@ -42,7 +42,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
     setState.reset()
   }
   function* getFirstFatItemAfterSearchingInDirectory(aniState: FatAnimationState) {
-    setMsg(`From directory entry, first cluster number: ${aniState.directoryEntry.firstClusterNumber}`)
+    setMsg(`From directory entry, first block number: ${aniState.directoryEntry.firstClusterNumber}`)
     aniState.fatItem = fs.fatTable.getFatItem(aniState.directoryEntry.firstClusterNumber!)
     yield { actions, disk, fs }
   }
@@ -55,7 +55,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
 
       if (fatItem.nextCluster === FatItemState.FREE_CLUSTER) {
         setState.fatFlash([i])
-        setMsg(`Free cluster found at ${i}`)
+        setMsg(`Free block found at ${i}`)
         aniState.fatItem = fatItem
         aniState.selectedFatIndex = i
         setState.blockSelected([aniState.fatItem.offset])
@@ -66,10 +66,10 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
   }
 
   function* allocateClusterAfterFoundFreeCluster(aniState: Omit<FatAnimationState, 'selectedFatItems'>) {
-    setMsg(`Allocate cluster for ${actions.file.name}`)
+    setMsg(`Allocate block for ${actions.file.name}`)
     yield { actions, disk, fs }
 
-    setMsg(`Write file data into cluster ${aniState.fatItem.offset}`)
+    setMsg(`Write file data into block ${aniState.fatItem.offset}`)
     setState.fileFlash([0])
     setState.blockSelected([aniState.fatItem.offset])
     yield { actions, disk, fs }
@@ -79,14 +79,14 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
     setState.fileFlash([])
     yield { actions, disk, fs }
 
-    actions.state.msg = `Set fat ${aniState.selectedFatIndex}'s next cluster as EOF`
+    actions.state.msg = `Set fat ${aniState.selectedFatIndex}'s next block as EOF`
     setState.fatSelected([aniState.selectedFatIndex])
     aniState.fatItem.setState(FatItemState.END_OF_CLUSTER, aniState.directoryEntry.name, aniState.directoryEntry.color)
     yield { actions, disk, fs }
   }
 
   function * updatePreviousFat(aniState: Omit<FatAnimationState, 'selectedFatItems'>) {
-    setMsg(`Update previous fat ${aniState.previousFatItem.index}'s next cluster current FAT number(${aniState.fatItem.offset})`)
+    setMsg(`Update previous fat ${aniState.previousFatItem.index}'s next block current FAT number(${aniState.fatItem.offset})`)
     setState.fatSelected([aniState.previousFatItem.index])
     aniState.previousFatItem.nextCluster = aniState.fatItem.index
     yield { actions, disk, fs }
@@ -129,7 +129,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       actions.state.stepIndex = 3
       yield * allocateClusterAfterFoundFreeCluster(createState)
 
-      actions.state.msg = 'Update first cluster number in directory entry'
+      actions.state.msg = 'Update first block number in directory entry'
       createState.directoryEntry.firstClusterNumber = createState.selectedFatIndex
       yield { actions, disk, fs }
 
@@ -173,7 +173,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
 
       actions.state.stepIndex = 2
       while (true) {
-        setMsg(`From cluster ${deleteState.fatItem.index}, next cluster: ${deleteState.fatItem.nextCluster}`)
+        setMsg(`From block ${deleteState.fatItem.index}, next block: ${deleteState.fatItem.nextCluster}`)
         setState.fatFlash([deleteState.fatItem.index])
         const nextFat = fs.fatTable.getFatItem(deleteState.fatItem.nextCluster!)
         deleteState.selectedFatItemsIndex.push(deleteState.fatItem.index)
@@ -182,7 +182,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
         yield { actions, disk, fs }
 
         if (nextFat.nextCluster === FatItemState.END_OF_CLUSTER) {
-          setMsg(`Reach end of cluster at ${deleteState.fatItem.offset}`)
+          setMsg(`Reach end of block at ${deleteState.fatItem.offset}`)
           setState.fatFlash([deleteState.fatItem.index])
           deleteState.selectedFatItemsIndex.push(deleteState.fatItem.index)
           setState.fatSelected(deleteState.selectedFatItemsIndex)
@@ -192,7 +192,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       }
 
       actions.state.stepIndex = 3
-      setMsg('Mark these as free cluster')
+      setMsg('Mark these as free block')
       setState.reset()
       setState.fatFlash(deleteState.selectedFatItemsIndex)
       yield { actions, disk, fs }
@@ -214,8 +214,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       yield { actions, disk, fs }
     },
     *read() {
-      const readState = {
-      } as FatAnimationState
+      const readState = {} as FatAnimationState
 
       // scan root dir for repeated file name
       actions.state.stepIndex = 0
@@ -230,7 +229,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
       setState.fatSelected(selectedFatItemsIndex)
       setState.blockSelected(selectedBlockIndex)
       while (true) {
-        setMsg(`From fat ${readState.fatItem.index} read data from cluster ${readState.fatItem.offset}`)
+        setMsg(`From fat ${readState.fatItem.index} read data from block ${readState.fatItem.offset}`)
         selectedFatItemsIndex.push(readState.fatItem.index)
         yield { actions, disk, fs }
         setState.blockFlash([readState.fatItem.offset])
@@ -262,7 +261,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
           selectedFatItemsIndex.push(readState.fatItem?.index)
           yield { actions, disk, fs }
 
-          setMsg(`From fat ${readState.fatItem.index} read data from last cluster ${readState.fatItem.offset}`)
+          setMsg(`From fat ${readState.fatItem.index} read data from last block ${readState.fatItem.offset}`)
           selectedFatItemsIndex.push(readState.fatItem?.index)
           yield { actions, disk, fs }
           setState.blockFlash([readState.fatItem?.offset])
