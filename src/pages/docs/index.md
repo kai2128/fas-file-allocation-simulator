@@ -30,15 +30,23 @@ For more precise information on each function of the app, app tour is provided b
 Create: Create a new file
 - demonstrate how the file is created in the file system
 
+<br>
+
 Delete: delete existing file
 - demonstrate how existing file locate and delete
 
-Read: 
+<br>
+
+Read: read existing file
 - demonstrate how a file is allocated in a file system.
+
+<br>
 
 Append: Append size to existing file
 - increase file size by the size of append.
 - ex: For action of appending 20 size to a file of 10 size, the file will become 30 size.
+
+<br>
 
 Write: Write size to existing file
 - overwrite the file with the size of write.
