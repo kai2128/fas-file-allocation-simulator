@@ -105,11 +105,11 @@ export class FatFs {
 
   checkSpace(size?: number) {
     if (this.fatTable.getNextFreeCluster() < 1)
-      throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
+      throw new FSError(ERRCODE.ESPACE, 'no enough free block')
 
     if (size) {
       if (this.fatTable.freeClusterCount() - size < 0)
-        throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
+        throw new FSError(ERRCODE.ESPACE, 'no enough free block')
     }
   }
 
@@ -139,7 +139,6 @@ export class FatFs {
           break
       }
     })
-    
     this.rootDirectory.files.forEach((file) => {
       const fatIndexes = this.fatTable.getFatIndexesForAllocation(file.size)
       for (let i = 0; i < fatIndexes.length; i++) {
