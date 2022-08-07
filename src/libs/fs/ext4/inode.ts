@@ -1,4 +1,5 @@
 import randomColor from 'randomcolor'
+import { Disk } from '~/libs/volume/disk'
 import type { Bitmap } from './bitmap'
 import { ExtentTree } from './extent'
 
@@ -19,6 +20,24 @@ export class Inode {
     this.dateCreated = Date.now()
     this.extentTree = new ExtentTree(size, blockBitmap)
     this.state = 'used'
+  }
+
+  setSize(size: number, mode = 'append') {
+    if (mode === 'append') {
+      this.size += size
+      this.extentTree.fileSize = this.size
+      return
+    }
+
+    this.size = size
+    this.extentTree.fileSize = this.size
+  }
+
+  setAllocatedBlockFree(bitmap: Bitmap[], disk: Disk) {
+    this.allocatedBlock.forEach((block) => {
+      bitmap[block].setFree()
+      disk.setFree(block)
+    })
   }
 
   get allocatedBlock() {

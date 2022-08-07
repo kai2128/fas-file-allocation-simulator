@@ -1,4 +1,4 @@
-import { filter, last } from 'lodash-es'
+import { cloneDeep, filter, last } from 'lodash-es'
 import type { FSApi, FileReaded } from './../types'
 import { Bitmap } from './bitmap'
 import { Directory } from './directory'
@@ -97,10 +97,7 @@ export class Ext4 implements FSApi {
     this.inodeBitmap[inode.index].setFree()
     this.inodeTable.inodes[inode.index].setFree()
 
-    inode.allocatedBlock.forEach((block) => {
-      this.blockBitmap[block].setFree()
-      this.disk.setFree(block)
-    })
+    inode.setAllocatedBlockFree(this.blockBitmap, this.disk)
   }
 
   readFile(fileName: string): Inode {
@@ -110,23 +107,24 @@ export class Ext4 implements FSApi {
   }
 
   writeFile(fileName: string, size: number): void {
-    this.checkSpace(size)
     this.checkExist(fileName)
-
     const inode = this.getInodeFromDirectory(fileName)
 
-    this.deleteFile(fileName)
+    if (size > inode.size) { // only check disk space if new size is larger than old size{
+      this.checkSpace(size - inode.size)
+    }
 
-    inode.size = size
-    inode.extentTree.allocateFreeBlockToExtent(inode.allocatedBlock[0])
+    this.deleteFile(fileName)
+    this.createFile(fileName, size)
   }
 
   appendFile(fileName: string, size: number): void {
     this.checkExist(fileName)
     this.checkSpace(size)
     const inode = this.getInodeFromDirectory(fileName)
-    inode.size += size
-    inode.extentTree.allocateFreeBlockToExtent(last(inode.allocatedBlock))
+    inode.setSize(size)
+    inode.extentTree.appendBlockToExtent(size, this.blockBitmap)
+    this.writeToDisk(inode)
   }
 
   static format(disk: Disk) {
@@ -136,29 +134,68 @@ export class Ext4 implements FSApi {
   }
 
   fs_create(fileName: string, size: number): void {
-    throw new Error('Method not implemented.')
+    this.createFile(fileName, size)
+    log(`File ${fileName} created with size ${size}.`)
   }
 
   fs_append(fileName: string, size: number): void {
-    throw new Error('Method not implemented.')
+    this.appendFile(fileName, size)
+    log(`File ${fileName} appended with size ${size}.`)
   }
 
   fs_read(fileName: string): void {
-    throw new Error('Method not implemented.')
+    this.readFile(fileName)
+    log(`File ${fileName} read.`)
   }
 
   fs_delete(fileName: string): void {
-    throw new Error('Method not implemented.')
+    this.deleteFile(fileName)
+    log(`File ${fileName} deleted.`)
   }
 
   fs_write(fileName: string, size: number): void {
-    throw new Error('Method not implemented.')
+    this.writeFile(fileName, size)
+    log(`File ${fileName} created with size ${size}.`)
   }
 
   fs_defragmentation(): void {
-    throw new Error('Method not implemented.')
+    this.rootDirectory.files.forEach((file) => {
+      const inode = this.getInodeFromDirectory(file.name)
+      inode.setAllocatedBlockFree(this.blockBitmap, this.disk)
+    })
+
+    this.rootDirectory.files.forEach((file) => {
+      const inode = this.getInodeFromDirectory(file.name)
+      inode.extentTree.allocateFreeBlockToExtent(this.blockBitmap)
+      this.writeToDisk(inode)
+    })
+    log('Defragmentation done.')
   }
 
-  fs_files: FileReaded[]
-  clone: (disk: Disk) => FSApi
+  get fs_files(): FileReaded[] {
+    return this.rootDirectory.files.map((v) => {
+      const inode = this.inodeTable.inodes[v.inode]
+      return {
+        data: {
+          name: inode.name,
+          size: inode.size,
+          dateCreated: inode.dateCreated,
+          inodeNumber: inode.index,
+          color: inode.color,
+          type: inode.type,
+        },
+      }
+    })
+  }
+
+  clone(disk: Disk): FSApi {
+    const cloneFs = new Ext4(disk)
+    cloneFs.inodeBitmap = cloneDeep(this.inodeBitmap)
+    cloneFs.blockBitmap = cloneDeep(this.blockBitmap)
+    cloneFs.inodeTable = cloneDeep(this.inodeTable)
+    cloneFs.rootDirectory = cloneDeep(this.rootDirectory)
+    cloneFs.disk = disk
+    cloneFs.name = this.name
+    return cloneFs
+  }
 }

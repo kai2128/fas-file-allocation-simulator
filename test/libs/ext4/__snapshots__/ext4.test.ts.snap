@@ -1,0 +1,914 @@
+// Vitest Snapshot v1
+
+exports[`ext4 test > allocating file without contiguously 1`] = `
+{
+  "color": "#f477a3",
+  "dateCreated": 1577836800000,
+  "inode": 1,
+  "name": "test.txt",
+  "size": 5,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > allocating file without contiguously 2`] = `
+{
+  "color": "#f28ab3",
+  "dateCreated": 1577836800000,
+  "inode": 2,
+  "name": "test2.txt",
+  "size": 1,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > allocating file without contiguously 3`] = `
+{
+  "color": "#f296a4",
+  "dateCreated": 1577836800000,
+  "inode": 3,
+  "name": "test3.txt",
+  "size": 2,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > allocating file without contiguously 4`] = `
+[
+  {
+    "offset": 1,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+            Extent {
+              "length": 1,
+              "start": 4,
+            },
+            Extent {
+              "length": 2,
+              "start": 7,
+            },
+          ],
+          "fileSize": 5,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 5,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 2,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+            Extent {
+              "length": 1,
+              "start": 4,
+            },
+            Extent {
+              "length": 2,
+              "start": 7,
+            },
+          ],
+          "fileSize": 5,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 5,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 3,
+    "state": {
+      "color": "#f28ab3",
+      "data": Inode {
+        "color": "#f28ab3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 1,
+              "start": 3,
+            },
+          ],
+          "fileSize": 1,
+        },
+        "index": 2,
+        "name": "test2.txt",
+        "size": 1,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 4,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+            Extent {
+              "length": 1,
+              "start": 4,
+            },
+            Extent {
+              "length": 2,
+              "start": 7,
+            },
+          ],
+          "fileSize": 5,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 5,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 5,
+    "state": {
+      "color": "#f296a4",
+      "data": Inode {
+        "color": "#f296a4",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 5,
+            },
+          ],
+          "fileSize": 2,
+        },
+        "index": 3,
+        "name": "test3.txt",
+        "size": 2,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 6,
+    "state": {
+      "color": "#f296a4",
+      "data": Inode {
+        "color": "#f296a4",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 5,
+            },
+          ],
+          "fileSize": 2,
+        },
+        "index": 3,
+        "name": "test3.txt",
+        "size": 2,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 7,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+            Extent {
+              "length": 1,
+              "start": 4,
+            },
+            Extent {
+              "length": 2,
+              "start": 7,
+            },
+          ],
+          "fileSize": 5,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 5,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 8,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+            Extent {
+              "length": 1,
+              "start": 4,
+            },
+            Extent {
+              "length": 2,
+              "start": 7,
+            },
+          ],
+          "fileSize": 5,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 5,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+]
+`;
+
+exports[`ext4 test > append file 1`] = `
+{
+  "color": "#f477a3",
+  "dateCreated": 1577836800000,
+  "inode": 1,
+  "name": "test.txt",
+  "size": 6,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > append file 2`] = `
+Directory {
+  "files": [
+    {
+      "inode": 1,
+      "name": "test.txt",
+    },
+  ],
+  "inode": 0,
+  "name": "/",
+}
+`;
+
+exports[`ext4 test > append file 3`] = `
+[
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+]
+`;
+
+exports[`ext4 test > append file 4`] = `
+{
+  "offset": 1,
+  "state": {
+    "color": "#f477a3",
+    "data": Inode {
+      "color": "#f477a3",
+      "dateCreated": 1577836800000,
+      "extentTree": ExtentTree {
+        "extents": [
+          Extent {
+            "length": 2,
+            "start": 1,
+          },
+          Extent {
+            "length": 4,
+            "start": 3,
+          },
+        ],
+        "fileSize": 6,
+      },
+      "index": 1,
+      "name": "test.txt",
+      "size": 6,
+      "state": "used",
+      "type": "file",
+    },
+    "free": false,
+    "reserved": false,
+    "used": true,
+  },
+}
+`;
+
+exports[`ext4 test > append file 5`] = `
+{
+  "offset": 6,
+  "state": {
+    "color": "#f477a3",
+    "data": Inode {
+      "color": "#f477a3",
+      "dateCreated": 1577836800000,
+      "extentTree": ExtentTree {
+        "extents": [
+          Extent {
+            "length": 2,
+            "start": 1,
+          },
+          Extent {
+            "length": 4,
+            "start": 3,
+          },
+        ],
+        "fileSize": 6,
+      },
+      "index": 1,
+      "name": "test.txt",
+      "size": 6,
+      "state": "used",
+      "type": "file",
+    },
+    "free": false,
+    "reserved": false,
+    "used": true,
+  },
+}
+`;
+
+exports[`ext4 test > append file 6`] = `
+{
+  "offset": 7,
+  "state": {
+    "color": "#f477a3",
+    "data": Inode {
+      "color": "#f477a3",
+      "dateCreated": 1577836800000,
+      "extentTree": ExtentTree {
+        "extents": [
+          Extent {
+            "length": 2,
+            "start": 1,
+          },
+          Extent {
+            "length": 4,
+            "start": 3,
+          },
+          Extent {
+            "length": 1,
+            "start": 7,
+          },
+        ],
+        "fileSize": 7,
+      },
+      "index": 1,
+      "name": "test.txt",
+      "size": 7,
+      "state": "used",
+      "type": "file",
+    },
+    "free": false,
+    "reserved": false,
+    "used": true,
+  },
+}
+`;
+
+exports[`ext4 test > create file 1`] = `
+{
+  "color": "#f477a3",
+  "dateCreated": 1577836800000,
+  "inode": 1,
+  "name": "test.txt",
+  "size": 2,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > create file 2`] = `
+Directory {
+  "files": [
+    {
+      "inode": 1,
+      "name": "test.txt",
+    },
+  ],
+  "inode": 0,
+  "name": "/",
+}
+`;
+
+exports[`ext4 test > create file 3`] = `
+[
+  {
+    "offset": 1,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+          ],
+          "fileSize": 2,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 2,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 2,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 2,
+              "start": 1,
+            },
+          ],
+          "fileSize": 2,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 2,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+]
+`;
+
+exports[`ext4 test > delete file 1`] = `
+{
+  "color": "#f477a3",
+  "dateCreated": 1577836800000,
+  "inode": 1,
+  "name": "test.txt",
+  "size": 2,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > delete file 2`] = `
+Directory {
+  "files": [],
+  "inode": 0,
+  "name": "/",
+}
+`;
+
+exports[`ext4 test > delete file 3`] = `
+[
+  {
+    "offset": 1,
+    "state": {
+      "color": "#ffffff",
+      "data": {},
+      "free": true,
+      "reserved": false,
+      "used": false,
+    },
+  },
+  {
+    "offset": 2,
+    "state": {
+      "color": "#ffffff",
+      "data": {},
+      "free": true,
+      "reserved": false,
+      "used": false,
+    },
+  },
+]
+`;
+
+exports[`ext4 test > format correctly 1`] = `
+InodeTable {
+  "inodes": [
+    Inode {
+      "color": "#fcb874",
+      "dateCreated": 1577836800000,
+      "extentTree": ExtentTree {
+        "extents": [
+          Extent {
+            "length": 1,
+            "start": 0,
+          },
+        ],
+        "fileSize": 1,
+      },
+      "index": 0,
+      "name": "/",
+      "size": 1,
+      "state": "used",
+      "type": "directory",
+    },
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+    ,
+  ],
+}
+`;
+
+exports[`ext4 test > format correctly 3`] = `
+[
+  Bitmap {
+    "index": 0,
+    "state": 1,
+  },
+  Bitmap {
+    "index": 1,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 2,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 3,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 4,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 5,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 6,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 7,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 8,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 9,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 10,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 11,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 12,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 13,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 14,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 15,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 16,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 17,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 18,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 19,
+    "state": 0,
+  },
+]
+`;
+
+exports[`ext4 test > format correctly 4`] = `
+[
+  Bitmap {
+    "index": 0,
+    "state": 1,
+  },
+  Bitmap {
+    "index": 1,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 2,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 3,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 4,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 5,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 6,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 7,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 8,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 9,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 10,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 11,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 12,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 13,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 14,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 15,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 16,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 17,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 18,
+    "state": 0,
+  },
+  Bitmap {
+    "index": 19,
+    "state": 0,
+  },
+]
+`;
+
+exports[`ext4 test > write file 1`] = `
+{
+  "color": "#f477a3",
+  "dateCreated": 1577836800000,
+  "inode": 1,
+  "name": "test.txt",
+  "size": 4,
+  "type": "file",
+}
+`;
+
+exports[`ext4 test > write file 2`] = `
+Directory {
+  "files": [
+    {
+      "inode": 1,
+      "name": "test.txt",
+    },
+  ],
+  "inode": 0,
+  "name": "/",
+}
+`;
+
+exports[`ext4 test > write file 3`] = `
+[
+  {
+    "offset": 1,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 4,
+              "start": 1,
+            },
+          ],
+          "fileSize": 4,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 4,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 2,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 4,
+              "start": 1,
+            },
+          ],
+          "fileSize": 4,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 4,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 3,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 4,
+              "start": 1,
+            },
+          ],
+          "fileSize": 4,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 4,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+  {
+    "offset": 4,
+    "state": {
+      "color": "#f477a3",
+      "data": Inode {
+        "color": "#f477a3",
+        "dateCreated": 1577836800000,
+        "extentTree": ExtentTree {
+          "extents": [
+            Extent {
+              "length": 4,
+              "start": 1,
+            },
+          ],
+          "fileSize": 4,
+        },
+        "index": 1,
+        "name": "test.txt",
+        "size": 4,
+        "state": "used",
+        "type": "file",
+      },
+      "free": false,
+      "reserved": false,
+      "used": true,
+    },
+  },
+]
+`;

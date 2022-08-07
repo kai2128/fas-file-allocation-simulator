@@ -23,6 +23,8 @@ export interface FileDetails {
   size: number
   type: 'file' | 'directory'
   dateCreated: Date | number
+  firstClusterNumber?: number
+  inodeNumber?: number
 }
 
 export interface FSActions {

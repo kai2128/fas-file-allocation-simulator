@@ -1,17 +1,22 @@
 import { describe, expect, test } from 'vitest'
 import { Bitmap, ExtentTree } from './../../../src/libs/fs/ext4'
 
-function extentSetup(fileSize = 5, allocatedBlock: number[] = []): ExtentTree {
+
+function setupBlocksBitmap(allocatedBlock: number[] = []): Bitmap[] {
   const blocksBitmap = new Array(10).fill({}).map((v, i) => {
     return new Bitmap(i)
   })
   allocatedBlock.forEach((block) => {
     blocksBitmap[block].setUsed()
   })
-  return new ExtentTree(fileSize, blocksBitmap)
+  return blocksBitmap
 }
 
-describe.only('extents test', () => {
+function extentSetup(fileSize = 5, allocatedBlock: number[] = []): ExtentTree {
+  return new ExtentTree(fileSize, setupBlocksBitmap(allocatedBlock))
+}
+
+describe('extents test', () => {
   test('full continuous block extents', () => {
     const extent = extentSetup()
     expect(extent.extents).toMatchInlineSnapshot(`
@@ -81,8 +86,9 @@ describe.only('extents test', () => {
     `)
   })
   test('allocate on middle', () => {
+    const bitmap = setupBlocksBitmap([0, 3, 4, 6, 8])
     const extent = extentSetup(5, [0, 3, 4, 6, 8])
-    extent.allocateFreeBlockToExtent(5)
+    extent.allocateFreeBlockToExtent(bitmap, 5)
     expect(extent.extents).toMatchInlineSnapshot(`
       [
         Extent {
