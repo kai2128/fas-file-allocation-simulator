@@ -1,5 +1,5 @@
 import { cloneDeep, find, remove } from 'lodash-es'
-import type { FSApi, FileReaded, FileDetails } from '../types'
+import type { FSApi, FileDetails, FileReaded } from '../types'
 import { DirectoryEntry } from './directoryEntry'
 import { FatTable } from './fatTable'
 import type { FSInfo, Fat32_BPB, FatFileReaded } from './types'
@@ -124,6 +124,12 @@ export class FatFs implements FSApi {
   checkExist(obj: any, name = 'file') {
     if (obj == null || obj === undefined)
       throw new FSError(ERRCODE.ENOENT, `${name} not found`)
+  }
+
+  checkFileExist(fileName: string) {
+    const file = this.searchFileInDirectory(fileName)
+    if (file == null || file === undefined)
+      throw new FSError(ERRCODE.ENOENT, `${fileName} not found`)
   }
 
   // #endregion

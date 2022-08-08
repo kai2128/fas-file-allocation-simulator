@@ -5,7 +5,7 @@ export const fatActions: FSActions = {
     steps: [
       {
         index: 0,
-        description: ' Check if directory entry with same name already exists then allocate empty directory entry',
+        description: 'Check if directory entry with same name already exists then allocate empty directory entry',
       },
       {
         index: 1,
@@ -48,12 +48,6 @@ export const fatActions: FSActions = {
         description: `
         - update previous FAT table value to current block number. Repeat until all blocks are allocated.
         `,
-      },
-    ],
-    codes: [
-      {
-        index: 0,
-        code: '-',
       },
     ],
   },
@@ -118,7 +112,6 @@ export const fatActions: FSActions = {
         `,
       },
     ],
-    codes: [],
   },
   append: {
     steps: [

@@ -27,7 +27,7 @@ watchEffect(() => {
     requestAnimationFrame(() => {
       document.getElementById(`fat-${flashFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
     })
-  } 
+  }
   requestAnimationFrame(() => {
     document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
@@ -35,7 +35,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <section class="area-[fat]" data-tour="fat-table">
+  <section class="area-[fs]" data-tour="fs-component">
     <h1 class="font-bold text-xl">
       File Allocation Table
     </h1>
@@ -59,9 +59,11 @@ watchEffect(() => {
               -
             </td>
           </tr>
-          <tr v-for="fatItem, idx of fatTable" v-else :id="`fat-${idx}`" :key="fatItem.offset"
+          <tr
+            v-for="fatItem, idx of fatTable" v-else :id="`fat-${idx}`" :key="fatItem.offset"
             hover="bg-blue-gray-200/50 cursor-default" border="b gray2" :class="{ ...renderStateClass(idx, 'fat') }"
-            relative>
+            relative
+          >
             <td text="gray5">
               {{ idx }}
             </td>

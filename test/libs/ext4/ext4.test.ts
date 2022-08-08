@@ -25,6 +25,7 @@ describe.only('ext4 test', () => {
     expect(ext4.inodeTable).toMatchSnapshot()
     expect(ext4.rootDirectory).toMatchInlineSnapshot(`
       Directory {
+        "color": "#fcb874",
         "files": [],
         "inode": 0,
         "name": "/",

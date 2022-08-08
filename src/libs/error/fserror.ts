@@ -47,7 +47,7 @@ export class FSError extends Error {
 
     switch (errorCode) {
       case ERRCODE.ENOENT:
-        return `ENOENT: no such file, ${msg}${pathFormatted}`
+        return `ENOENT: file does not exist, ${msg}${pathFormatted}`
       case ERRCODE.EBADF:
         return `EBADF: bad file descriptor, ${msg}${pathFormatted}`
       case ERRCODE.EINVAL:

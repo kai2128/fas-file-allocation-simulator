@@ -61,7 +61,7 @@ const executeHandler = () => {
   }
   catch (err) {
     notify(err.message, 'ERROR')
-    log(err.message)
+    log(err.message, 'ERROR')
   }
 }
 </script>

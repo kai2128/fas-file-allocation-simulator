@@ -1,5 +1,5 @@
 import { cloneDeep, filter, last } from 'lodash-es'
-import type { FSApi, FileReaded, FileDetails } from './../types'
+import type { FSApi, FileDetails, FileReaded } from './../types'
 import { Bitmap } from './bitmap'
 import { Directory } from './directory'
 import { Inode } from './inode'
@@ -64,7 +64,7 @@ export class Ext4 implements FSApi {
     }
   }
 
-  checkExist(fileName: string) {
+  checkFileExist(fileName: string) {
     if (!this.rootDirectory.hasFile(fileName))
       throw new FSError(ERRCODE.ENOENT, 'file not found')
   }
@@ -74,7 +74,13 @@ export class Ext4 implements FSApi {
       throw new FSError(ERRCODE.EEXIST, 'file already exists')
   }
 
-  fs_searchFileInDirectory(fileName: string): FileDetails {
+  fs_searchFileInDirectory(fileName: string): FileDetails | null {
+    try {
+      this.checkFileExist(fileName)
+    }
+    catch {
+      return null
+    }
     const inode = this.getInodeFromDirectory(fileName)
     return {
       color: inode.color,
@@ -86,7 +92,7 @@ export class Ext4 implements FSApi {
     }
   }
 
-  private getInodeFromDirectory(fileName: string) {
+  getInodeFromDirectory(fileName: string) {
     const inodeNumber = this.rootDirectory.getFile(fileName)!.inode
     return this.inodeTable.inodes[inodeNumber]
   }
@@ -102,7 +108,7 @@ export class Ext4 implements FSApi {
   }
 
   deleteFile(fileName: string): void {
-    this.checkExist(fileName)
+    this.checkFileExist(fileName)
 
     const inode = this.getInodeFromDirectory(fileName)
     this.rootDirectory.deleteFile(fileName)
@@ -113,13 +119,13 @@ export class Ext4 implements FSApi {
   }
 
   readFile(fileName: string): Inode {
-    this.checkExist(fileName)
+    this.checkFileExist(fileName)
     const inode = this.getInodeFromDirectory(fileName)
     return inode
   }
 
   writeFile(fileName: string, size: number): void {
-    this.checkExist(fileName)
+    this.checkFileExist(fileName)
     const inode = this.getInodeFromDirectory(fileName)
 
     if (size > inode.size) { // only check disk space if new size is larger than old size{
@@ -131,11 +137,12 @@ export class Ext4 implements FSApi {
   }
 
   appendFile(fileName: string, size: number): void {
-    this.checkExist(fileName)
+    this.checkFileExist(fileName)
     this.checkSpace(size)
     const inode = this.getInodeFromDirectory(fileName)
     inode.setSize(size)
     inode.extentTree.appendBlockToExtent(size, this.blockBitmap)
+    inode.extentTree.mergeExtents()
     this.writeToDisk(inode)
   }
 

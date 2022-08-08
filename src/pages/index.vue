@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import FatTable from '~/components/Fat/FatTable.vue'
+import Ext4Component from '~/components/Ext4/Ext4Component.vue'
+
+const fsComponent = $computed(() => {
+  switch (fs.value.name) {
+    case 'FAT':
+      return FatTable
+    case 'ext4':
+      return Ext4Component
+    default:
+      return FatTable
+  }
+})
 </script>
 
 <template>
@@ -7,7 +20,7 @@
     <div id="grid-container">
       <FileInput />
       <FileExplorer />
-      <FatTable />
+      <component :is="fsComponent" />
       <VolumeBlocks />
       <Actions />
       <Log />

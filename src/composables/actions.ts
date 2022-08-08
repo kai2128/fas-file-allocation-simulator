@@ -1,10 +1,9 @@
-import { cloneDeep, curry, includes } from 'lodash-es'
+import { curry, includes } from 'lodash-es'
 import randomColor from 'randomcolor'
 import type { Ref } from 'vue'
 
 export interface Actions {
   steps: Step[]
-  codes: Code[]
   name: 'read' | 'write' | 'delete' | 'append' | 'create' | string
   file: ActionFile
   interval: number
@@ -52,7 +51,6 @@ export interface ActionFile {
 
 const defaultActions: Actions = {
   steps: [],
-  codes: [],
   name: '',
   file: {
     name: '',

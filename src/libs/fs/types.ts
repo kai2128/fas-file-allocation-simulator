@@ -13,8 +13,8 @@ export interface FSApi {
   clone: (disk: Disk) => FSApi
   checkUniqueFileName: (fileName: string) => void
   checkSpace: (size: number) => void
-  checkExist: (fileName: string) => void
-  fs_searchFileInDirectory: (fileName: string) => FileDetails
+  checkFileExist: (fileName: string) => void
+  fs_searchFileInDirectory: (fileName: string) => FileDetails | undefined | null
 }
 
 export interface FileReaded {

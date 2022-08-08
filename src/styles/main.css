@@ -77,20 +77,16 @@ select {
 }
 
 .input-btn{
-  --at-apply: btn justify-self-center text-center
+  --at-apply: btn justify-self-center text-center disabled:bg-white/50 disabled:text-gray/40
 }
 
 #grid-container {
   display: grid;
   grid-gap: 2rem 1.75rem;
   grid-template-areas:
-    /* "input fat blocks blocks"
-    "files fat blocks blocks"
-    "action action log info"
-    "action action log info " */
-    "input fat fat blocks blocks blocks blocks"
-    "files fat fat blocks blocks blocks blocks"
-    "files fat fat blocks blocks blocks blocks"
+    "input fs fs blocks blocks blocks blocks"
+    "files fs fs blocks blocks blocks blocks"
+    "files fs fs blocks blocks blocks blocks"
     "action action log log log info info"
     "action action log log log info info";
 }

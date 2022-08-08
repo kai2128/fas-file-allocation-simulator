@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
     DiskInfo: typeof import('./components/DiskInfo.vue')['default']
     DocHeader: typeof import('./components/DocHeader.vue')['default']
     DocSideBar: typeof import('./components/DocSideBar.vue')['default']
+    Ext4Component: typeof import('./components/Ext4/Ext4Component.vue')['default']
     FatTable: typeof import('./components/Fat/FatTable.vue')['default']
     FileBlocks: typeof import('./components/FileBlocks.vue')['default']
     FileExplorer: typeof import('./components/FileExplorer.vue')['default']

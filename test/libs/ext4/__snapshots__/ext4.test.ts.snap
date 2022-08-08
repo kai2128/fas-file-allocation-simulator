@@ -307,6 +307,7 @@ exports[`ext4 test > append file 1`] = `
 
 exports[`ext4 test > append file 2`] = `
 Directory {
+  "color": "#fcb874",
   "files": [
     {
       "inode": 1,
@@ -340,12 +341,8 @@ exports[`ext4 test > append file 4`] = `
       "extentTree": ExtentTree {
         "extents": [
           Extent {
-            "length": 2,
+            "length": 6,
             "start": 1,
-          },
-          Extent {
-            "length": 4,
-            "start": 3,
           },
         ],
         "fileSize": 6,
@@ -374,12 +371,8 @@ exports[`ext4 test > append file 5`] = `
       "extentTree": ExtentTree {
         "extents": [
           Extent {
-            "length": 2,
+            "length": 6,
             "start": 1,
-          },
-          Extent {
-            "length": 4,
-            "start": 3,
           },
         ],
         "fileSize": 6,
@@ -408,16 +401,8 @@ exports[`ext4 test > append file 6`] = `
       "extentTree": ExtentTree {
         "extents": [
           Extent {
-            "length": 2,
+            "length": 7,
             "start": 1,
-          },
-          Extent {
-            "length": 4,
-            "start": 3,
-          },
-          Extent {
-            "length": 1,
-            "start": 7,
           },
         ],
         "fileSize": 7,
@@ -448,6 +433,7 @@ exports[`ext4 test > create file 1`] = `
 
 exports[`ext4 test > create file 2`] = `
 Directory {
+  "color": "#fcb874",
   "files": [
     {
       "inode": 1,
@@ -531,6 +517,7 @@ exports[`ext4 test > delete file 1`] = `
 
 exports[`ext4 test > delete file 2`] = `
 Directory {
+  "color": "#fcb874",
   "files": [],
   "inode": 0,
   "name": "/",
@@ -789,6 +776,7 @@ exports[`ext4 test > write file 1`] = `
 
 exports[`ext4 test > write file 2`] = `
 Directory {
+  "color": "#fcb874",
   "files": [
     {
       "inode": 1,

@@ -43,24 +43,28 @@ export class ExtentTree {
     if (continguousFreeBlocks.length > 0)
       this.extents.push(new Extent(continguousFreeBlocks[0], continguousFreeBlocks.length))
 
-    // check if extent is contiguous
-    // TODO: merge contiguous extent
-    // const newExtents = []
-    // for (let i = 0; i < this.extents.length; i++) {
-    //   const extent = this.extents[i]
-    //   const nextExtent = this.extents[i + 1]
-    //   if (extent.end == nextExtent.start){
-    //     newExtents.push(new Extent(extent.start, extent.length + this.extents[i + 1].length))
-    //     i++
-    //   }
-    //   }
-
-    // }
+    this.mergeExtents()
   }
 
-  // mergeExtents(extent: Extent){
-
-  // }
+  mergeExtents() {
+    const newExtents = []
+    const allocatedBlocks = this.getAllocatedBlocks()
+    const continguousFreeBlocks = []
+    // [0 1 2 5 6]
+    for (let i = 0; i < allocatedBlocks.length; i++) {
+      const block = allocatedBlocks[i]
+      const nextBlock = allocatedBlocks[i + 1] || null
+      if (nextBlock && block + 1 === nextBlock) {
+        continguousFreeBlocks.push(block)
+      }
+      else {
+        continguousFreeBlocks.push(block)
+        newExtents.push(new Extent(continguousFreeBlocks[0], continguousFreeBlocks.length))
+        continguousFreeBlocks.length = 0
+      }
+    }
+    this.extents = newExtents
+  }
 
   allocateFreeBlockToExtent(blocksBitmap: Bitmap[], startingBlock = 0) {
     this.extents = []
