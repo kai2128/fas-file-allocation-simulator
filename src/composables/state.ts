@@ -2,6 +2,7 @@ import type { Ref } from 'vue'
 import type { FSApi } from './../libs/fs/types'
 import { Disk } from '~/libs/volume/disk'
 import { FatFs } from '~/libs/fs/fat'
+import { Ext4 } from '~/libs/fs/ext4'
 
 export interface State {
   fs?: FSApi
@@ -40,6 +41,10 @@ export function createAndFormatDisk(size: number, fsType: string) {
   switch (fsType) {
     case 'FAT':
       fs.value = FatFs.format(disk.value)
+      break
+    case 'ext4':
+      fs.value = Ext4.format(disk.value)
+      break
   }
 }
 

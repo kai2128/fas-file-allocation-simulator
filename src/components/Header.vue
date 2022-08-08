@@ -35,9 +35,8 @@ const formatDisk = () => {
         <label flex="~ col">
           <span font-bold>File system</span>
           <select v-model="inputs.fileSystemSelected" rounded px-3 py-1 :disabled="animating">
-            <option>FAT</option>
-            <option disabled>ext4</option>
-            <option disabled>btrfs</option>
+            <option value="FAT">FAT</option>
+            <option value="ext4">ext4</option>
           </select>
         </label>
         <label flex="~ col">

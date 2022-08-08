@@ -1,5 +1,5 @@
 import { cloneDeep, filter, last } from 'lodash-es'
-import type { FSApi, FileReaded } from './../types'
+import type { FSApi, FileReaded, FileDetails } from './../types'
 import { Bitmap } from './bitmap'
 import { Directory } from './directory'
 import { Inode } from './inode'
@@ -53,7 +53,7 @@ export class Ext4 implements FSApi {
     return this.inodeBitmap.find(v => v.free)!
   }
 
-  private checkSpace(size?: number) {
+  checkSpace(size?: number) {
     const freeBlocks = filter(this.blockBitmap, bitmap => bitmap.free)
     if (freeBlocks.length < 1)
       throw new FSError(ERRCODE.ESPACE, 'no enough free block')
@@ -64,14 +64,26 @@ export class Ext4 implements FSApi {
     }
   }
 
-  private checkUnique(fileName: string) {
+  checkExist(fileName: string) {
+    if (!this.rootDirectory.hasFile(fileName))
+      throw new FSError(ERRCODE.ENOENT, 'file not found')
+  }
+
+  checkUniqueFileName(fileName: string) {
     if (this.rootDirectory.hasFile(fileName))
       throw new FSError(ERRCODE.EEXIST, 'file already exists')
   }
 
-  private checkExist(fileName: string) {
-    if (!this.rootDirectory.hasFile(fileName))
-      throw new FSError(ERRCODE.ENOENT, 'file not found')
+  fs_searchFileInDirectory(fileName: string): FileDetails {
+    const inode = this.getInodeFromDirectory(fileName)
+    return {
+      color: inode.color,
+      name: inode.name,
+      size: inode.size,
+      type: inode.type,
+      dateCreated: inode.dateCreated,
+      inodeNumber: inode.index,
+    }
   }
 
   private getInodeFromDirectory(fileName: string) {
@@ -81,7 +93,7 @@ export class Ext4 implements FSApi {
 
   createFile(fileName: string, size: number): void {
     this.checkSpace(size)
-    this.checkUnique(fileName)
+    this.checkUniqueFileName(fileName)
 
     const inode = new Inode(this.getFreeInodeIndex().index, fileName, size, this.blockBitmap)
     this.updateInodeTable(inode)
@@ -134,6 +146,7 @@ export class Ext4 implements FSApi {
   }
 
   fs_create(fileName: string, size: number): void {
+    this.checkUniqueFileName(fileName)
     this.createFile(fileName, size)
     log(`File ${fileName} created with size ${size}.`)
   }

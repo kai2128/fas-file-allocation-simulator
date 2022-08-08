@@ -1,5 +1,5 @@
 import type { Disk } from '../volume'
-import type { Code, Step } from '~/composables/actions'
+import type { Step } from '~/composables/actions'
 
 export interface FSApi {
   name: string
@@ -11,6 +11,10 @@ export interface FSApi {
   fs_defragmentation(): void
   fs_files: Array<FileReaded>
   clone: (disk: Disk) => FSApi
+  checkUniqueFileName: (fileName: string) => void
+  checkSpace: (size: number) => void
+  checkExist: (fileName: string) => void
+  fs_searchFileInDirectory: (fileName: string) => FileDetails
 }
 
 export interface FileReaded {

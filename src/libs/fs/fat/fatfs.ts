@@ -1,4 +1,5 @@
 import { cloneDeep, find, remove } from 'lodash-es'
+import type { FSApi, FileReaded, FileDetails } from '../types'
 import { DirectoryEntry } from './directoryEntry'
 import { FatTable } from './fatTable'
 import type { FSInfo, Fat32_BPB, FatFileReaded } from './types'
@@ -8,7 +9,7 @@ import type { Block, Disk } from '~/libs/volume'
 import { BlockColor } from '~/libs/volume'
 import { ERRCODE, ERRSTR, FSError } from '~/libs/error/fserror'
 
-export class FatFs {
+export class FatFs implements FSApi {
   name = 'FAT'
 
   bpb: Fat32_BPB = {
@@ -262,6 +263,18 @@ export class FatFs {
   searchFileInDirectory(fileName: string) {
     return this.rootDirectory.files.find(file => file.name === fileName)
   }
+
+  fs_searchFileInDirectory(fileName: string): FileDetails {
+    const file = this.searchFileInDirectory(fileName)!
+    return {
+      color: file.color,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      dateCreated: file.dateCreated,
+      firstClusterNumber: file.firstClusterNumber,
+    }
+  }
   // #endregion
 
   // #region props
@@ -308,7 +321,7 @@ export class FatFs {
     log(`File ${fileName} deleted.`)
   }
 
-  get fs_files() {
+  get fs_files(): FileReaded[] {
     return this.rootDirectory.files.map((v) => {
       return {
         data: {
@@ -317,6 +330,7 @@ export class FatFs {
           dateCreated: v.dateCreated,
           firstClusterNumber: v.firstClusterNumber,
           color: v.color,
+          type: v.type,
         },
       }
     })
