@@ -23,6 +23,9 @@ export interface ActionState {
   file?: UIState
   fat?: UIState
   directory?: UIState
+  inodeBitmap?: UIState
+  blockBitmap?: UIState
+  selectedInode: number
 }
 
 export interface UIState {
@@ -79,6 +82,15 @@ const defaultActions: Actions = {
       flash: [],
       selected: [],
     },
+    inodeBitmap: {
+      flash: [],
+      selected: [],
+    },
+    blockBitmap: {
+      flash: [],
+      selected: [],
+    },
+    selectedInode: 0,
   },
   actionsToBeExecuted: [],
 }
@@ -89,8 +101,8 @@ export const actionsFile = computed(() => {
   if (actions.value.file.name !== undefined && actions.value.file.name !== '')
     return actions.value.file
 })
-export function renderStateClass(itemIndex: number | string, type: 'fat' | 'block' | 'file' | 'dir') {
-  const { block, file, fat, directory } = actionsState.value
+export function renderStateClass(itemIndex: number | string, type: 'fat' | 'block' | 'file' | 'dir' | 'inodeBitmap' | 'blockBitmap') {
+  const { block, file, fat, directory, inodeBitmap, blockBitmap } = actionsState.value
   switch (type) {
     case 'fat':
       return {
@@ -111,6 +123,16 @@ export function renderStateClass(itemIndex: number | string, type: 'fat' | 'bloc
       return {
         'selected': includes(directory?.selected, itemIndex),
         'selected-flash': includes(directory?.flash, itemIndex),
+      }
+    case 'inodeBitmap':
+      return {
+        'selected': includes(inodeBitmap?.selected, itemIndex),
+        'selected-flash': includes(inodeBitmap?.flash, itemIndex),
+      }
+    case 'blockBitmap':
+      return {
+        'selected': includes(blockBitmap?.selected, itemIndex),
+        'selected-flash': includes(blockBitmap?.flash, itemIndex),
       }
   }
 }
@@ -141,7 +163,10 @@ export function resetActionsSelectedState(stateTypes?: Array<'block' | 'fat' | '
     actions.value.state.block!.flash = []
     actions.value.state.fat!.flash = []
     actions.value.state.file!.flash = []
+    actions.value.state.inodeBitmap!.selected = []
     actions.value.state.directory!.flash = []
+    actions.value.state.blockBitmap!.selected = []
+    actions.value.state.blockBitmap!.flash = []
   }
 
   stateTypes?.forEach((t) => {
@@ -153,7 +178,7 @@ export function setMsg(msg: string, type: 'info' | 'error' | 'warning' | 'done' 
   actions.value.state.msg = msg
 }
 
-function state(stateTypes: 'block' | 'fat' | 'directory' | 'file', selected: number[] | string[] | undefined, flash: number[] | string[] | undefined) {
+function state(stateTypes: 'block' | 'fat' | 'directory' | 'file' | 'inodeBitmap' | 'blockBitmap', selected: number[] | string[] | undefined, flash: number[] | string[] | undefined) {
   if (flash)
     actions.value.state[stateTypes]!.flash = flash
   if (selected)
@@ -188,6 +213,20 @@ export const setState = {
   },
   fileSelected(selected: number[] | string[]) {
     curriedState('file', selected, undefined)
+  },
+  inodeBitmap: curriedState('inodeBitmap'),
+  inodeBitmapFlash(flash: number[] | string[]) {
+    curriedState('inodeBitmap', undefined, flash)
+  },
+  inodeBitmapSelected(selected: number[] | string[]) {
+    curriedState('inodeBitmap', selected, undefined)
+  },
+  blockBitmap: curriedState('blockBitmap'),
+  blockBitmapFlash(flash: number[] | string[]) {
+    curriedState('blockBitmap', undefined, flash)
+  },
+  blockBitmapSelected(selected: number[] | string[]) {
+    curriedState('blockBitmap', selected, undefined)
   },
   reset: resetActionsSelectedState,
 }

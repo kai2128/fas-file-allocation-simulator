@@ -9,6 +9,14 @@ export class InodeTable {
   }
 
   getInode(inode: number) {
-    return this.inodes[inode]
+    if (inode > this.inodes.length)
+      return this.inodes[0]
+
+    let _inode = this.inodes[inode]
+    if (!_inode) {
+      _inode = new Inode(inode, '', 0, [], 'file')
+      this.inodes[inode] = _inode
+    }
+    return _inode
   }
 }

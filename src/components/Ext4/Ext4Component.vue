@@ -1,40 +1,60 @@
 <script setup lang="ts">
+import { last } from 'lodash-es'
 import type { Ext4 } from '~/libs/fs/ext4'
 
 const ext4fs = $computed(() => { return ((fs.value) as Ext4) })
 const selectedFile = $computed(() => {
-  try {
-    ext4fs.checkFileExist(inputs.value.fileName)
-    return ext4fs.getInodeFromDirectory(inputs.value.fileName)
-  }
-  catch {
-    return ext4fs.inodeTable.inodes[ext4fs.rootDirectory.inode]
+  return ext4fs.inodeTable.getInode(actions.value.state.selectedInode)
+})
+
+watchEffect(() => {
+  if (inputs.value.fileName) {
+    const fileName = inputs.value.fileName
+    try {
+      const inode = ext4fs.getInodeFromDirectory(fileName)
+      if (inode)
+        actions.value.state.selectedInode = ext4fs.getInodeFromDirectory(fileName).index
+    }
+    catch {}
   }
 })
 
-// watchEffect(() => {
-//   const selectedFatId = last(actionsState.value.fat?.selected)
-//   const flashFatId = last(actionsState.value.fat?.flash)
-//   if (flashFatId !== null) {
-//     requestAnimationFrame(() => {
-//       document.getElementById(`fat-${flashFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-//     })
-//   }
-//   requestAnimationFrame(() => {
-//     document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-//   })
-// })
+watchEffect(() => {
+  const selectedInodeId = last(actionsState.value.inodeBitmap?.selected)
+  const flashInodeId = last(actionsState.value.inodeBitmap?.flash)
+  if (flashInodeId !== null) {
+    requestAnimationFrame(() => {
+      document.getElementById(`inodeBitmap-${flashInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    })
+  }
+  requestAnimationFrame(() => {
+    document.getElementById(`inodeBitmap-${selectedInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
+})
+
+watchEffect(() => {
+  const selectedBlockBitmapId = last(actionsState.value.blockBitmap?.selected)
+  const flashBlockBitmapId = last(actionsState.value.blockBitmap?.flash)
+  if (flashBlockBitmapId !== null) {
+    requestAnimationFrame(() => {
+      document.getElementById(`blockBitmap-${flashBlockBitmapId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    })
+  }
+  requestAnimationFrame(() => {
+    document.getElementById(`blockBitmap-${selectedBlockBitmapId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
+})
 </script>
 
 <template>
-  <section class="area-[fs]" data-tour="fs-component">
-    <h1 class="font-bold text-xl">
-      Ext4
-    </h1>
+  <section
+    class="area-[fs] max-h-500px" data-tour="fs-component"
+    scrollbar="~ rounded hover:thumb-color-#55626f transition-color"
+  >
     <h4 underline font="semibold">
       Block Bitmap
     </h4>
-    <div scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-100px">
+    <div scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-80px">
       <table class="w-full">
         <thead>
           <tr class="text-gray-400">
@@ -47,17 +67,50 @@ const selectedFile = $computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="bitmap in ext4fs.blockBitmap" :key="bitmap.index" class="border-b border-b-gray-300">
+          <tr
+            v-for="bitmap in ext4fs.blockBitmap" :id="`blockBitmap-${bitmap.index}`" :key="bitmap.index"
+            class="border-b border-b-gray-300" :class="{ ...renderStateClass(bitmap.index, 'blockBitmap') }"
+          >
             <td>{{ bitmap.index }}</td>
             <td>{{ bitmap.free ? 'Free' : 'Used' }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <h4 underline font="semibold" mt="2">
+      Inode Bitmap
+    </h4>
+    <div scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-80px">
+      <table class="w-full">
+        <thead>
+          <tr class="text-gray-400">
+            <td text-sm>
+              Inode No.
+            </td>
+            <td>
+              Status
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="bitmap in ext4fs.inodeBitmap" :id="`inodeBitmap-${bitmap.index}`" :key="bitmap.index"
+            hover="bg-blue-gray-200/50 cursor-pointer" class="border-b border-b-gray-300"
+            :class="{ ...renderStateClass(bitmap.index, 'inodeBitmap') }"
+            @click="actions.value.state.selectedInode = bitmap.index"
+          >
+            <td>{{ bitmap.index }}</td>
+            <td>{{ bitmap.free ? 'Free' : 'Used' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <h4 mt="3" underline font="semibold">
       Inode
     </h4>
-    <div grid="~ cols-2">
+    <div grid="~ cols-2" class="">
       <div font="semibold">
         Inode No.
       </div>
@@ -65,10 +118,10 @@ const selectedFile = $computed(() => {
       <div font="semibold">
         Name
       </div>
-      <div>
+      <div flex="~ nowrap" class="items-center">
         {{ selectedFile.name === '/' ? 'Root Directory' : selectedFile.name }}
         <span
-          v-bg-color="selectedFile.color" border="2px gray-1"
+          v-if="selectedFile.name !== ''" v-bg-color="selectedFile.color" border="2px gray-1"
           class="inline-block mx-a h-0.75rem w-0.75rem rounded-full"
         />
       </div>
@@ -100,7 +153,12 @@ const selectedFile = $computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(extent, i) in selectedFile.extentTree.extents" :key="i" class="border-b border-b-gray-300">
+          <tr v-if="selectedFile.extentTree.extents.length <= 0">
+            <td colspan="4" class="text-center">
+              No extents being allocated
+            </td>
+          </tr>
+          <tr v-for="(extent, i) in selectedFile.extentTree.extents" v-else :key="i" class="border-b border-b-gray-300">
             <td>{{ i + 1 }}</td>
             <td>{{ extent.start }}</td>
             <td>{{ extent.length }}</td>
@@ -110,11 +168,13 @@ const selectedFile = $computed(() => {
       </table>
     </div>
 
-    <div mt="2" font="semibold">
-      Allocated Blocks
-    </div>
-    <div>
-      {{ selectedFile.allocatedBlock }}
+    <div v-if="selectedFile.allocatedBlock.length">
+      <div mt="2" font="semibold">
+        Allocated Blocks
+      </div>
+      <div>
+        {{ selectedFile.allocatedBlock }}
+      </div>
     </div>
   </section>
 </template>

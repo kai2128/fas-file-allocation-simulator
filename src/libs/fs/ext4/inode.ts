@@ -1,7 +1,7 @@
 import randomColor from 'randomcolor'
-import { Disk } from '~/libs/volume/disk'
 import type { Bitmap } from './bitmap'
 import { ExtentTree } from './extent'
+import type { Disk } from '~/libs/volume/disk'
 
 export class Inode {
   public color: string
@@ -56,7 +56,10 @@ export class Inode {
   }
 
   setFree() {
+    this.name = 'DELETED'
     this.state = 'free'
+    this.size = 0
+    this.extentTree = new ExtentTree(0, [])
   }
 
   // deleteDirEntry(file: string | Inode) {

@@ -10,6 +10,7 @@ import { setMsg, setStepsDesc } from '~/composables/actions'
 import type { Actions } from '~/composables/actions'
 
 import { FatItemState } from '~/libs/fs/fat'
+import type { AnimationGenerator } from '~/composables/animations'
 
 interface FatAnimationState {
   firstFreeCluster: FatItem
@@ -20,7 +21,7 @@ interface FatAnimationState {
   selectedFatItemsIndex: number[]
 }
 
-export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions) {
+export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): AnimationGenerator {
   function* searchFileInDirectory(aniState: FatAnimationState) {
     if (isEmpty(fs.rootDirectory.files)) {
       setMsg('Directory has no files, file not found')

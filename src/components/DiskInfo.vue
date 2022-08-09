@@ -49,7 +49,7 @@ const defragmentation = () => fs.value.fs_defragmentation()
         />
       </div>
       <div mt-3>
-        <button class="input-btn" :disabled="animating" @click="defragmentation()">
+        <button class="input-btn mx-a" :disabled="animating" @click="defragmentation()">
           Perform Defragmentation
         </button>
       </div>

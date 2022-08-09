@@ -509,8 +509,8 @@ exports[`ext4 test > delete file 1`] = `
   "color": "#f477a3",
   "dateCreated": 1577836800000,
   "inode": 1,
-  "name": "test.txt",
-  "size": 2,
+  "name": "DELETED",
+  "size": 0,
   "type": "file",
 }
 `;

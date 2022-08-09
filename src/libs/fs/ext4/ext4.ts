@@ -1,4 +1,4 @@
-import { cloneDeep, filter, last } from 'lodash-es'
+import { cloneDeep, filter } from 'lodash-es'
 import type { FSApi, FileDetails, FileReaded } from './../types'
 import { Bitmap } from './bitmap'
 import { Directory } from './directory'
@@ -49,7 +49,7 @@ export class Ext4 implements FSApi {
     })
   }
 
-  private getFreeInodeIndex() {
+  getFreeInodeIndex() {
     return this.inodeBitmap.find(v => v.free)!
   }
 
@@ -112,10 +112,9 @@ export class Ext4 implements FSApi {
 
     const inode = this.getInodeFromDirectory(fileName)
     this.rootDirectory.deleteFile(fileName)
-    this.inodeBitmap[inode.index].setFree()
-    this.inodeTable.inodes[inode.index].setFree()
-
     inode.setAllocatedBlockFree(this.blockBitmap, this.disk)
+    inode.setFree()
+    this.inodeBitmap[inode.index].setFree()
   }
 
   readFile(fileName: string): Inode {

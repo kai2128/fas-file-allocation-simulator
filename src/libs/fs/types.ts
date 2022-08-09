@@ -2,7 +2,7 @@ import type { Disk } from '../volume'
 import type { Step } from '~/composables/actions'
 
 export interface FSApi {
-  name: string
+  name: 'FAT' | 'ext4' | string
   fs_create(fileName: string, size: number): void
   fs_append(fileName: string, size: number): void
   fs_read(fileName: string): void
