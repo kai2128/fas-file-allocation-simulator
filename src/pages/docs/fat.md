@@ -1,14 +1,16 @@
 # FAT
-The FAT file system of FAS is implemented base on the FAT32 variation.
+The FAT file system of FAS is implemented base on the FAT32 variation. The smallest unit of FAT is cluster which is group of disk sectors but in FAS it is disk block. FAT able to store file discontiguously on the disk by utilize the file allocation table to map disk block with file.
+
+In FAS, the reserved disk block of FAT is to simulate the file system reserved sector which is used for boot data and file allocation table.
+
+## Disk layout
 
 FAT file system can be divided into three regions: the boot regions, the file allocation table regions and the data regions.
 
-<u>Boot region:</u>
+### <u>Boot region</u>
 - reserved to store file system information such as number of sectors per cluster, number of reserved sector.
 
-<br>
-
-<u>File allocation table region:</u>
+### <u>File allocation table region</u>
 - store the file allocation table.
 - the data structure that map data to each disk block.
 - each entry in the table represent a disk block and it record the current state of the disk block  
@@ -19,17 +21,11 @@ FAT file system can be divided into three regions: the boot regions, the file al
 - the first two entry in the table is reserved for file system usage.
 - the third entry store the root directory.
 
-<br>
-
-<u>Data region:</u>
+### <u>Data region</u>
 - directory entries and file data are stored at here.
 - directory entries is metadata of file which consist information such as first cluster number, file name, file size, date created
 
-<br>
-
-The smallest unit of FAT is cluster which is group of disk sectors but in FAS it is disk block.
-
-Feature not implemented:
+##### Feature not implemented:
   - File name (Long and Short)
   - Directory
 

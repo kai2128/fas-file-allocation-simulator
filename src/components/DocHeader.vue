@@ -15,7 +15,7 @@
     <RouterLink v-if="$route.name !== 'docs'" to="/docs">
       <div class=" icon-link flex items-center gap-x-2" title="Back to menu">
         <div i-mdi:arrow-u-left-top text="5" mr--2 />
-        <span text="7">..</span>
+        <span text="7">.. <span text="4">(Back to upper level)</span></span>
       </div>
     </RouterLink>
   </nav>
