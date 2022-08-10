@@ -1,3 +1,8 @@
+<script setup lang="ts">
+useHead({
+  title: 'FAS - FAT docs',
+})
+</script>
 # FAT
 The FAT file system of FAS is implemented base on the FAT32 variation. The smallest unit of FAT is cluster which is group of disk sectors but in FAS it is disk block. FAT able to store file discontiguously on the disk by utilize the file allocation table to map disk block with file.
 

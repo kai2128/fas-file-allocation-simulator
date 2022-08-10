@@ -1,13 +1,7 @@
 <script setup lang="ts">
+useRouter().push({ name: 'index' })
 </script>
 
 <template>
-  <div>
-   not-found
-  </div>
+  <div />
 </template>
-
-<route lang="yaml">
-meta:
-  layout: 404
-</route>

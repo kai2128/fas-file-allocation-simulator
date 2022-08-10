@@ -1,4 +1,9 @@
-# File Allocation Simulator FAS
+<script setup lang="ts">
+useHead({
+  title: 'FAS - Docs',
+})
+</script>
+# FAS - File Allocation Simulator
 
 #### Implemented File System
   - <router-link class="hover:text-blue-500" to="/docs/fat">FAT</router-link>

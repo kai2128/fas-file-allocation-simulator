@@ -1,3 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M27.562 26L17.17 8.928l2.366-3.888L17.828 4L16 7.005L14.17 4l-1.708 1.04l2.366 3.888L4.438 26H2v2h28v-2zM16 10.85L25.22 26H17v-8h-2v8H6.78z" fill="#222" />
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+  class="iconify iconify--icon-park-twotone" width="32" height="32" preserveAspectRatio="xMidYMid meet"
+  viewBox="0 0 48 48">
+  <mask id="IconifyId18288e41453837c7b87">
+    <g fill="none">
+      <path fill="#555" stroke="#fff" stroke-linejoin="round" stroke-width="4" d="M44 29H4v13h40V29Z"></path>
+      <path fill="#fff" d="M35.5 38a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5Z"></path>
+      <path stroke="#fff" stroke-linejoin="round" stroke-width="4" d="M4 29L9.038 4.999H39.02l4.98 24"></path>
+    </g>
+  </mask>
+  <path fill="#000000" d="M0 0h48v48H0z" mask="url(#IconifyId18288e41453837c7b87)"></path>
 </svg>

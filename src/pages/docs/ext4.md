@@ -1,3 +1,8 @@
+<script setup lang="ts">
+useHead({
+  title: 'FAS - ext4 docs',
+})
+</script>
 # ext4
 Ext4 store file using indexed allocation method by recording all blocks allocated to a file using extents. FAS only focus on the allocation of file and only implement the concept of bitmap, inode and extent. Other features of ext4 are not implemented.
 
