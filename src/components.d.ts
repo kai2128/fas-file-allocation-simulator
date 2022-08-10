@@ -18,9 +18,9 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./components/Header.vue')['default']
     Log: typeof import('./components/Log.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']
-    README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScreenAlert: typeof import('./components/ScreenAlert.vue')['default']
     VolumeBlocks: typeof import('./components/VolumeBlocks.vue')['default']
   }
 }

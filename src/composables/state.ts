@@ -21,8 +21,8 @@ export interface Inputs {
 }
 
 export const inputs = ref({
-  fileSystemSelected: 'ext4',
-  diskSize: 20,
+  fileSystemSelected: '',
+  diskSize: '',
 
   fileName: '',
   fileAction: '',

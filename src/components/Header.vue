@@ -14,6 +14,16 @@ const formatDisk = () => {
     return
   }
 
+  if (Number(inputs.value.diskSize) < 3) {
+    notify('Please specify larger disk size', 'ERROR')
+    return
+  }
+
+  if (inputs.value.fileSystemSelected === 'FAT' && Number(inputs.value.diskSize) < 8) {
+    notify('FAT file system requires a disk size of at least 8', 'ERROR')
+    return
+  }
+
   resetActionsState()
   setState.reset()
   createAndFormatDisk(Number(inputs.value.diskSize), inputs.value.fileSystemSelected)

@@ -1,10 +1,10 @@
-## Checklist
+# FAS - File Allocation Simulator
 
-When you use this template, try follow the checklist to update your info properly
+FAS is a learning tool in learning file system by allow the simulation of file action (create, delete, read, write, append) on a file system and visualize how the data are stored in the disk.
 
-- [X] Change the author name in `LICENSE`
-- [X] Change the title in `App.vue`
-- [X] Change the hostname in `vite.config.ts`
-- [X] Change the favicon in `public`
-- [X] Remove the `.github` folder which contains the funding info
-- [X] Clean up the READMEs and remove routes
+<a href="https://kai2128.github.io/fas-file-allocation-simulator/" target="_blank" rel="noopener">Visit here!
+</a>
+
+## Documentation
+<a href="https://kai2128.github.io/fas-file-allocation-simulator/docs" target="_blank" rel="noopener">FAS - docs
+</a>

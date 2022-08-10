@@ -18,5 +18,6 @@ useHead({
   <main font-inter>
     <RouterView />
     <Notification />
+    <ScreenAlert />
   </main>
 </template>
