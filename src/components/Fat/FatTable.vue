@@ -22,14 +22,15 @@ function fatClusterToString(nextCluster: number) {
 
 watchEffect(() => {
   const selectedFatId = last(actionsState.value.fat?.selected)
-  const flashFatId = last(actionsState.value.fat?.flash)
-  if (flashFatId !== null) {
-    requestAnimationFrame(() => {
-      document.getElementById(`fat-${flashFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    })
-  }
   requestAnimationFrame(() => {
     document.getElementById(`fat-${selectedFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
+})
+
+watchEffect(() => {
+  const flashFatId = last(actionsState.value.fat?.flash)
+  requestAnimationFrame(() => {
+    document.getElementById(`fat-${flashFatId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
 })
 </script>

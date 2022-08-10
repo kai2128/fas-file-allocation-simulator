@@ -15,6 +15,7 @@ const formatDisk = () => {
   }
 
   resetActionsState()
+  setState.reset()
   createAndFormatDisk(Number(inputs.value.diskSize), inputs.value.fileSystemSelected)
 }
 </script>
@@ -56,7 +57,7 @@ const formatDisk = () => {
         Guide
         <div i-mdi:help-circle inline-block align-text-top />
       </button>
-      <RouterLink to="/docs" class="h-full flex items-center justify-center px-10" bg="#d7e3f4">
+      <RouterLink to="/docs" class="h-full flex items-center justify-center px-10" bg="#d7e3f4" data-tour="docs">
         <div class="icon-link items-center text-5" flex="~" bg="#d7e3f4">
           Docs
         </div>

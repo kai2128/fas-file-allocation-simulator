@@ -80,6 +80,7 @@ export async function startAnimation() {
       continue
 
     if (aniInput.value.cancel) {
+      setState.reset()
       revertToInitialState()
       break
     }

@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { last } from 'lodash-es'
 import type { Ext4 } from '~/libs/fs/ext4'
+import { animating } from '~/composables/animations'
 
 const ext4fs = $computed(() => { return ((fs.value) as Ext4) })
 const selectedFile = $computed(() => {
   return ext4fs.inodeTable.getInode(actions.value.state.selectedInode)
 })
+
+function setSelectedInodeHandler(inode: number) {
+  if (!animating.value)
+    actions.value.state.selectedInode = inode
+}
 
 watchEffect(() => {
   if (inputs.value.fileName) {
@@ -34,11 +40,14 @@ onMounted(() => {
 })
 
 watchEffect(() => {
-  const selectedInodeId = last(actionsState.value.inodeBitmap?.selected)
   const flashInodeId = last(actionsState.value.inodeBitmap?.flash)
   requestAnimationFrame(() => {
     document.getElementById(`inodeBitmap-${flashInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
+})
+
+watchEffect(() => {
+  const selectedInodeId = last(actionsState.value.inodeBitmap?.selected)
   requestAnimationFrame(() => {
     document.getElementById(`inodeBitmap-${selectedInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
@@ -123,9 +132,9 @@ watchEffect(() => {
         <tbody>
           <tr
             v-for="bitmap in ext4fs.inodeBitmap" :id="`inodeBitmap-${bitmap.index}`" :key="bitmap.index"
-            hover="bg-blue-gray-200/50 cursor-pointer" class="border-b border-b-gray-300"
-            :class="{ ...renderStateClass(bitmap.index, 'inodeBitmap') }"
-            @click="actions.value.state.selectedInode = bitmap.index"
+            class="border-b border-b-gray-300"
+            :class="[{ ...renderStateClass(bitmap.index, 'inodeBitmap') }, { 'hover:bg-blue-gray-200/50 hover:cursor-pointer': !animating }]"
+            @click="setSelectedInodeHandler(bitmap.index)"
           >
             <td>{{ bitmap.index }}</td>
             <td>{{ bitmap.free ? 'Free' : 'Used' }}</td>

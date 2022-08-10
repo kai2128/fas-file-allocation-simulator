@@ -33,7 +33,7 @@ export function useTour() {
 
   tour.addStep({
     title: 'FAS guides',
-    text: 'This tour guide you will introduce you in using the application. (You can press left or right arrow to go to next or previous step)',
+    text: 'This tour guide you will introduce you in using the application. (You can press "<b>Left Arrow</b>" key or "<b>Right Arrow</b>" key to go to next or previous step. Pressing "<b>Esc</b>" key will exit the tour.)',
     buttons: [
       {
         text: 'Start',
@@ -166,8 +166,13 @@ export function useTour() {
 
   // #region File Allocation Table
   tour.addStep({
-    title: 'File Allocation Table',
-    text: 'Here is the file allocation table (data structure used by FAT file system in mapping file into clusters), hover on the value of each entry will show the file name of the entry, for more information please refer to the documentation.',
+    title: 'FS component',
+    text: `
+    This section shows the data structure used by the file system. <br>
+    For FAT, file allocation table is used (hover on the value of each entry will show the file name of the entry). <br>
+    For ext4, block bitmap, inode bitmap, inode and extents are used. <br>
+    For more information please refer to the documentation.
+    `,
     attachTo: {
       element: '[data-tour="fs-component"]',
       on: 'bottom',
@@ -200,8 +205,8 @@ export function useTour() {
 
   tour.addStep({
     text: `This button pause the current steps, you can either resume it or go to next step manually. <br>
-           After action is paused, you can go to next step by pressing the "Forward" button or pressing "N" key on the keyboard. <br>
-           To play or pause the action, press the icon button or "P" key on the keyboard.`,
+           After action is paused, you can go to next step by pressing the "Forward" button or pressing "<b>N</b>" key on the keyboard. <br>
+           To play or pause the action, press the icon button or "<b>P</b>" key on the keyboard.`,
     attachTo: {
       element: '[data-tour="action-pause-button"]',
       on: 'top',
@@ -259,7 +264,25 @@ export function useTour() {
     },
     buttons: defaultButtons(),
   })
+
+  tour.addStep({
+    text: 'Click on the "Perform defragmentation" button will defragment the disk by allocating each file contiguously.',
+    attachTo: {
+      element: '[data-tour="disk-info"] button:nth-child(1)',
+      on: 'top',
+    },
+    buttons: defaultButtons(),
+  })
   // #endregion
+
+  tour.addStep({
+    text: 'At last, for more information about the application and file system kindly visit the documentation page by pressing the "Docs" button.',
+    attachTo: {
+      element: '[data-tour="docs"]',
+      on: 'bottom',
+    },
+    buttons: defaultButtons(),
+  })
 
   return { tour, start: tour.start }
 }

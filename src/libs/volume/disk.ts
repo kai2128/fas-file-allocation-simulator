@@ -194,6 +194,13 @@ export class Disk {
       }
     }
 
+    if (count > 0) {
+      graph.push({
+        width: `${String(count * 100 / total)}%`,
+        color: diskUnits[total - 1].state.color,
+      })
+    }
+
     if (color === diskUnits[total - 1].state.color) {
       graph.push({
         width: count * 100 / total,
