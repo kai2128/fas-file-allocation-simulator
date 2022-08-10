@@ -6,6 +6,7 @@ import { Inode } from './inode'
 import { InodeTable } from './inodeTable'
 import type { Disk } from '~/libs/volume'
 import { ERRCODE, FSError } from '~/libs/error/fserror'
+import { ExtentTree } from './extent'
 
 export class Ext4 implements FSApi {
   name = 'ext4'
@@ -185,6 +186,7 @@ export class Ext4 implements FSApi {
 
     this.rootDirectory.files.forEach((file) => {
       const inode = this.getInodeFromDirectory(file.name)
+      inode.extentTree = new ExtentTree(inode.size, this.blockBitmap)
       inode.extentTree.allocateFreeBlockToExtent(this.blockBitmap)
       this.writeToDisk(inode)
     })

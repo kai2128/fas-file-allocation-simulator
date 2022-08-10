@@ -22,6 +22,13 @@ export class Inode {
     this.state = 'used'
   }
 
+  updateInode(name: string, size: number) {
+    this.color = randomColor({ luminosity: 'light', seed: name })
+    this.name = name
+    this.size = size
+    this.dateCreated = Date.now()
+  }
+
   setSize(size: number, mode = 'append') {
     if (mode === 'append') {
       this.size += size
@@ -57,6 +64,7 @@ export class Inode {
 
   setFree() {
     this.name = 'DELETED'
+    this.color = '#fff'
     this.state = 'free'
     this.size = 0
     this.extentTree = new ExtentTree(0, [])

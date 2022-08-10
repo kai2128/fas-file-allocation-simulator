@@ -18,13 +18,12 @@ const selectFileHandler = (fileName: string) => {
     <div bg="gray-200" class="px-1">
       <span v-if="fs?.name == null">-</span>
       <span v-else>Root directory
-        <span v-bg-color="fs.rootDirectory?.color" border="2px gray-1" class="inline-block mx-a h-0.75rem w-0.75rem rounded-full" />
+        <span v-bg-color="fs.rootDirectory?.color" border="2px gray-1"
+          class="inline-block mx-a h-0.75rem w-0.75rem rounded-full" />
       </span>
     </div>
-    <div
-      class="bg-gray-200 before:content-[Peusdocode] overflow-auto flex-1 max-h-15rem px-1"
-      scrollbar="~ rounded hover:thumb-color-#55626f transition-color" data-tour="files-table"
-    >
+    <div class="bg-gray-200 before:content-[Peusdocode] overflow-auto flex-1 max-h-15rem px-1"
+      scrollbar="~ rounded hover:thumb-color-#55626f transition-color" data-tour="files-table">
       <table w-full>
         <thead>
           <tr text="#828383" border-b="1px">
@@ -35,18 +34,16 @@ const selectFileHandler = (fileName: string) => {
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="file in files" :key="file.data.name" class="hover:bg-white/30 cursor-pointer"
-            :class="[{ ...renderStateClass(file.data.name, 'dir') }]" @click="selectFileHandler(file.data.name)"
-          >
-            <td>{{ file.data.name }}</td>
+          <tr v-for="file in files" :key="file.data.name" class="hover:bg-white/30 cursor-pointer"
+            :class="[{ ...renderStateClass(file.data.name, 'dir') }]" @click="selectFileHandler(file.data.name)">
+            <td>
+              <div class="max-w-130px text-ellipsis overflow-hidden whitespace-nowrap">{{ file.data.name }}</div>
+            </td>
             <td>{{ file.data.size }}</td>
             <td>{{ dayjs(file.data.dateCreated).format('hh:mm:ss A') }}</td>
             <td>
-              <div
-                border="2px gray-1" class="mx-a h-0.75rem w-0.75rem rounded-full"
-                :style="{ backgroundColor: file.data.color }"
-              />
+              <div border="2px gray-1" class="mx-a h-0.75rem w-0.75rem rounded-full"
+                :style="{ backgroundColor: file.data.color }" />
             </td>
           </tr>
         </tbody>

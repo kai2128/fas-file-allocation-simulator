@@ -57,6 +57,20 @@ watchEffect(() => {
     document.getElementById(`blockBitmap-${flashBlockBitmapId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
 })
+
+watchEffect(() => {
+  const selectedExtent = last(actionsState.value.extent?.selected)
+  requestAnimationFrame(() => {
+    document.getElementById(`extent-${selectedExtent}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
+})
+
+watchEffect(() => {
+  const flashExtent = last(actionsState.value.extent?.flash)
+  requestAnimationFrame(() => {
+    document.getElementById(`extent-${flashExtent}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
+})
 </script>
 
 <template>
@@ -132,7 +146,9 @@ watchEffect(() => {
         Name
       </div>
       <div flex="~ nowrap" class="items-center">
-        {{ selectedFile.name === '/' ? 'Root Directory' : selectedFile.name }}
+        <div class="max-w-100px text-ellipsis overflow-hidden whitespace-nowrap">
+          {{ selectedFile.name === '/' ? 'Root Directory' : selectedFile.name }}
+        </div>
         <span
           v-if="selectedFile.name !== ''" v-bg-color="selectedFile.color" border="2px gray-1"
           class="inline-block mx-a h-0.75rem w-0.75rem rounded-full"
@@ -171,7 +187,10 @@ watchEffect(() => {
               No extents being allocated
             </td>
           </tr>
-          <tr v-for="(extent, i) in selectedFile.extentTree.extents" v-else :key="i" class="border-b border-b-gray-300">
+          <tr
+            v-for="(extent, i) in selectedFile.extentTree.extents" v-else :id="`extent-${i}`" :key="i"
+            class="border-b border-b-gray-300"
+          >
             <td>{{ i + 1 }}</td>
             <td>{{ extent.start }}</td>
             <td>{{ extent.length }}</td>

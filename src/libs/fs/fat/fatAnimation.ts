@@ -211,6 +211,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
       yield { actions, disk, fs }
 
       setMsg(`File ${deleteState.directoryEntry.name} deleted`, 'done')
+      log(`File ${actions.file.name} deleted.`)
       yield { actions, disk, fs }
     },
     *read() {
@@ -280,6 +281,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
       setState.blockSelected(selectedBlockIndex)
       actions.state.stepIndex = 3
       setMsg(`All data has been readed for ${readState.directoryEntry.name}`)
+      log(`File ${actions.file.name} readed.`)
       yield { actions, disk, fs }
     },
     *append() {
@@ -333,7 +335,9 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
       }
 
       actions.state.stepIndex = 7
+      appendState.directoryEntry.size += Number(actions.file.size)
       setMsg(`Size ${actions.file.size} has been appended for ${appendState.directoryEntry.name}`)
+      log(`File ${actions.file.name} appended with size ${actions.file.size}.`)
       yield { actions, disk, fs }
     },
     *write() {
@@ -343,6 +347,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
       yield * this.delete()
       yield * this.create()
       setMsg('File write completed', 'done')
+      log(`File ${actions.file.name} written with size ${actions.file.size}.`)
     },
   }
 }
