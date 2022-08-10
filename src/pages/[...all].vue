@@ -5,3 +5,8 @@ useRouter().push({ name: 'index' })
 <template>
   <div />
 </template>
+
+<route lang="yaml">
+meta:
+  layout: home
+</route>
