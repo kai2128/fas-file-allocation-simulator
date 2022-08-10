@@ -36,12 +36,12 @@ export class Ext4 implements FSApi {
     return root
   }
 
-  private updateInodeTable(inode: Inode) {
+  updateInodeTable(inode: Inode) {
     this.inodeTable.inodes[inode.index] = inode
     this.inodeBitmap[inode.index].setUsed()
   }
 
-  private writeToDisk(inode: Inode): void {
+  writeToDisk(inode: Inode): void {
     const blocks = inode.extentTree.getAllocatedBlocks()
     blocks.forEach((block) => {
       this.blockBitmap[block].setUsed()
@@ -71,7 +71,7 @@ export class Ext4 implements FSApi {
 
   checkUniqueFileName(fileName: string) {
     if (this.rootDirectory.hasFile(fileName))
-      throw new FSError(ERRCODE.EEXIST, 'file already exists')
+      throw new FSError(ERRCODE.EEXIST, `${fileName} already exists`)
   }
 
   fs_searchFileInDirectory(fileName: string): FileDetails | null {
@@ -174,7 +174,7 @@ export class Ext4 implements FSApi {
 
   fs_write(fileName: string, size: number): void {
     this.writeFile(fileName, size)
-    log(`File ${fileName} created with size ${size}.`)
+    log(`File ${fileName} written with size ${size}.`)
   }
 
   fs_defragmentation(): void {

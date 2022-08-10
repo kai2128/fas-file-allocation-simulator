@@ -5,7 +5,6 @@ import { fatActions } from './fatAction'
 import type { FatFs } from './fatfs'
 import type { FatItem } from './fatItem'
 import type { Disk } from '~/libs/volume'
-import { BlockColor } from '~/libs/volume'
 import { setMsg, setStepsDesc } from '~/composables/actions'
 import type { Actions } from '~/composables/actions'
 

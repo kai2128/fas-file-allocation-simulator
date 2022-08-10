@@ -5,29 +5,32 @@ export const ext4Action: FSActions = {
     steps: [
       {
         index: 0,
-        description: 'Check if file with same name exists then allocate a free inode to the file',
+        description: 'Check if file with same name exists',
       },
       {
         index: 1,
-        description: `
-        Search for free blocks from block bitmaps.
-        `,
+        description: 'Allocate free inode for the file',
       },
       {
         index: 2,
         description: `
-        For each contigous free blocks found, create an extent for 
-        these block by recording its starting block and its length.
-        Repeat this until file size is reached.
+        Search for free blocks from block bitmaps for allocation.
         `,
       },
       {
         index: 3,
         description: `
-        Based on extents, set blocks as used in block bitmap.`,
+        For each contigous free blocks found, create an extent for 
+        these block by recording its starting block and its length.
+        `,
       },
       {
         index: 4,
+        description: `
+        Based on extents, set blocks as used in block bitmap.`,
+      },
+      {
+        index: 5,
         description: `
         Add file to root directory.`,
       },

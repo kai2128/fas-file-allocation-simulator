@@ -164,6 +164,7 @@ export function resetActionsSelectedState(stateTypes?: Array<'block' | 'fat' | '
     actions.value.state.fat!.flash = []
     actions.value.state.file!.flash = []
     actions.value.state.inodeBitmap!.selected = []
+    actions.value.state.inodeBitmap!.flash = []
     actions.value.state.directory!.flash = []
     actions.value.state.blockBitmap!.selected = []
     actions.value.state.blockBitmap!.flash = []

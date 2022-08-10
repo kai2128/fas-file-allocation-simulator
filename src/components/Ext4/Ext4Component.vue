@@ -19,14 +19,26 @@ watchEffect(() => {
   }
 })
 
+const extentsEl = ref<HTMLDivElement>()
+onMounted(() => {
+  watch(selectedFile?.extentTree?.extents, () => {
+    if (selectedFile?.extentTree?.extents.length > 0) {
+      requestAnimationFrame(() => {
+        extentsEl.value!.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+        extentsEl.value!.scrollTop = extentsEl.value!.scrollHeight
+      })
+    }
+  }, {
+    deep: true,
+  })
+})
+
 watchEffect(() => {
   const selectedInodeId = last(actionsState.value.inodeBitmap?.selected)
   const flashInodeId = last(actionsState.value.inodeBitmap?.flash)
-  if (flashInodeId !== null) {
-    requestAnimationFrame(() => {
-      document.getElementById(`inodeBitmap-${flashInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    })
-  }
+  requestAnimationFrame(() => {
+    document.getElementById(`inodeBitmap-${flashInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
   requestAnimationFrame(() => {
     document.getElementById(`inodeBitmap-${selectedInodeId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
@@ -34,14 +46,15 @@ watchEffect(() => {
 
 watchEffect(() => {
   const selectedBlockBitmapId = last(actionsState.value.blockBitmap?.selected)
-  const flashBlockBitmapId = last(actionsState.value.blockBitmap?.flash)
-  if (flashBlockBitmapId !== null) {
-    requestAnimationFrame(() => {
-      document.getElementById(`blockBitmap-${flashBlockBitmapId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    })
-  }
   requestAnimationFrame(() => {
     document.getElementById(`blockBitmap-${selectedBlockBitmapId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  })
+})
+
+watchEffect(() => {
+  const flashBlockBitmapId = last(actionsState.value.blockBitmap?.flash)
+  requestAnimationFrame(() => {
+    document.getElementById(`blockBitmap-${flashBlockBitmapId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   })
 })
 </script>
@@ -134,7 +147,7 @@ watchEffect(() => {
     <div font="semibold">
       Extents
     </div>
-    <div scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-100px">
+    <div ref="extentsEl" scrollbar="~ rounded hover:thumb-color-#55626f transition-color" class=" px3 mx1 max-h-100px">
       <table class="w-full">
         <thead>
           <tr class="text-gray-400">
