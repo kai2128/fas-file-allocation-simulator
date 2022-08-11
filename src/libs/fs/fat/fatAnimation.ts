@@ -343,8 +343,9 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
     *write() {
       setMsg('For writing file is just delete and create new file')
       yield { actions, disk, fs }
-      yield { actions, disk, fs }
+      setStepsDesc(fatActions.delete.steps)
       yield * this.delete()
+      setStepsDesc(fatActions.create.steps)
       yield * this.create()
       setMsg('File write completed', 'done')
       log(`File ${actions.file.name} written with size ${actions.file.size}.`)
