@@ -146,4 +146,4 @@ export const toggleAniInput = {
 }
 
 if (!isEmpty(stepsHistory.value))
-  parseImportSteps(stepsHistory.value)
+  parseImportSteps([...stepsHistory.value])
