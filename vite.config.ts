@@ -90,7 +90,6 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       registerType: 'autoUpdate',
-      base: '/fas-file-allocation-simulator/',
       includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
       manifest: {
         name: 'FAS File Allocation Simulator',
@@ -126,7 +125,6 @@ export default defineConfig({
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
-    entry: '/fas-file-allocation-simulator/',
     onFinished() { generateSitemap() },
   },
 
