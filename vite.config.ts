@@ -16,8 +16,6 @@ import Unocss from 'unocss/vite'
 const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
 
 export default defineConfig({
-  base: '/fas-file-allocation-simulator/',
-
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
@@ -97,17 +95,17 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: '/fas-file-allocation-simulator/pwa-192x192.png',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/fas-file-allocation-simulator/pwa-512x512.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/fas-file-allocation-simulator/pwa-512x512.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
