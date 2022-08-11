@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { random, sample } from 'lodash-es'
 import { animateState, animating, initAnimation } from '~/composables/animations'
-import { files, fs, inputs, toggleAniInput } from '~/composables/state'
+import { addFileActionStep, files, fs, inputs, toggleAniInput } from '~/composables/state'
 import { fatAnimation } from '~/libs/fs/fat/fatAnimation'
 
 const generateInputHandler = () => {
@@ -58,6 +58,7 @@ const executeHandler = () => {
       fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)
     else
       startAnimation()
+    addFileActionStep()
   }
   catch (err) {
     notify(err.message, 'ERROR')
@@ -73,7 +74,7 @@ const executeHandler = () => {
         Input
       </h1>
       <div flex="~ gap-x-5">
-        <button i-mdi:cogs class="icon-btn" title="Generate Random Input" @click="generateInputHandler" />
+        <button i-mdi:cogs class="icon-btn" title="Generate Random Input" :disabled="animating"   @click="generateInputHandler" />
       </div>
     </div>
     <div class="grid grid-cols-2 gap-y-4 gap-x-5 mt-5 w-[clamp(19rem,22rem,35rem)] mx-a">

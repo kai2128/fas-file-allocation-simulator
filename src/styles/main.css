@@ -34,11 +34,13 @@ body,
 }
 
 input:focus,
+textarea:focus,
 select:focus {
   --at-apply: outline outline-1 outline-#7f8497 
 }
 
 input,
+textarea,
 select {
   --at-apply: border-2 border-#cfd8db px0.25rem py0.75rem b-rd-0.75rem w-full
 }
