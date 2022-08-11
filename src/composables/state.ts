@@ -144,3 +144,6 @@ export const toggleAniInput = {
   disabled: (bool?: boolean) => { typeof bool == 'boolean' ? aniInput.value.disabled = bool : aniInput.value.disabled = !aniInput.value.disabled },
   manualMode: (bool?: boolean) => { typeof bool == 'boolean' ? aniInput.value.manualMode = bool : aniInput.value.manualMode = !aniInput.value.manualMode },
 }
+
+if (!isEmpty(stepsHistory.value))
+  parseImportSteps(stepsHistory.value)

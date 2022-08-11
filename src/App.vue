@@ -7,7 +7,7 @@ useHead({
     {
       rel: 'icon',
       type: 'image/svg+xml',
-      href: computed(() => preferredDark.value ? '/fas-file-allocation-simulator/favicon-dark.svg' : '/fas-file-allocation-simulator/favicon.svg'),
+      href: computed(() => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg'),
     },
   ],
 },
@@ -19,7 +19,7 @@ useHead({
     <RouterView />
     <Notification />
     <ScreenAlert />
-    <ExportModal></ExportModal>
-    <ImportModal></ImportModal>
+    <ExportModal />
+    <ImportModal />
   </main>
 </template>

@@ -10,7 +10,6 @@ declare module '@vue/runtime-core' {
     DocHeader: typeof import('./components/DocHeader.vue')['default']
     DocSideBar: typeof import('./components/DocSideBar.vue')['default']
     ExportModal: typeof import('./components/ExportModal.vue')['default']
-    'ExportModal copy': typeof import('./components/ExportModal copy.vue')['default']
     Ext4Component: typeof import('./components/Ext4/Ext4Component.vue')['default']
     FatTable: typeof import('./components/Fat/FatTable.vue')['default']
     FileBlocks: typeof import('./components/FileBlocks.vue')['default']
