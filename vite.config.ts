@@ -126,6 +126,7 @@ export default defineConfig({
   ssgOptions: {
     script: 'async',
     formatting: 'minify',
+    entry: '/fas-file-allocation-simulator/',
     onFinished() { generateSitemap() },
   },
 
