@@ -84,7 +84,7 @@ watchEffect(() => {
 
 <template>
   <section
-    class="area-[fs] max-h-500px" data-tour="fs-component"
+    class="area-[fs] max-h-500px min-w-300px" data-tour="fs-component"
     scrollbar="~ rounded hover:thumb-color-#55626f transition-color"
   >
     <h4 underline font="semibold">

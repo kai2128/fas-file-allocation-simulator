@@ -49,7 +49,7 @@ export function useTour() {
   // #region Disk options
   tour.addStep({
     title: 'Disk options',
-    text: 'This section is used to set the disk options (file system and disk size).',
+    text: 'This section is used to set the disk options (file system and disk size), import and export application data.',
     attachTo: {
       element: '[data-tour="disk-input"]',
       on: 'bottom',
@@ -79,6 +79,24 @@ export function useTour() {
     text: 'Click on the "Format" button to format the disk with the specified options.',
     attachTo: {
       element: '[data-tour="disk-input"]>:nth-child(3)',
+      on: 'bottom',
+    },
+    buttons: defaultButtons(),
+  })
+
+  tour.addStep({
+    text: 'This is the export button which allow you to export application data to clipboard or JSON file.',
+    attachTo: {
+      element: '[data-tour="disk-input"]>:nth-child(4)>:nth-child(1)',
+      on: 'bottom',
+    },
+    buttons: defaultButtons(),
+  })
+
+  tour.addStep({
+    text: 'This is the import button which allow you to import application data from clipboard or JSON file.',
+    attachTo: {
+      element: '[data-tour="disk-input"]>:nth-child(4)>:nth-child(2)',
       on: 'bottom',
     },
     buttons: defaultButtons(),

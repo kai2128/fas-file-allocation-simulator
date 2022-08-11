@@ -7,7 +7,7 @@ const { notiState } = useNotify()
 <template>
   <teleport to="#notification">
     <transition name="slide-fade" mode="out-in">
-      <div v-if="notiState.showNotification" class="fixed bottom-0 right-0 mb-25 md:mr-5 lg:mr-15">
+      <div v-if="notiState.showNotification" class="fixed bottom-0 right-0 mb-25 md:mr-5 lg:mr-15 z-600">
         <div v-if="notiState.showNotification" :class="notiState.styles" role="alert">
           <div flex items-center justify="between" px="8" py="3" shadow="md">
             <div>

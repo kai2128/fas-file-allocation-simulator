@@ -21,23 +21,6 @@ It simplify the concept of file system and does not represent the real implement
 
 FAS does not support creation of directory, all files created are considered as regular file and all files are stored in the root directory.
 
-## Guide
-
-To get started, 
-1. Select any file system and enter a disk size then click the "Format" button.
-2. The perform any action (create, delete, write, append and read) by specify a file name, size and select an action.
-3. Detailed steps and animation will be shown.
-4. Animation could be paused, resumed or disabled.
-
-For more precise information on each function of the app, app tour is provided by pressing the "Guide" button.
-
-#### Animation / Actions
-To pause the animation, user could click the Pause button (<span class="i-ic:round-pause-circle inline-block align-sub" />) or pressing "**P**" key on keyboard. 
-
-When animation is paused, user would need to go to next step manually by clicking the forward button (<span class="i-fluent:fast-forward-16-filled inline-block align-sub"/>) or pressing "**N**" key on keyboard. To resume the animation, user could click the Play button (<span class="i-ic:round-play-circle inline-block align-sub" />) or pressing "**P**" key on keyboard. 
-
-While an animation is not completed, all other action such as format disk, create file is disabled. User could choose to instantly complete current action by click on the "Skip" button. User could also choose to cancel current action and revert to previous state by click on the "Cancel" button.
-
 ## File action
 ### Create: create a new file
 - demonstrate how the file is created in the file system
@@ -56,9 +39,32 @@ While an animation is not completed, all other action such as format disk, creat
 - overwrite the file with the size of write.
 - Example: For action of writing 20 size to a file of 10 size, the file will become 20 size.
 
----
+## Guide
+
+To get started, 
+1. Select any file system and enter a disk size then click the "Format" button.
+2. The perform any action (create, delete, write, append and read) by specify a file name, size and select an action.
+3. Detailed steps and animation will be shown.
+4. Animation could be paused, resumed or disabled.
+
+For more precise information on each function of the app, app tour is provided by pressing the "Guide" button.
+
+#### Animation / Actions
+To pause the animation, user could click the Pause button (<span class="i-ic:round-pause-circle inline-block align-sub" />) or pressing "**P**" key on keyboard. 
+
+When animation is paused, user would need to go to next step manually by clicking the forward button (<span class="i-fluent:fast-forward-16-filled inline-block align-sub"/>) or pressing "**N**" key on keyboard. To resume the animation, user could click the Play button (<span class="i-ic:round-play-circle inline-block align-sub" />) or pressing "**P**" key on keyboard. 
+
+While an animation is not completed, all other action such as format disk, create file is disabled. User could choose to instantly complete current action by click on the "Skip" button. User could also choose to cancel current action and revert to previous state by click on the "Cancel" button.
+
+#### Import / Export
+
+The application state can be exported to a file or copied to clipboard by by clicking the export button (<span class="i-carbon:export icon-btn"></span>) to open the export interface.
+
+To import application state, user can click on the import button (<span class="i-carbon:export icon-btn scale-[-1]"></span>) to open the import interface and select to import by paste from clipboard or upload JSON file.
 
 
+
+----
 <route lang="yaml">
 meta:
   layout: docs

@@ -3,6 +3,8 @@ import { resetActionsState } from '~/composables/actions'
 import { createAndFormatDisk, inputs } from '~/composables/state'
 import { notify } from '~/composables/useNotify'
 import { animating } from '~/composables/animations'
+import { exportModal } from '~/composables/exportModal'
+import { importModal } from '~/composables/importModal'
 
 const formatDisk = () => {
   if (!inputs.value.fileSystemSelected) {
@@ -28,6 +30,8 @@ const formatDisk = () => {
   setState.reset()
   createAndFormatDisk(Number(inputs.value.diskSize), inputs.value.fileSystemSelected)
 }
+const { toggleImport } = importModal()
+const { toggleExport } = exportModal()
 </script>
 
 <template>
@@ -60,6 +64,10 @@ const formatDisk = () => {
             class="group-hover:text-cool-gray-700 mr-1 group-hover:disabled:text-cool-gray-300"
           /> Format
         </button>
+        <div flex="~" gap-x-2>
+          <button i-carbon:export :disabled="animating" title="Export" text="5" class="icon-btn" @click="toggleExport(true)" />
+          <button i-carbon:export :disabled="animating" title="Import" text="5" class="scale-[-1]  icon-btn" @click="toggleImport(true)" />
+        </div>
       </div>
     </section>
     <section class="flex">

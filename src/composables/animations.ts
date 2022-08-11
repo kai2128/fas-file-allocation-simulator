@@ -3,13 +3,13 @@ import type { Actions } from './actions'
 import { actions, resetActionsSelectedState } from './actions'
 
 import type { FSApi } from './../libs/fs/types'
-import { toggleAniInput } from './state'
+import { revertPreviousActionStep, toggleAniInput } from './state'
 import type { FatFs } from '~/libs/fs/fat'
 import { fatActions } from '~/libs/fs/fat'
 import { fatAnimation } from '~/libs/fs/fat/fatAnimation'
 import type { Disk } from '~/libs/volume/disk'
 import type { Ext4 } from '~/libs/fs/ext4'
-import { ext4Animation, ext4Action } from '~/libs/fs/ext4'
+import { ext4Action, ext4Animation } from '~/libs/fs/ext4'
 interface AppState {
   actions: Actions
   disk: Disk
@@ -82,6 +82,7 @@ export async function startAnimation() {
     if (aniInput.value.cancel) {
       setState.reset()
       revertToInitialState()
+      revertPreviousActionStep()
       break
     }
 
