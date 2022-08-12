@@ -23,4 +23,5 @@ if (localStorage.getItem('steps') == null || localStorage.getItem('steps')!.leng
     <ExportModal />
     <ImportModal />
   </main>
+  <ScreenAlert />
 </template>

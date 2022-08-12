@@ -38,14 +38,14 @@ const { toggleExport } = exportModal()
   <nav bg="#d7e3f4" flex="~" class="items-center justify-between" h="100px">
     <section p="x-5" flex="~" gap-x-4 items="center">
       <div ml="5" text="4xl #bbbbbb" i-icon-park-outline:hard-disk />
-      <div font="900" text="2xl">
+      <div font="900" text="xl">
         <div>
           <div>File Allocation</div>
           <div>Simulator</div>
         </div>
       </div>
     </section>
-    <section bg="#f3f7fc" class="px-16 h-full flex items-center ml-24vw">
+    <section bg="#f3f7fc" class="px-16 h-full flex items-center lt-lg:ml-24vw">
       <div class="flex items-center gap-x-5" data-tour="disk-input">
         <label flex="~ col">
           <span font-bold>File system</span>
