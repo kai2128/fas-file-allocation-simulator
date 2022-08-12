@@ -196,10 +196,7 @@ watchEffect(() => {
               No extents being allocated
             </td>
           </tr>
-          <tr
-            v-for="(extent, i) in selectedFile.extentTree.extents" v-else :id="`extent-${i}`" :key="i"
-            class="border-b border-b-gray-300"
-          >
+          <tr v-for="(extent, i) in selectedFile.extentTree.extents" v-else :id="`extent-${i}`" :key="i" :class="[{ ...renderStateClass(i, 'extent') }]" class="border-b border-b-gray-300">
             <td>{{ i + 1 }}</td>
             <td>{{ extent.start }}</td>
             <td>{{ extent.length }}</td>
@@ -208,7 +205,6 @@ watchEffect(() => {
         </tbody>
       </table>
     </div>
-
     <div v-if="selectedFile.allocatedBlock.length">
       <div mt="2" font="semibold">
         Allocated Blocks

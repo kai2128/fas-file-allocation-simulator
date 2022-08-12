@@ -20,10 +20,9 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       yield { actions, disk, fs }
       if (file.name === actions.file.name) {
         setState.directoryFlash([file.name])
-        setState.reset()
         setMsg(`File ${actions.file.name} found`)
         yield { actions, disk, fs }
-        setState.directorySelected([file.name])
+        setState.directoryFlash([])
         break
       }
     }
@@ -33,6 +32,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
     acState.selectedInode = fs.getInodeFromDirectory(actions.file.name)
     actions.state.selectedInode = acState.selectedInode.index
     setMsg(`From directory entry, inode number for file ${actions.file.name} = ${acState.selectedInode.index} `)
+    setState.inodeBitmapSelected([acState.selectedInode.index])
     yield { actions, disk, fs }
   }
 
@@ -40,11 +40,11 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
     const allocatedBlocks = [] as number[]
     for (const [i, extent] of acState.selectedInode.extentTree.extents.entries()) {
       setState.extentSelected([i])
-      setMsg(`From extent ${i}, allocated blocks: ${extent.start} - ${extent.end - 1}`)
+      setMsg(`From extent ${i + 1}, allocated blocks: ${extent.start} - ${extent.end - 1}`)
       yield { actions, disk, fs }
 
       allocatedBlocks.push(...range(extent.start, extent.end))
-      setState.blockSelected(allocatedBlocks)
+      setState.blockSelected([...allocatedBlocks])
       setMsg(`Total allocated blocks: ${allocatedBlocks}`)
       yield { actions, disk, fs }
     }
@@ -275,7 +275,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       setMsg('Update block bitmaps as used')
       setState.blockBitmapSelected(appendState.selectedBlockBitmaps.map(v => v.index))
       setState.blockSelected(appendState.selectedBlockBitmaps.map(v => v.index))
-      appendState.selectedInode.size += Number(actions.file.size)
+      appendState.selectedInode.size = Number(appendState.selectedInode.size) + Number(actions.file.size)
       actions.file.currentSize = 0
       yield { actions, disk, fs }
       fs.writeToDisk(appendState.selectedInode)
@@ -296,7 +296,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       yield * showAllocatedBlocks(readState)
       actions.file.currentSize = readState.selectedInode.size
 
-      log(`File ${actions.file.name} readed.`)
+      log(`File ${actions.file.name} read.`)
       setState.reset()
     },
     *write() {

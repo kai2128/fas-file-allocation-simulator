@@ -31,13 +31,13 @@ export class Inode {
 
   setSize(size: number, mode = 'append') {
     if (mode === 'append') {
-      this.size += size
-      this.extentTree.fileSize = this.size
+      this.size = Number(this.size) + Number(size)
+      this.extentTree.fileSize = Number(this.size)
       return
     }
 
-    this.size = size
-    this.extentTree.fileSize = this.size
+    this.size = Number(size)
+    this.extentTree.fileSize = Number(this.size)
   }
 
   setAllocatedBlockFree(bitmap: Bitmap[], disk: Disk) {

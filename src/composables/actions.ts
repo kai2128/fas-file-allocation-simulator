@@ -107,7 +107,7 @@ export const actionsFile = computed(() => {
     return actions.value.file
 })
 export function renderStateClass(itemIndex: number | string, type: 'fat' | 'block' | 'file' | 'dir' | 'inodeBitmap' | 'blockBitmap' | 'extent') {
-  const { block, file, fat, directory, inodeBitmap, blockBitmap } = actionsState.value
+  const { block, file, fat, directory, inodeBitmap, blockBitmap, extent } = actionsState.value
   switch (type) {
     case 'fat':
       return {
@@ -141,8 +141,8 @@ export function renderStateClass(itemIndex: number | string, type: 'fat' | 'bloc
       }
     case 'extent':
       return {
-        'selected': includes(blockBitmap?.selected, itemIndex),
-        'selected-flash': includes(blockBitmap?.flash, itemIndex),
+        'selected': includes(extent?.selected, itemIndex),
+        'selected-flash': includes(extent?.flash, itemIndex),
       }
   }
 }

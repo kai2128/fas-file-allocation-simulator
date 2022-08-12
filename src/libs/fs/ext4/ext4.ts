@@ -137,6 +137,7 @@ export class Ext4 implements FSApi {
   }
 
   appendFile(fileName: string, size: number): void {
+    size = Number(size)
     this.checkFileExist(fileName)
     this.checkSpace(size)
     const inode = this.getInodeFromDirectory(fileName)
