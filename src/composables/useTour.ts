@@ -158,6 +158,15 @@ export function useTour() {
     },
     buttons: defaultButtons(),
   })
+
+  tour.addStep({
+    text: 'Press on this button to open generation preferences which allows you to lock file, name or size during generation. For example, if file action is locked, file action will be the same on each generation.',
+    attachTo: {
+      element: '[data-tour="file-input"] button:nth-child(2)',
+      on: 'bottom',
+    },
+    buttons: defaultButtons(),
+  })
   // #endregion
 
   // #region Files

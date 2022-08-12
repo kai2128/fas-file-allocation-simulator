@@ -4,16 +4,26 @@ import { animateState, animating, initAnimation } from '~/composables/animations
 import { addFileActionStep, files, fs, inputs, toggleAniInput } from '~/composables/state'
 import { fatAnimation } from '~/libs/fs/fat/fatAnimation'
 
+const { togglePref, showPref, generatePreferences } = useGeneratePreference()
 const generateInputHandler = () => {
-  inputs.value.fileAction = sample(['fs_create', 'fs_delete', 'fs_append', 'fs_write', 'fs_read'])!
+  const { lockAction, lockSize, lockName } = generatePreferences.value
+
+  if (!lockAction)
+    inputs.value.fileAction = sample(['fs_create', 'fs_delete', 'fs_append', 'fs_write', 'fs_read'])!
+
   if (files.value.length <= 0)
     inputs.value.fileAction = 'fs_create'
-  inputs.value.fileAction === 'fs_create'
-    ? inputs.value.fileName = `${(Math.random() + 1).toString(36).substring(7)}.txt`
-    : inputs.value.fileName = sample(files.value)!.data.name
 
-  if (['fs_create', 'fs_append', 'fs_write'].includes(inputs.value.fileAction))
-    inputs.value.fileSize = Math.floor(1 + Math.random() * disk.value.getDiskInfo().free)
+  if (!lockName) {
+    inputs.value.fileAction === 'fs_create'
+      ? inputs.value.fileName = `${(Math.random() + 1).toString(36).substring(7)}.txt`
+      : inputs.value.fileName = sample(files.value)!.data.name
+  }
+
+  if (!lockSize) {
+    if (['fs_create', 'fs_append', 'fs_write'].includes(inputs.value.fileAction))
+      inputs.value.fileSize = Math.floor(1 + Math.random() * disk.value.getDiskInfo().free)
+  }
 }
 
 const executeHandler = () => {
@@ -73,8 +83,13 @@ const executeHandler = () => {
       <h1 class="font-bold text-2xl">
         Input
       </h1>
-      <div flex="~ gap-x-5">
-        <button i-mdi:cogs class="icon-btn" title="Generate Random Input" :disabled="animating"   @click="generateInputHandler" />
+      <div flex="~">
+        <button
+          i-mdi:cogs class="icon-btn" title="Generate Random Input" :disabled="animating"
+          @click="generateInputHandler"
+        />
+        <button title="Show generation preferences" class="icon-btn text-4 relative bottom-1" :class="{ 'i-fluent:caret-down-24-filled': !showPref, 'i-fluent:caret-up-24-filled': showPref }" @click="togglePref()" />
+        <GenerationPreference />
       </div>
     </div>
     <div class="grid grid-cols-2 gap-y-4 gap-x-5 mt-5 w-[clamp(19rem,22rem,35rem)] mx-a">
@@ -103,7 +118,10 @@ const executeHandler = () => {
           class="rounded px-1 py-1 w-full" border="2px cool-gray-200"
         >
       </label>
-      <button v-if="!animating || aniInput.value.disabled" class="input-btn col-span-2" data-tour="file-input-button" @click="executeHandler">
+      <button
+        v-if="!animating || aniInput.value.disabled" class="input-btn col-span-2" data-tour="file-input-button"
+        @click="executeHandler"
+      >
         Execute
       </button>
       <button v-if="animating && !aniInput.value.disabled" class="input-btn" @click="toggleAniInput.skip()">
