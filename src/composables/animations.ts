@@ -53,7 +53,7 @@ export function initInitialState() {
   const clonedDisk = disk.value.clone()
   initialState = {
     actions: cloneDeep(actions.value),
-    disk: clonedDisk,
+    disk: disk.value.clone(),
     fs: fs.value.clone(clonedDisk),
   }
   return initialState
