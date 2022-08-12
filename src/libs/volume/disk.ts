@@ -56,6 +56,7 @@ export class Disk {
   total_size: number
 
   constructor(total_size: number, size_per_unit = 1) {
+    total_size = Number(total_size)
     this.size_per_block = size_per_unit
     this.total_size = total_size
     this.total_units = total_size / size_per_unit

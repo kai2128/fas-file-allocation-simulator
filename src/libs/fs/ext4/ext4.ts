@@ -99,6 +99,7 @@ export class Ext4 implements FSApi {
   }
 
   createFile(fileName: string, size: number): void {
+    size = Number(size)
     this.checkSpace(size)
     this.checkUniqueFileName(fileName)
 
@@ -125,6 +126,7 @@ export class Ext4 implements FSApi {
   }
 
   writeFile(fileName: string, size: number): void {
+    size = Number(size)
     this.checkFileExist(fileName)
     const inode = this.getInodeFromDirectory(fileName)
 

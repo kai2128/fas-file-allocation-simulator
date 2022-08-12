@@ -60,7 +60,7 @@ While an animation is not completed, all other action such as format disk, creat
 
 The application state can be exported to a file or copied to clipboard by by clicking the export button (<span class="i-carbon:export icon-btn"></span>) to open the export interface.
 
-To import application state, user can click on the import button (<span class="i-carbon:export icon-btn scale-[-1]"></span>) to open the import interface and select to import by paste from clipboard or upload JSON file.
+To import application state, user can click on the import button (<span class="i-mdi:database-import icon-btn"></span>) to open the import interface and select to import by paste from clipboard or upload JSON file.
 
 
 

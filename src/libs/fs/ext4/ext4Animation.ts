@@ -275,7 +275,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       setMsg('Update block bitmaps as used')
       setState.blockBitmapSelected(appendState.selectedBlockBitmaps.map(v => v.index))
       setState.blockSelected(appendState.selectedBlockBitmaps.map(v => v.index))
-      appendState.selectedInode.size = Number(appendState.selectedInode.size) + Number(actions.file.size)
+      appendState.selectedInode.size += Number(actions.file.size)
       actions.file.currentSize = 0
       yield { actions, disk, fs }
       fs.writeToDisk(appendState.selectedInode)

@@ -66,7 +66,7 @@ const { toggleExport } = exportModal()
         </button>
         <div flex="~" gap-x-2>
           <button i-carbon:export :disabled="animating" title="Export" text="5" class="icon-btn" @click="toggleExport(true)" />
-          <button i-carbon:export :disabled="animating" title="Import" text="5" class="scale-[-1]  icon-btn" @click="toggleImport(true)" />
+          <button i-mdi:database-import :disabled="animating" title="Import" text="5" class="icon-btn" @click="toggleImport(true)" />
         </div>
       </div>
     </section>

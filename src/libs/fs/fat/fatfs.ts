@@ -159,6 +159,7 @@ export class FatFs implements FSApi {
   }
 
   createFile(fileName: string, size: number) {
+    size = Number(size)
     // if file size is only 1 cluster, then mark end of file
     this.checkSpace(size)
     this.checkUniqueFileName(fileName)
@@ -231,6 +232,7 @@ export class FatFs implements FSApi {
   }
 
   appendFile(fileName: string, size: number) {
+    size = Number(size)
     this.checkSpace(size)
     const fatItemIndexes = this.fatTable.getFatIndexesForAllocation(size)
     this.checkExist(fatItemIndexes, 'cluster not enough')
