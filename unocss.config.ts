@@ -13,8 +13,8 @@ import { presetScrollbar } from 'unocss-preset-scrollbar'
 export default defineConfig({
   shortcuts: [
     ['btn', 'flex items-center px-2 py-1 rounded bg-#f0f1f4 outline-black text-black cursor-pointer outline-300 hover:bg-gray-300 disabled:cursor-default disabled:bg-gray-300'],
-    ['icon-btn', 'text-2xl text-gray hover:text-cool-gray-700 inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 disabled:text-cool-gray-300 disabled:hover:text-cool-gray-300 disabled:hover:cursor-default'],
-    ['icon-link', 'text-2xl text-cool-gray-600 hover:text-blue-500 hover:underline inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 disabled:text-cool-gray-300 disabled:hover:text-cool-gray-300 outline-none'],
+    ['icon-btn', 'text-2xl text-cool-gray-800/60 hover:text-cool-gray-700 inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 disabled:text-cool-gray-300 disabled:hover:text-cool-gray-300 disabled:hover:cursor-default'],
+    ['icon-link', 'text-2xl text-cool-gray-800 hover:text-blue-500 hover:underline inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 disabled:text-cool-gray-300 disabled:hover:text-cool-gray-300 outline-none'],
   ],
   presets: [
     presetUno(),
