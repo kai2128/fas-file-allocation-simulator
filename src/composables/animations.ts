@@ -75,6 +75,9 @@ export function generateAnimationState(callBack: () => void, toResetState = true
 
 export async function startAnimation() {
   toggleAnimating(true)
+  watchOnce(() => [aniInput.value.cancel, aniInput.value.skip], () => {
+    nextStep()
+  })
   while (!animationStates.next().done) {
     if (aniInput.value.skip)
       continue
@@ -95,12 +98,10 @@ export async function startAnimation() {
   toggleAnimating(false)
   resetAniInputState()
 }
+
 export function nextStep() {
   toggleNextStep(true)
 }
-watch(() => aniInput.value.manualMode, () => {
-  nextStep()
-})
 
 function resetAniInputState() {
   toggleAniInput.skip(false)
@@ -169,3 +170,6 @@ export function initAnimation() {
   }
 }
 
+watch(() => aniInput.value.manualMode, () => {
+  nextStep()
+})
