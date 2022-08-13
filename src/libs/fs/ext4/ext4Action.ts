@@ -125,7 +125,7 @@ export const ext4Action: FSActions = {
       {
         index: 1,
         description: `
-        From the directory entry found, retrieve the inode number. From inode number, retrieve inode data.
+        From the directory entry found, retrieve the inode number. From inode number, retrieve inode data and allocated blocks.
         `,
       },
       {

@@ -71,6 +71,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
           return
         }
       }
+      setMsg(`File ${actions.file.name} can be created.`)
       setState.reset()
 
       actions.state.stepIndex = 1
@@ -202,7 +203,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       yield * showAllocatedBlocks(appendState)
 
       actions.state.stepIndex = 3
-      const lastBlock = last(appendState.selectedInode.allocatedBlock)!
+      const lastBlock = last(appendState.selectedInode.allocatedBlock)! + 1
       setState.blockSelected([lastBlock])
       yield { actions, disk, fs }
 
@@ -268,6 +269,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
 
       actions.state.stepIndex = 5
       setState.reset()
+      setMsg('Merge continuous extents into one')
       appendState.selectedInode.extentTree.mergeExtents()
       yield { actions, disk, fs }
 
@@ -275,7 +277,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       setMsg('Update block bitmaps as used')
       setState.blockBitmapSelected(appendState.selectedBlockBitmaps.map(v => v.index))
       setState.blockSelected(appendState.selectedBlockBitmaps.map(v => v.index))
-      appendState.selectedInode.size += Number(actions.file.size)
+      appendState.selectedInode.size = Number(appendState.selectedInode.size) + Number(actions.file.size)
       actions.file.currentSize = 0
       yield { actions, disk, fs }
       fs.writeToDisk(appendState.selectedInode)
@@ -283,6 +285,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
 
       log(`File ${actions.file.name} appended with size ${actions.file.size}.`)
       yield { actions, disk, fs }
+      setState.reset()
     },
     *read() {
       const readState = {} as GeneratorState
@@ -310,14 +313,15 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
       actions.state.stepIndex = 2
       yield * showAllocatedBlocks(writeState)
       const firstAllocatedBlock = writeState.selectedInode.allocatedBlock[0]
+      setMsg('Set allocated blocks as free')
       writeState.selectedInode.setAllocatedBlockFree(fs.blockBitmap, fs.disk)
       yield { actions, disk, fs }
 
-      actions.state.stepIndex = 3
-      setState.blockSelected([firstAllocatedBlock])
+      setState.reset()
+      setState.blockBitmapSelected([firstAllocatedBlock])
       yield { actions, disk, fs }
 
-      actions.state.stepIndex = 4
+      actions.state.stepIndex = 3
       writeState.selectedBlockBitmaps = []
       writeState.selectedInode.extentTree.extents = []
       const contiguousBlocks = [] as number[]
@@ -378,12 +382,13 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
         yield { actions, disk, fs }
       }
 
-      actions.state.stepIndex = 5
+      actions.state.stepIndex = 4
       setState.reset()
+      setMsg('Merge continuous extents into one')
       writeState.selectedInode.extentTree.mergeExtents()
       yield { actions, disk, fs }
 
-      actions.state.stepIndex = 6
+      actions.state.stepIndex = 5
       setMsg('Update block bitmaps as used')
       setState.blockBitmapSelected(writeState.selectedBlockBitmaps.map(v => v.index))
       setState.blockSelected(writeState.selectedBlockBitmaps.map(v => v.index))
