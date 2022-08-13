@@ -5,6 +5,7 @@ import App from './App.vue'
 import generatedRoutes from '~pages'
 
 import '@unocss/reset/tailwind.css'
+import 'github-markdown-css/github-markdown-light.css'
 import 'shepherd.js/dist/css/shepherd.css'
 import './styles/main.css'
 import 'uno.css'

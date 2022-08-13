@@ -7,13 +7,15 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Markdown from 'vite-plugin-md'
+import markdownItToc from 'markdown-it-table-of-contents'
+import markdownItAnchor from 'markdown-it-anchor'
 import { VitePWA } from 'vite-plugin-pwa'
 import Inspect from 'vite-plugin-inspect'
 import Prism from 'markdown-it-prism'
 import LinkAttributes from 'markdown-it-link-attributes'
 import Unocss from 'unocss/vite'
 
-const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
+const markdownWrapperClasses = 'markdown-body'
 
 export default defineConfig({
   resolve: {
@@ -81,6 +83,10 @@ export default defineConfig({
             target: '_blank',
             rel: 'noopener',
           },
+        })
+        md.use(markdownItAnchor.default)
+        md.use(markdownItToc, {
+          includeLevel: [1, 2, 3],
         })
       },
     }),

@@ -4,6 +4,9 @@ useHead({
 })
 </script>
 # ext4
+[[toc]]
+Ext4 is the default file system used in Linux operating system.
+
 Ext4 store file using indexed allocation method by recording all blocks allocated to a file using extents. FAS only focus on the allocation of file and only implement the concept of bitmap, inode and extent. Other features of ext4 are not implemented.
 
 ## Disk layout
@@ -37,7 +40,7 @@ Disk layout of ext4 consist of superblock, group descriptor table, block bitmap,
   - Preallocation of blocks
 
 ---
-### References & Resources
+## References & Resources
 1. <a href="https://www.kernel.org/doc/html/latest/filesystems/ext4/index.html" target="_blank" rel="noopener">ext4 Data Structures and Algorithms</a>
 2. <a href="https://metebalci.com/blog/a-minimum-complete-tutorial-of-linux-ext4-file-system/" target="_blank" rel="noopener">A Minimum Complete Tutorial of Linux ext4 File System</a>
 3. <a href="https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout" target="_blank" rel="noopener">Ext4 Disk Layout</a>

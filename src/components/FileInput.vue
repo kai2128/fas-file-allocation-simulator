@@ -70,7 +70,7 @@ const executeHandler = () => {
       startAnimation()
     addFileActionStep()
   }
-  catch (err) {
+  catch (err: Error) {
     notify(err.message, 'ERROR')
     log(err.message, 'ERROR')
   }

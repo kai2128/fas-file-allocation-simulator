@@ -7,7 +7,7 @@ useHead({
     {
       rel: 'icon',
       type: 'image/svg+xml',
-      href: computed(() => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg'),
+      href: '/favicon.svg',
     },
   ],
 },
@@ -23,5 +23,4 @@ if (localStorage.getItem('steps') == null || localStorage.getItem('steps')!.leng
     <ExportModal />
     <ImportModal />
   </main>
-  <ScreenAlert />
 </template>

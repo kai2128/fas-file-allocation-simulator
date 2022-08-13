@@ -17,7 +17,8 @@ const fsComponent = $computed(() => {
 <template>
   <Header />
   <div class="px-20 py-10">
-    <div id="grid-container" class="lt-2xl:(scale-95 transform-origin-t) lt-xl:(scale-92 transform-origin-t translate-x--15)">
+    <div id="grid-container"
+      class="lt-2xl:(scale-92 translate-x--10) lt-xl:(scale-85 translate-x--25) scale-95 transform-origin-t">
       <FileInput />
       <FileExplorer />
       <component :is="fsComponent" />

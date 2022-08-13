@@ -33,7 +33,7 @@ export const inputs = useStorage('inputs', {
 },
 ) as Ref<Inputs>
 
-interface HistorySteps {
+export interface HistorySteps {
   action: string
   fileSystemSelected?: string
   diskSize?: string
@@ -61,6 +61,28 @@ export function addFileActionStep() {
 }
 export function revertPreviousActionStep() {
   stepsHistory.value.pop()
+}
+
+export function checkValidSteps(step: HistorySteps) {
+  if (step.action == null)
+    throw new Error('Invalid history steps.')
+
+  if (step.action === 'format') {
+    if (!['FAT', 'ext4'].includes(step.fileSystemSelected!))
+      throw new Error('Invalid steps.')
+    if (!Number(step.diskSize))
+      throw new Error('Invalid disk size.')
+  }
+  else if (['fs_create', 'fs_delete', 'fs_read', 'fs_write', 'fs_append'].includes(step.action)) {
+    if (!Number(step.fileSize))
+      throw new Error('Invalid file size.')
+
+    if (!step.fileName)
+      throw new Error('Invalid file name.')
+  }
+  else {
+    throw new Error('Invalid actions.')
+  }
 }
 
 export function parseImportSteps(steps: HistorySteps[]) {

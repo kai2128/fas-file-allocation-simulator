@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { importModal } from '~/composables/importModal'
+import type { HistorySteps } from '~/composables/state'
+import { checkValidSteps } from '~/composables/state'
 const { show, textareaInput, importSteps, toggleImport } = importModal()
 const fileInputEl = ref<HTMLInputElement>()
 function handleFileUpload() {
@@ -8,7 +10,23 @@ function handleFileUpload() {
     const reader = new FileReader()
     reader.onload = () => {
       try {
-        const json = JSON.parse(reader.result as string)
+        // check file extension
+        const ext = file.name.split('.').pop()
+        if (ext !== 'json')
+          throw new Error('Invalid file extension')
+
+        const json = JSON.parse(reader.result as string) as HistorySteps[]
+
+        json.forEach((step) => {
+          try {
+            checkValidSteps(step)
+          }
+          catch (e) {
+            log(`Failed to import, ${(e as Error).message}`, 'ERROR')
+            throw e
+          }
+        })
+
         textareaInput.value = JSON.stringify(json, null, 4)
       }
       catch (e) {

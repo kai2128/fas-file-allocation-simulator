@@ -27,7 +27,7 @@ onMounted(() => {
 
     <div
       ref="logEl"
-      class="bg-gray-200 before:content-[Peusdocode] w-full flex-1 overflow-auto px-1 max-h-220px scroll-smooth"
+      class="bg-gray-200 before:content-[Peusdocode] w-full max-h-240px flex-1 overflow-auto px-1 scroll-smooth"
       font="mono" text="sm" scrollbar="~ rounded hover:thumb-color-#55626f transition-color"
     >
       <p v-for="(logRecord, i) in logs" :key="i">
