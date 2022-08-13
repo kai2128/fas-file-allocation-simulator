@@ -37,7 +37,7 @@ const { toggleExport } = exportModal()
 <template>
   <nav bg="#d7e3f4" flex="~" class="items-center justify-between" h="100px">
     <section p="x-5" flex="~" gap-x-4 items="center">
-      <div ml="5" text="4xl #bbbbbb" i-icon-park-outline:hard-disk />
+      <div ml="5" text="4xl gray-5" i-icon-park-outline:hard-disk />
       <div font="900" text="xl">
         <div>
           <div>File Allocation</div>

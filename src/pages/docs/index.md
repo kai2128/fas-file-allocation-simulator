@@ -32,9 +32,10 @@ To get started,
 1. Select any file system and enter a disk size then click the "Format" button.
 2. The perform any action (create, delete, write, append and read) by specify a file name, size and select an action.
 3. Detailed steps and animation will be shown.
-4. Animation could be paused, resumed or disabled.
+4. Animation could be paused, resumed or disabled. 
+(For new user / beginner it is recommended to set animation to manual mode and observe each step)
 
-For more precise information on each function of the app, app tour is provided by pressing the "Guide" button.
+For more information on each function of the app refer to documentation below, app tour is provided by pressing the "Guide" button.
 
 ## File action
 ### Create: create a new file
@@ -59,7 +60,13 @@ For more precise information on each function of the app, app tour is provided b
 ## Functions
 
 ### Input
-User perform simulation by select an file action and enter an file name and file size. For action of read and delete, the file size is not required. 
+Simulation is performed by selecting an file action and enter an file name and file size. For action of read and delete, the file size is not required. 
+
+- #### Input Generation
+Input can be generate by clicking on the <span class="i-mdi:cogs icon-btn inline-block align-sub"></span> button. If no files are created, the file action generated will always be create. 
+
+Generation of input can be locked by opening the generation preference settings <span class="i-fluent:caret-down-24-filled icon-btn inline-block align-sub"></span> (beside the generation icon). For example, if file action are locked, file action remains the same in each generated input.
+
 
 ### Disk Blocks
 The disk block section show the status of each disk blocks. Status of disk blocks can be identified by its color, for white it means it is free else it is used or reserved.
@@ -80,10 +87,11 @@ To import application state, user can click on the import button (<span class="i
 ### Disk Info
 
 The disk info section show the details of the disks such as used disks block and free disk block. The fragmentation percentage in FAS is calculated based on the following formula: 
-  > (number of free disk blocks - largest continguous free blocks) /  total free blocks x 100
+  
+  (number of free disk blocks - largest continguous free blocks) /  total free blocks x 100
 
 
-#### Defragmentation
+- #### Defragmentation
 
 Clicking on the "Perform Defragmentation" button will perform defragmentation which reallocate each files to sit contiguously and eliminates any discontiguous free blocks.
 

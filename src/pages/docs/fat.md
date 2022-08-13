@@ -9,7 +9,7 @@ useHead({
 FAT is an simple and lightweight file system commonly used in embedded devices, portable flash drives. 
 
 
-The FAT file system of FAS is implemented based on the FAT32 variation. The smallest disk unit used by FAT is cluster which is group of disk sectors but in FAS it is disk block. FAT able to store file discontiguously on the disk by utilize the file allocation table to map disk block with file.
+The FAT file system of FAS is implemented based on the FAT32 variation. The smallest disk unit used by FAT is cluster which is group of disk sectors but in FAS it is disk block. FAT able to store file discontiguously on the disk by utilize the **file allocation table** to map disk block with file. **Directory entry** is a metadata for each files which stores information such as file name, file size and **first fat index**.
 
 In FAS, the reserved disk block of FAT is to simulate the file system reserved sector which is used for boot data and file allocation table.
 
@@ -30,14 +30,14 @@ FAT file system can be divided into three regions: the boot regions, the file al
 
       | index      | value                                      |
       |------------|--------------------------------------------|
-      | 3          | FREE                                       |
+      | ...        | ...                                       |
       | 4          | 6                                          |
       | 5          | 15                                         |
       | 6          | 7                                          |
-      | 7          | EOF                                        |
+      | 7          | END                                        |
       | ...        | ...                                        |
 
-      For instances, first fat number of file "a.txt" is 4. From the file allocation table, in entry 4 
+      For instances, for file with first fat index of 4. From the file allocation table, in entry 4, it stores the value of 6 which means the next piece of data is stored in fat index of 6. Then in fat index of 6, the next piece of data is stored in fat index of 7. The end of the file is reached when fat index of 7. This means that the file is stored in these 3 blocks of disk. By knowing the first 
 
   - if it is not allocated,
     - it indicate it is free.
@@ -48,13 +48,13 @@ FAT file system can be divided into three regions: the boot regions, the file al
 - directory entries and file data are stored at here.
 - directory entries is metadata of file which consist information such as first cluster number, file name, file size, date created
 
-##### Feature not implemented:
+#### Feature not implemented:
   - File name (Long and Short)
   - Directory
 
 ---
 ## References & Resources
-1. <a href="http://elm-chan.org/fsw/ff/00index_e.html" target="_blank" rel="noopener">FatFs</a>
+1. [FatFs](http://elm-chan.org/fsw/ff/00index_e.html)
 2. <a href="https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc" target="_blank" rel="noopener">Microsoft FAT Specification</a>
 3. <a href="https://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf" target="_blank" rel="noopener">FAT32 Boot Sector,
 Locating Files and Dirs</a>
