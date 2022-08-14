@@ -26,6 +26,11 @@ const formatDisk = () => {
     return
   }
 
+  if (Number(inputs.value.diskSize) > 200) {
+    notify('Maximum disk size supported is 200', 'ERROR')
+    return
+  }
+
   resetActionsState()
   setState.reset()
   createAndFormatDisk(Number(inputs.value.diskSize), inputs.value.fileSystemSelected)

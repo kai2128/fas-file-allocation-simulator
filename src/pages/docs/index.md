@@ -18,9 +18,7 @@ Table of content
 
 FAS is a learning tool to learn file system through the simulation of file action (create, delete, read, write, append) on a file system and visualize how the data are stored in the disk. File system is the that define the structure of the disk and the way the data are stored. File system aims to achieve better performance by make sure data of a file are stored contiguously on the disk which increase the reading speed according to Principle of Locality.
 
-FAS focus on the allocation of file, the data structure and how files are being read and write in different file system.
-
-The file size used in FAS does not follow the real file size. The smallest data unit is 1 disk block. All file size are base on disk block.
+FAS focus on the allocation of file, the data structure and how files are being read and write in different file system. The free block searching algorithm implemented using first fit for creation of file. All file size are base on disk block.
 
 It simplify the concept of file system and does not represent the real implementation of the file system. But it provide a general idea for understanding how a file system works. 
 
@@ -32,8 +30,9 @@ To get started,
 1. Select any file system and enter a disk size then click the "Format" button.
 2. The perform any action (create, delete, write, append and read) by specify a file name, size and select an action.
 3. Detailed steps and animation will be shown.
-4. Animation could be paused, resumed or disabled. 
-(For new user / beginner it is recommended to set animation to manual mode and observe each step)
+4. Animation could be paused, resumed or disabled.
+  
+For new user / beginner it is recommended to set animation to manual mode and observe each step. The recommended disk size is between 100 to 150. The maximum size allowed size is 200.
 
 For more information on each function of the app refer to documentation below, app tour is provided by pressing the "Guide" button.
 
@@ -80,7 +79,7 @@ While an animation is not completed, all other action such as format disk, creat
 
 ### Import / Export
 
-The application state can be exported to a file or copied to clipboard by by clicking the export button (<span class="i-carbon:export icon-btn"></span>) to open the export interface.
+The application state can be exported to a file or copied to clipboard by by clicking the export button (<span class="i-carbon:export icon-btn"></span>) to open the export interface. All file actions is recorded automically once the disk is formatted. When a disk is formatted, previous action will be cleared.
 
 To import application state, user can click on the import button (<span class="i-mdi:database-import icon-btn"></span>) to open the import interface and select to import by paste from clipboard or upload JSON file.
 

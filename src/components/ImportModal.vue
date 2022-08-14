@@ -37,7 +37,12 @@ function handleFileUpload() {
   }
 }
 async function importHandler() {
-  importSteps()
+  try {
+    importSteps()
+  }
+  catch (e) {
+    return
+  }
   notify('History steps imported', 'SUCCESS')
   textareaInput.value = ''
   toggleImport(false)
