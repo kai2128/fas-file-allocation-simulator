@@ -4,9 +4,9 @@ import { Bitmap } from './bitmap'
 import { Directory } from './directory'
 import { Inode } from './inode'
 import { InodeTable } from './inodeTable'
+import { ExtentTree } from './extent'
 import type { Disk } from '~/libs/volume'
 import { ERRCODE, FSError } from '~/libs/error/fserror'
-import { ExtentTree } from './extent'
 
 export class Ext4 implements FSApi {
   name = 'ext4'
@@ -143,7 +143,8 @@ export class Ext4 implements FSApi {
     this.checkFileExist(fileName)
     this.checkSpace(size)
     const inode = this.getInodeFromDirectory(fileName)
-    inode.setSize(size)
+    inode.setSize(size, 'append')
+    inode.extentTree.fileSize = inode.size
     inode.extentTree.appendBlockToExtent(size, this.blockBitmap)
     inode.extentTree.mergeExtents()
     this.writeToDisk(inode)

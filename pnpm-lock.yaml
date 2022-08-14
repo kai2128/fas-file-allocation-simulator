@@ -16,6 +16,7 @@ specifiers:
   '@types/parse-filepath': ^1.0.0
   '@types/randomcolor': ^0.5.6
   '@vitejs/plugin-vue': ^2.3.3
+  '@vitest/ui': ^0.21.1
   '@vue/test-utils': ^2.0.0
   '@vueuse/core': ^8.6.0
   '@vueuse/head': ^0.7.6
@@ -98,6 +99,7 @@ devDependencies:
   '@types/parse-filepath': 1.0.0
   '@types/randomcolor': 0.5.6
   '@vitejs/plugin-vue': 2.3.3_vite@2.9.9+vue@3.2.36
+  '@vitest/ui': 0.21.1
   '@vue/test-utils': 2.0.0_vue@3.2.36
   critters: 0.0.16
   cross-env: 7.0.3
@@ -121,7 +123,7 @@ devDependencies:
   vite-plugin-vue-layouts: 0.6.0_ogyzu5t2gxjxdcuo6vkz6mdms4
   vite-ssg: 0.20.0_52gbmshitwk6r33rjhybrschkq
   vite-ssg-sitemap: 0.2.7
-  vitest: 0.13.1
+  vitest: 0.13.1_@vitest+ui@0.21.1
   vue-tsc: 0.36.0_typescript@4.7.2
 
 packages:
@@ -2171,6 +2173,12 @@ packages:
     dependencies:
       vite: 2.9.9
       vue: 3.2.36
+    dev: true
+
+  /@vitest/ui/0.21.1:
+    resolution: {integrity: sha512-e+AZdMG6NvrYhxB99LGxW1GkoTpqSDPKpL+wghsApWhocNwALBOBzvgsDr/WN6D6YWRXf18rsJ1kY/KaIspRdg==}
+    dependencies:
+      sirv: 2.0.2
     dev: true
 
   /@volar/code-gen/0.36.0:
@@ -7740,7 +7748,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.13.1:
+  /vitest/0.13.1_@vitest+ui@0.21.1:
     resolution: {integrity: sha512-CfSBf7YFw/i8HumSUQRtZKs0aV91DC9WU8nAgIJAlawKHaFuPHQohDwOTPIFgrxySiuFYUa0Yohf9gDFfBwjxA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -7761,6 +7769,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.1
       '@types/chai-subset': 1.3.3
+      '@vitest/ui': 0.21.1
       chai: 4.3.6
       debug: 4.3.4
       local-pkg: 0.4.1

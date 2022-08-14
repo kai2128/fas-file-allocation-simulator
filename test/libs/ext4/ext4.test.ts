@@ -10,7 +10,7 @@ function setupExt() {
   }
 }
 
-describe.only('ext4 test', () => {
+describe('ext4 test', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2020-01-01T00:00:00.000Z'))
