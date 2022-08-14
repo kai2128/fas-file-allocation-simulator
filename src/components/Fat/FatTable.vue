@@ -54,7 +54,7 @@ watchEffect(() => {
             <td>Label</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-test="fat-table">
           <tr v-if="fatTable == null" class="border-b border-b-gray-300">
             <td text="gray/50 center" colspan="4">
               -

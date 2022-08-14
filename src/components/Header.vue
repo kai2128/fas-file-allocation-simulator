@@ -54,16 +54,16 @@ const { toggleExport } = exportModal()
       <div class="flex items-center gap-x-5" data-tour="disk-input">
         <label flex="~ col">
           <span font-bold>File system</span>
-          <select v-model="inputs.fileSystemSelected" rounded px-3 py-1 :disabled="animating">
+          <select v-model="inputs.fileSystemSelected" rounded px-3 py-1 :disabled="animating" data-test="fs-select-input">
             <option value="FAT">FAT</option>
             <option value="ext4">ext4</option>
           </select>
         </label>
         <label flex="~ col">
           <span font-bold>Disk size:</span>
-          <input v-model="inputs.diskSize" type="text" rounded px-3 py-1 w-20 :disabled="animating">
+          <input v-model="inputs.diskSize" type="text" rounded px-3 py-1 w-20 :disabled="animating" data-test="disk-size-input">
         </label>
-        <button btn class="group transition-all" border="2 #cfd8db" :disabled="animating" @click="formatDisk">
+        <button btn class="group transition-all" border="2 #cfd8db" :disabled="animating" @click="formatDisk" data-test="format-button">
           <div
             i-ant-design:format-painter-filled text="#cccccc" :disabled="animating"
             class="group-hover:text-cool-gray-700 mr-1 group-hover:disabled:text-cool-gray-300"

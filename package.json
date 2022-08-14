@@ -8,8 +8,8 @@
     "preview": "vite preview",
     "preview-https": "serve dist",
     "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:e2e": "cypress open",
+    "test:unit:ui": "vitest --ui",
+    "test:int": "cypress open",
     "test:unit": "vitest",
     "typecheck": "vue-tsc --noEmit"
   },

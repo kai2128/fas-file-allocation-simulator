@@ -83,10 +83,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <section
-    class="area-[fs] max-h-500px min-w-300px" data-tour="fs-component"
-    scrollbar="~ rounded hover:thumb-color-#55626f transition-color"
-  >
+  <section class="area-[fs] max-h-500px min-w-300px" data-tour="fs-component"
+    scrollbar="~ rounded hover:thumb-color-#55626f transition-color">
     <h4 underline font="semibold">
       Block Bitmap
     </h4>
@@ -102,11 +100,9 @@ watchEffect(() => {
             </td>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            v-for="bitmap in ext4fs.blockBitmap" :id="`blockBitmap-${bitmap.index}`" :key="bitmap.index"
-            class="border-b border-b-gray-300" :class="{ ...renderStateClass(bitmap.index, 'blockBitmap') }"
-          >
+        <tbody data-test="block-bitmap">
+          <tr v-for="bitmap in ext4fs.blockBitmap" :id="`blockBitmap-${bitmap.index}`" :key="bitmap.index"
+            class="border-b border-b-gray-300" :class="{ ...renderStateClass(bitmap.index, 'blockBitmap') }">
             <td>{{ bitmap.index }}</td>
             <td>{{ bitmap.free ? 'Free' : 'Used' }}</td>
           </tr>
@@ -129,13 +125,11 @@ watchEffect(() => {
             </td>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            v-for="bitmap in ext4fs.inodeBitmap" :id="`inodeBitmap-${bitmap.index}`" :key="bitmap.index"
+        <tbody data-test="inode-bitmap">
+          <tr v-for="bitmap in ext4fs.inodeBitmap" :id="`inodeBitmap-${bitmap.index}`" :key="bitmap.index"
             class="border-b border-b-gray-300"
             :class="[{ ...renderStateClass(bitmap.index, 'inodeBitmap') }, { 'hover:bg-blue-gray-200/50 hover:cursor-pointer': !animating }]"
-            @click="setSelectedInodeHandler(bitmap.index)"
-          >
+            @click="setSelectedInodeHandler(bitmap.index)">
             <td>{{ bitmap.index }}</td>
             <td>{{ bitmap.free ? 'Free' : 'Used' }}</td>
           </tr>
@@ -146,7 +140,7 @@ watchEffect(() => {
     <h4 mt="3" underline font="semibold">
       Inode
     </h4>
-    <div grid="~ cols-2" class="">
+    <div grid="~ cols-2" data-test="inode">
       <div font="semibold">
         Inode No.
       </div>
@@ -158,10 +152,8 @@ watchEffect(() => {
         <div class="max-w-100px text-ellipsis overflow-hidden whitespace-nowrap">
           {{ selectedFile.name === '/' ? 'Root Directory' : selectedFile.name }}
         </div>
-        <span
-          v-if="selectedFile.name !== ''" v-bg-color="selectedFile.color" border="2px gray-1"
-          class="inline-block mx-a h-0.75rem w-0.75rem rounded-full"
-        />
+        <span v-if="selectedFile.name !== ''" v-bg-color="selectedFile.color" border="2px gray-1"
+          class="inline-block mx-a h-0.75rem w-0.75rem rounded-full" />
       </div>
       <div font="semibold">
         Size
@@ -190,13 +182,14 @@ watchEffect(() => {
             </td>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-test="extents">
           <tr v-if="selectedFile.extentTree.extents.length <= 0">
             <td colspan="4" class="text-center">
               No extents being allocated
             </td>
           </tr>
-          <tr v-for="(extent, i) in selectedFile.extentTree.extents" v-else :id="`extent-${i}`" :key="i" :class="[{ ...renderStateClass(i, 'extent') }]" class="border-b border-b-gray-300">
+          <tr v-for="(extent, i) in selectedFile.extentTree.extents" v-else :id="`extent-${i}`" :key="i"
+            :class="[{ ...renderStateClass(i, 'extent') }]" class="border-b border-b-gray-300">
             <td>{{ i + 1 }}</td>
             <td>{{ extent.start }}</td>
             <td>{{ extent.length }}</td>
