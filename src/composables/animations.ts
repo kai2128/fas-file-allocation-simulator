@@ -56,6 +56,7 @@ export function initInitialState() {
     disk: disk.value.clone(),
     fs: fs.value.clone(clonedDisk),
   }
+  initialState.fs.disk = initialState.disk
   return initialState
 }
 
