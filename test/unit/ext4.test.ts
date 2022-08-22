@@ -75,6 +75,15 @@ describe('ext4 unit test', () => {
       expect(ext4.blockBitmap[i].free).toBe(true)
   })
 
+  test('read file', () => {
+    const { ext4 } = setupExt()
+    ext4.createFile(testFile.name, testFile.size)
+    const readedInode = ext4.readFile(testFile.name)
+    expect(readedInode.name).toBe(testFile.name)
+    expect(readedInode.size).toBe(testFile.size)
+    expect(readedInode.index).toBe(1)
+  })
+
   test('append file', () => {
     const { ext4 } = setupExt()
     ext4.createFile(testFile.name, testFile.size)

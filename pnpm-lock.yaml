@@ -69,8 +69,6 @@ dependencies:
   dayjs: 1.11.3
   github-markdown-css: 5.1.0
   lodash-es: 4.17.21
-  markdown-it-anchor: 8.6.4
-  markdown-it-table-of-contents: 0.6.0
   nprogress: 0.2.0
   parse-filepath: 1.0.2
   pinia: 2.0.14_qhv4oyzxhhzeba5rd2zztmcg2y
@@ -107,8 +105,10 @@ devDependencies:
   eslint: 8.16.0
   eslint-plugin-cypress: 2.12.1_eslint@8.16.0
   https-localhost: 4.7.1
+  markdown-it-anchor: 8.6.4
   markdown-it-link-attributes: 4.0.0
   markdown-it-prism: 2.2.4
+  markdown-it-table-of-contents: 0.6.0
   pnpm: 7.1.7
   typescript: 4.7.2
   unocss: 0.37.2_vite@2.9.9
@@ -5624,7 +5624,7 @@ packages:
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: '*'
-    dev: false
+    dev: true
 
   /markdown-it-link-attributes/4.0.0:
     resolution: {integrity: sha512-ssjxSLlLfQBkX6BvAx1rCPrx7ZoK91llQQvS3P7KXvlbnVD34OUkfXwWecN7su/7mrI/HOW0RI5szdJOIqYC3w==}
@@ -5640,7 +5640,7 @@ packages:
   /markdown-it-table-of-contents/0.6.0:
     resolution: {integrity: sha512-jHvEjZVEibyW97zEYg19mZCIXO16lHbvRaPDkEuOfMPBmzlI7cYczMZLMfUvwkhdOVQpIxu3gx6mgaw46KsNsQ==}
     engines: {node: '>6.4.0'}
-    dev: false
+    dev: true
 
   /markdown-it/13.0.1:
     resolution: {integrity: sha512-lTlxriVoy2criHP0JKRhO2VDG9c2ypWCsT237eDiLqi09rmbKoUetyGHq2uOIRoRS//kfoJckS0eUzzkDR+k2Q==}

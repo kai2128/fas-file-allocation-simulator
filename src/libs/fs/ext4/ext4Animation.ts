@@ -105,7 +105,7 @@ export function ext4Animation(fs: Ext4, disk: Disk, actions: Actions): Animation
         yield { actions, disk, fs }
         if (blockBitmap.free) {
           createState.selectedBlockBitmaps.push(blockBitmap)
-          setMsg(`Free block found at inode ${blockBitmap.index}, Total free blocks found: ${createState.selectedBlockBitmaps.length}`)
+          setMsg(`Free block found at block ${blockBitmap.index}, Total free blocks found: ${createState.selectedBlockBitmaps.length}`)
           setState.blockBitmapSelected(createState.selectedBlockBitmaps.map(v => v.index))
           yield { actions, disk, fs }
           if (createState.selectedBlockBitmaps.length >= createState.selectedInode.size) {

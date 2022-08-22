@@ -22,7 +22,7 @@ export const fatActions: FSActions = {
       {
         index: 3,
         description: `
-        Allocate the block and set it as end of file (0xFFF) in FAT table, update the first allocated block in file directory entry.
+        Allocate the block and set it as end of file (0xFFF) in FAT table, update the first allocated fat in file directory entry.
         `,
       },
       {
@@ -46,7 +46,7 @@ export const fatActions: FSActions = {
       {
         index: 7,
         description: `
-        - update previous FAT table value to current block number. Repeat until all blocks are allocated.
+        - update previous FAT table value to current fat index. Repeat until all blocks are allocated.
         `,
       },
     ],
@@ -62,13 +62,13 @@ export const fatActions: FSActions = {
       {
         index: 1,
         description: `
-        From the directory entry found, retrieve the first block number of the file.
+        From the directory entry found, retrieve the first fat number of the file.
         `,
       },
       {
         index: 2,
         description: `
-        From FAT table, find all the blocks allocated to the file by using the first block number. Repeat until EOF.
+        From FAT table, find all the blocks allocated to the file by using the first fat number. Repeat until EOF.
         `,
       },
       {
@@ -90,13 +90,13 @@ export const fatActions: FSActions = {
       {
         index: 1,
         description: `
-        From the directory entry found, retrieve the first block number of the file.
+        From the directory entry found, retrieve the first fat number of the file.
         `,
       },
       {
         index: 2,
         description: `
-        From FAT table, find all the blocks allocated to the file by using the first block number. (read FAT table next block value until EOF)
+        From FAT table, find all the blocks allocated to the file by using the first fat number. (read FAT table next block value until EOF)
         `,
       },
       {

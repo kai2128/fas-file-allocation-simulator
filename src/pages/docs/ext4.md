@@ -10,36 +10,35 @@ Ext4 is the default file system used in Linux operating system.
 Ext4 store file using indexed allocation method by recording all blocks allocated to a file using extents. FAS only focus on the allocation of file and only implement the concept of bitmap, inode and extent. Other features of ext4 are not implemented.
 
 ## Disk layout
-Disk layout of ext4 consist of superblock, group descriptor table, block bitmap, inode bitmap, inode table,  and data blocks. Superblock (not implemented in FAS) records information of filesystem. Group descriptor table (not implemented in FAS) store the location of block bitmap, inode bitmap and inode table. Data blocks is the place to store file data. Bitmap 
+Disk layout of ext4 consist of superblock, group descriptor table, block bitmap, inode bitmap, inode table,  and data blocks. Superblock (not implemented in FAS) records information of filesystem. Group descriptor table (not implemented in FAS) store the location of block bitmap, inode bitmap and inode table. Data blocks is the place to store file data. 
 
-### <u>Disk Block bitmap</u>
-- record the state (used / free) of each disk block
+### Disk Block bitmap
+- record the state (used/free) of each disk block
 
-### <u>Inode bitmap</u>
-- record the state (used / free) of each inode
+### Inode bitmap
+- record the state (used/free) of each inode
 
-### <u>Inode table</u>
+### Inode table
 - store inodes
 
-### <u>Inode</u>
+### Inode
 - an unqiue identifier for each file
 - each file is allocated with a inode
-- record metadata for each file such as file name, size, date created, etc.
+- record metadata of file such as file name, size, date created, etc.
 - extents is also stored in inode
 
-### <u>Extents</u>
+### Extents
 - new data structure introduced in ext4
 - record the location of data on disk
 - able to record more than 1 block disk by recording the start and length of extents, more efficient compare to ext2 / ext3 which record all blocks allocated using indirect block
+- each extent record only contiguous blocks
 - For example: extent with start of 0 and length of 4 record the location of data on disk from 0 to 4
 - each extent is stored in a B+ tree but in FAS it is just an array
 
-##### Feature not implemented:
-  - Journaling
-  - Extent tree
-  - Preallocation of blocks
+<br>
+<br>
+<br>
 
----
 ## References & Resources
 1. <a href="https://www.kernel.org/doc/html/latest/filesystems/ext4/index.html" target="_blank" rel="noopener">ext4 Data Structures and Algorithms</a>
 2. <a href="https://metebalci.com/blog/a-minimum-complete-tutorial-of-linux-ext4-file-system/" target="_blank" rel="noopener">A Minimum Complete Tutorial of Linux ext4 File System</a>

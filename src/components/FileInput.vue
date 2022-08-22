@@ -63,6 +63,7 @@ const executeHandler = () => {
   try {
     setActions(inputs.value.fileAction.substring(3))
     initAnimation()
+    setState.reset()
 
     if (aniInput.value.disabled)
       fs.value[inputs.value.fileAction](inputs.value.fileName, fileSize)

@@ -5,13 +5,12 @@ import { aniInput, toggleAniInput } from '~/composables/state'
 function bold(str: string) {
   return `<b>${str}</b>`
 }
-
 const renderSteps = computed(() => {
   const steps = actions.value.steps
   const currentStep = actions.value.state.stepIndex
   const htmlSteps = steps.reduce((str, step, i) => {
     return `${str}
-              <li>${i === currentStep ? bold(step.description) : step.description}</li>`
+              <li>${i === currentStep && !aniInput.value.disabled ? bold(step.description) : step.description}</li>`
   }, '<ol>')
   return `${htmlSteps}</ol>`
 })
@@ -48,6 +47,13 @@ document.addEventListener('keydown', (e) => {
       nextStep()
   }
 })
+
+watch(() => aniInput.value.disabled, (v) => {
+  if (v)
+    notify('Steps by steps animation is disabled', 'INFO')
+  else
+    notify('Steps by steps animation is enabled', 'INFO')
+}, { immediate: false })
 </script>
 
 <template>

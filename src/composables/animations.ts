@@ -99,6 +99,12 @@ export async function startAnimation() {
   toggleAnimating(false)
   resetAniInputState()
 }
+watch(() => aniInput.value.manualMode, () => {
+  if (aniInput.value.manualMode)
+    notify('Animation has been paused, go to next steps manually by pressing the forward button or "n" key. You can resume it by clicking the play button or "p" key.')
+  else
+    notify('Animation has been resumed.')
+})
 
 export function nextStep() {
   toggleNextStep(true)

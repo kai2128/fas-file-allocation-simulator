@@ -72,7 +72,7 @@ export function checkValidSteps(step: HistorySteps) {
       throw new Error('Invalid steps.')
     if (!Number(step.diskSize))
       throw new Error('Invalid disk size.')
-    if (Number(step.diskSize))
+    if (Number(step.diskSize) > 200)
       throw new Error('Maximum supported disk size is 200.')
   }
   else if (['fs_create', 'fs_delete', 'fs_read', 'fs_write', 'fs_append'].includes(step.action)) {

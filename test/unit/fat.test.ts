@@ -69,6 +69,15 @@ describe('FAT unit test', () => {
     expect(fat.fatTable.freeClusterCount()).toBe(freeClusterCount)
   })
 
+  test('read file', () => {
+    const { fat } = setupFat()
+    fat.createFile(testFile.name, testFile.size)
+    const readedFile = fat.readFile(testFile.name)
+    expect(readedFile.data.name).toBe(testFile.name)
+    expect(readedFile.data.size).toBe(testFile.size)
+    expect(readedFile.data.firstClusterNumber).toBe(3)
+  })
+
   test('append file', () => {
     const { fat, freeClusterCount } = setupFat()
     fat.createFile(testFile.name, testFile.size)
