@@ -28,6 +28,7 @@ const formatDisk = () => {
 
   if (Number(inputs.value.diskSize) > 200) {
     notify('Maximum disk size supported is 200', 'ERROR')
+    inputs.value.diskSize = '200'
     return
   }
 
@@ -63,7 +64,7 @@ const { toggleExport } = exportModal()
           <span font-bold>Disk size:</span>
           <input v-model="inputs.diskSize" type="text" rounded px-3 py-1 w-20 :disabled="animating" data-test="disk-size-input">
         </label>
-        <button btn class="group transition-all" border="2 #cfd8db" :disabled="animating" @click="formatDisk" data-test="format-button">
+        <button btn class="group transition-all" border="2 #cfd8db" :disabled="animating" data-test="format-button" @click="formatDisk">
           <div
             i-ant-design:format-painter-filled text="#cccccc" :disabled="animating"
             class="group-hover:text-cool-gray-700 mr-1 group-hover:disabled:text-cool-gray-300"
