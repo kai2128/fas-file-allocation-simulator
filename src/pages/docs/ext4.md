@@ -40,13 +40,12 @@ Disk layout of ext4 consist of superblock, group descriptor table, block bitmap,
 <br>
 
 ## References & Resources
-1. <a href="https://www.kernel.org/doc/html/latest/filesystems/ext4/index.html" target="_blank" rel="noopener">ext4 Data Structures and Algorithms</a>
-2. <a href="https://metebalci.com/blog/a-minimum-complete-tutorial-of-linux-ext4-file-system/" target="_blank" rel="noopener">A Minimum Complete Tutorial of Linux ext4 File System</a>
-3. <a href="https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout" target="_blank" rel="noopener">Ext4 Disk Layout</a>
-3. <a href="https://opensource.com/article/17/5/introduction-ext4-filesystem" target="_blank" rel="noopener">An introduction to Linux's EXT4 filesystem</a>
-4. <a href="https://students.mimuw.edu.pl/ZSO/Wyklady/11_extXfs/extXfs_short.pdf" target="_blank" rel="noopener">File systems ext2, ext3 and ext4 </a>
-5. <a href="http://www.cs.unc.edu/~porter/courses/cse506/s16/slides/ext4.pdf" target="_blank" rel="noopener">Ext3/4 file systems</a>
 
+1. djwong, 2022. ext4 Data Structures and Algorithms — The Linux Kernel documentation. [online] Available at: <[https://www.kernel.org/doc/html/latest/filesystems/ext4/index.html](https://www.kernel.org/doc/html/latest/filesystems/ext4/index.html)> [Accessed 26 August 2022].
+2. Balci, M., 2017. A Minimum Complete Tutorial of Linux ext4 File System. [online] Available at: <[https://metebalci.com/blog/a-minimum-complete-tutorial-of-linux-ext4-file-system/](https://metebalci.com/blog/a-minimum-complete-tutorial-of-linux-ext4-file-system/)> [Accessed 26 August 2022].
+3. Both, D., 2017. An introduction to Linux’s EXT4 filesystem. [online] Opensource.com. Available at: <[https://opensource.com/article/17/5/introduction-ext4-filesystem](https://opensource.com/article/17/5/introduction-ext4-filesystem)> [Accessed 26 August 2022].
+4. Anon. 2022. File systems ext2, ext3 and ext4. [online] Available at: <[https://students.mimuw.edu.pl/ZSO/Wyklady/11_extXfs/extXfs_short.pdf](https://students.mimuw.edu.pl/ZSO/Wyklady/11_extXfs/extXfs_short.pdf)> [Accessed 26 August 2022].
+5. Porter, D., 2022. Ext3/4 file systems. [online] Available at: <[http://www.cs.unc.edu/~porter/courses/cse506/s16/slides/ext4.pdf](http://www.cs.unc.edu/~porter/courses/cse506/s16/slides/ext4.pdf)> [Accessed 26 August 2022].
 
 <route lang="yaml">
 meta:

@@ -123,7 +123,10 @@ function revertToInitialState() {
 }
 
 function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => {
+    watchOnce(() => [aniInput.value.cancel, aniInput.value.skip], resolve)
+    setTimeout(resolve, ms)
+  })
 }
 
 function getAnimationAndAction() {
@@ -171,6 +174,7 @@ export function initAnimation() {
       break
     case 'append':
       fs.value.checkFileExist(actions.value.file.name)
+      fs.value.checkSpace(actions.value.file.size)
       setStepsDesc(fsAction.append.steps)
       animationStates = aniGenerator.append()
       break
