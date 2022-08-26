@@ -91,10 +91,12 @@ export async function startAnimation() {
     }
 
     toggleNextStep(false)
-    if (!aniInput.value.manualMode)
-      await sleep(aniInput.value.interval)
-    else
-      await until(nextAniStep).toBe(true)
+    if (!aniInput.value.manualMode) {
+      setTimeout(() => {
+        toggleNextStep(true)
+      }, aniInput.value.interval)
+    }
+    await until(nextAniStep).toBe(true)
   }
   toggleAnimating(false)
   resetAniInputState()

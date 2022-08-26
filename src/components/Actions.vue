@@ -90,7 +90,7 @@ watch(() => aniInput.value.disabled, (v) => {
             />
             <button
               class="icon-btn text-sm my--0.25 disabled:cursor-pointer disabled:hover:opacity-70"
-              i-fluent:caret-down-24-filled :disabled="aniInput.interval <= 1000" title="Increase interval"
+              i-fluent:caret-down-24-filled :disabled="aniInput.interval <= 1000" title="Decrease interval"
               @click="nearestInterval('sub')"
             />
           </div>

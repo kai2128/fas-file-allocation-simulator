@@ -235,7 +235,7 @@ export class FatFs implements FSApi {
     size = Number(size)
     this.checkSpace(size)
     const fatItemIndexes = this.fatTable.getFatIndexesForAllocation(size)
-    this.checkExist(fatItemIndexes, 'cluster not enough')
+    this.checkExist(fatItemIndexes, 'block not enough')
     const file = this.readFile(fileName)
     this.checkExist(file, fileName)
 

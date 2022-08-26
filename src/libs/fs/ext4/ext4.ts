@@ -61,7 +61,7 @@ export class Ext4 implements FSApi {
 
     if (size) {
       if (freeBlocks.length - size < 0)
-        throw new FSError(ERRCODE.ESPACE, 'no enough free cluster')
+        throw new FSError(ERRCODE.ESPACE, 'no enough free block')
     }
   }
 
