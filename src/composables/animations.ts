@@ -174,6 +174,7 @@ export function initAnimation() {
       break
     case 'append':
       fs.value.checkFileExist(actions.value.file.name)
+      fs.value.checkSpace(actions.value.file.size)
       setStepsDesc(fsAction.append.steps)
       animationStates = aniGenerator.append()
       break
