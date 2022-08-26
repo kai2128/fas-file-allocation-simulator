@@ -53,13 +53,11 @@ FAT file system can be divided into three regions: the boot regions, the file al
 <br>
 
 ## References & Resources
-1. [FatFs](http://elm-chan.org/fsw/ff/00index_e.html)
-2. <a href="https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc" target="_blank" rel="noopener">Microsoft FAT Specification</a>
-3. <a href="https://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf" target="_blank" rel="noopener">FAT32 Boot Sector,
-Locating Files and Dirs</a>
-3. <a href="https://cscie92.dce.harvard.edu/spring2021/slides/FAT32%20File%20Structure.pdf" target="_blank" rel="noopener">FAT32 File Structure</a>
-4. <a href="http://www.c-jump.com/CIS24/Slides/FAT/lecture.html" target="_blank" rel="noopener">The FAT File System
-</a>
+1. Anon. 2022. FatFs - Generic FAT Filesystem Module. [online] Available at: <[http://elm-chan.org/fsw/ff/00index_e.html](http://elm-chan.org/fsw/ff/00index_e.html)> [Accessed 26 August 2022].
+2. Microsoft, 2000. Microsoft Extensible Firmware Initiative FAT32 File System Specification. Available at: <[https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc](https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc)> [Accessed 20 July 2022].
+3. Anon. n.d. FAT32 Boot Sector, Locating Files and Dirs. Available at: <[https://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf](https://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf)> [Accessed 26 July 2022].
+4. Frankel, J., 2021. FAT32 File Structure. Available at: <[https://cscie92.dce.harvard.edu/spring2021/slides/FAT32%20File%20Structure.pdf](https://cscie92.dce.harvard.edu/spring2021/slides/FAT32%20File%20Structure.pdf)> [Accessed 26 July 2022].
+5. Kholodov, I., 2022. FAT Filesystem. [online] Available at: <[http://elm-chan.org/docs/fat_e.html](http://www.c-jump.com/CIS24/Slides/FAT/lecture.html)> [Accessed 26 August 2022].
 
 <route lang="yaml">
 meta:
