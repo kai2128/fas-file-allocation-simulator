@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useNotify } from '~/composables/useNotify'
 
-const { notiState } = useNotify()
+const { notiQueue, closeNoti } = useNotify()
 </script>
 
 <template>
   <teleport to="#notification">
-    <transition name="slide-fade" mode="out-in">
+    <!-- <transition name="slide-fade" mode="out-in">
       <div v-if="notiState.showNotification" class="fixed bottom-0 right-0 mb-25 md:mr-5 lg:mr-15 z-600">
         <div v-if="notiState.showNotification" :class="notiState.styles" role="alert">
           <div flex items-center justify="between" px="8" py="3" shadow="md">
@@ -22,7 +22,28 @@ const { notiState } = useNotify()
           </div>
         </div>
       </div>
-    </transition>
+    </transition> -->
+    <div class="fixed bottom-0 right-0 mb-25 md:mr-5 lg:mr-15 z-600 ">
+      <div class="flex flex-col gap-y-2">
+        <TransitionGroup name="list">
+          <div v-for="notiState of notiQueue" :key="notiState.id">
+            <div :class="notiState.styles" role="alert">
+              <div flex items-center justify="between" px="8" py="3" shadow="md">
+                <div>
+                  <p class="font-bold">
+                    {{ notiState.type }}
+                  </p>
+                  <p w="25rem">
+                    {{ notiState.message }}
+                  </p>
+                </div>
+                <button i-mdi:close text="black/30" hover="text-black/70" mx="1" @click="closeNoti(notiState.id)" />
+              </div>
+            </div>
+          </div>
+        </TransitionGroup>
+      </div>
+    </div>
   </teleport>
 </template>
 
@@ -37,24 +58,24 @@ const { notiState } = useNotify()
   --at-apply: bg-green-100 border-l-4 border-green-500 text-green-700
 }
 /*animation*/
- .slide-fade-enter-active {
-   transition: all .3s ease;
+.list-move,
+ .list-enter-active {
+  transition: all 0.2s ease-in-out;
  }
 
- .slide-fade-leave-active {
-   transition: all .8s ease;
+ .list-leave-active {
+  transition: all 0.4s ease-in-out;
  }
 
- .slide-fade-enter,
- .slide-fade-leave-to
-   {
-   transform: translatey(-10px);
+ /* .list-enter-from, */
+ .list-leave-to{
+   transform: translateY(-100px);
    opacity: 0;
  }
 
- .slide-fade-enter
+ .list-enter-from
    {
-   transform: translatey(10px);
+   transform: translateX(20px);
    opacity: 0;
  }
 </style>

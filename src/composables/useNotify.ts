@@ -1,10 +1,11 @@
 import type { Ref } from 'vue'
+import { remove } from 'lodash-es'
 
 type NotiType = 'INFO' | 'SUCCESS' | 'ERROR'
 
 interface NotiState {
+  id: string
   showNotification: Ref<boolean>
-  toggleNoti: () => void
   type: NotiType
   message: string
   styles: string
@@ -16,41 +17,28 @@ const styles = {
   SUCCESS: 'noti-success',
 }
 
-const notiState = ref({}) as Ref<NotiState>
-const timer = ref()
-const [showNotification, toggleNotification] = useToggle(false)
-notiState.value = {
-  showNotification,
-  toggleNoti: toggleNotification,
-  type: 'INFO',
-  message: '',
-  styles: styles.INFO,
-}
+const notiQueue = ref([]) as Ref<NotiState[]>
 export function useNotify() {
   return {
-    notiState,
-    toggleNotification,
+    notiQueue,
+    closeNoti(id: string) {
+      remove(notiQueue.value, noti => noti.id === id)
+    },
     notify(message: string, type: NotiType = 'INFO', timeout = 3000) {
-      notiState.value.type = type.toUpperCase() as NotiType
-      notiState.value.message = message
-      notiState.value.styles = styles[type.toUpperCase()]
+      const id = Math.random().toString(36).substr(2, 9)
+      notiQueue.value.push({
+        id,
+        type,
+        message,
+        styles: styles[type],
+      } as NotiState)
 
-      if (showNotification.value === true) {
-        clearTimeout(timer.value)
-        if (timeout) {
-          timer.value = setTimeout(() => {
-            toggleNotification()
-          }, timeout)
-        }
-        return
-      }
+      if (notiQueue.value.length > 5)
+        notiQueue.value.shift()
 
-      toggleNotification()
-      if (timeout) {
-        timer.value = setTimeout(() => {
-          toggleNotification()
-        }, timeout)
-      }
+      setTimeout(() => {
+        remove(notiQueue.value, noti => noti.id === id)
+      }, timeout)
     },
   }
 }
