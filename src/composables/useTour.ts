@@ -196,7 +196,7 @@ export function useTour() {
     title: 'FS component',
     text: `
     This section shows the data structure used by the file system. <br>
-    For FAT, file allocation table is used (hover on the value of each entry will show the file name of the entry). <br>
+    For FAT, file allocation table is used (hover on the value of each entry will show the allocated file name). <br>
     For ext4, block bitmap, inode bitmap, inode and extents are used. <br>
     For more information please refer to the documentation.
     `,
