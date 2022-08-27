@@ -71,13 +71,13 @@ watchEffect(() => {
             <td>
               {{ fatItem.offset }}
             </td>
-            <td>
-              <Popper reference-is="span" popper-is="span" :popper-props="{ class: 'tooltips' }">
-                <template #reference>
-                  {{ fatClusterToString(fatItem.nextCluster) }}
-                </template>
-                {{ fatItem.name }}
-              </Popper>
+            <td class="relative fat-next-cluster">
+              {{ fatClusterToString(fatItem.nextCluster) }}
+              <div class=" absolute inset-0 hidden">
+                <div class="tooltips relative" :class="fatItem.index === fatTable.length - 1 ? 'bottom-10' : 'top-6'">
+                  {{ fatItem.name }}
+                </div>
+              </div>
             </td>
             <td>
               <div v-bg-color="fatItem.color" border="2px gray-1" class="mx-a h-0.75rem w-0.75rem rounded-full" />
@@ -91,7 +91,10 @@ watchEffect(() => {
 
 <style>
 .tooltips {
-  --at-apply: inline-block bg-white shadow-md rounded text-sm px2 py2 z-1
+  --at-apply: inline-block bg-white shadow-md rounded text-sm px2 py2 z-10 max-w-25 of-hidden text-ellipsis
+}
+.fat-next-cluster:hover > div {
+  display: block !important;
 }
 </style>
 

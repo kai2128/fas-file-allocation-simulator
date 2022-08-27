@@ -26,9 +26,9 @@ const formatDisk = () => {
     return
   }
 
-  if (Number(inputs.value.diskSize) > 200) {
-    notify('Maximum disk size supported is 200', 'ERROR')
-    inputs.value.diskSize = '200'
+  if (Number(inputs.value.diskSize) > 1000) {
+    notify('Maximum supported disk size is 1000', 'ERROR')
+    inputs.value.diskSize = '1000'
     return
   }
 
