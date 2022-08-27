@@ -32,7 +32,7 @@ To get started,
 3. Detailed steps and animation will be shown.
 4. Animation could be paused, continued or disabled.
   
-For new user / beginner it is recommended to set animation to manual mode and observe each step. The recommended disk size is between 100 to 150. The maximum size allowed size is 1000.
+For new user / beginner it is recommended to set animation to manual mode and observe each step. The recommended disk size is between 100 to 150. The maximum size allowed size is 500.
 
 For more information on each function of the app refer to the documentation below. An app tour is provided by pressing the "Guide" button.
 

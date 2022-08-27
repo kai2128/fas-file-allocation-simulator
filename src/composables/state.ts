@@ -72,8 +72,8 @@ export function checkValidSteps(step: HistorySteps) {
       throw new Error('Invalid steps.')
     if (!Number(step.diskSize))
       throw new Error('Invalid disk size.')
-    if (Number(step.diskSize) > 1000)
-      throw new Error('Maximum supported disk size is 1000.')
+    if (Number(step.diskSize) > 500)
+      throw new Error('Maximum supported disk size is 500.')
   }
   else if (['fs_create', 'fs_delete', 'fs_read', 'fs_write', 'fs_append'].includes(step.action)) {
     if (!Number(step.fileSize))
@@ -129,9 +129,9 @@ export const disk = ref({}) as Ref<Disk>
 export const fs = ref({}) as Ref<FSApi>
 
 export function createAndFormatDisk(size: number, fsType: string) {
-  if (size > 1000) {
-    notify('Maximum supported disk size is 1000. Please set a smaller disk size.', 'ERROR')
-    throw new Error('Maximum supported disk size is 1000.')
+  if (size > 500) {
+    notify('Maximum supported disk size is 500. Please set a smaller disk size.', 'ERROR')
+    throw new Error('Maximum supported disk size is 500.')
   }
 
   disk.value = new Disk(size)

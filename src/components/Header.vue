@@ -12,12 +12,12 @@ const formatDisk = () => {
     return
   }
   if (!inputs.value.diskSize || isNaN(Number(inputs.value.diskSize))) {
-    notify('Please specify a disk size', 'ERROR')
+    notify('Please enter a disk size', 'ERROR')
     return
   }
 
   if (Number(inputs.value.diskSize) < 3) {
-    notify('Please specify larger disk size', 'ERROR')
+    notify('Please enter a larger disk size', 'ERROR')
     return
   }
 
@@ -26,9 +26,9 @@ const formatDisk = () => {
     return
   }
 
-  if (Number(inputs.value.diskSize) > 1000) {
-    notify('Maximum supported disk size is 1000', 'ERROR')
-    inputs.value.diskSize = '1000'
+  if (Number(inputs.value.diskSize) > 500) {
+    notify('Maximum supported disk size is 500', 'ERROR')
+    inputs.value.diskSize = '500'
     return
   }
 
