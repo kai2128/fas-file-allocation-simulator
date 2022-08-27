@@ -33,7 +33,7 @@ export function useTour() {
 
   tour.addStep({
     title: 'FAS guides',
-    text: 'This tour guide you will introduce you in using the application. (You can press "<b>Left Arrow</b>" key or "<b>Right Arrow</b>" key to go to next or previous step. Pressing "<b>Esc</b>" key will exit the tour.)',
+    text: 'This tour guide will introduce you in using the application. (You can press "<b>Left Arrow</b>" key or "<b>Right Arrow</b>" key to go to next or previous step. Pressing "<b>Esc</b>" key will exit the tour.)',
     buttons: [
       {
         text: 'Start',
