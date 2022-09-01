@@ -280,8 +280,8 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
       setState.fatSelected(selectedFatItemsIndex)
       setState.blockSelected(selectedBlockIndex)
       actions.state.stepIndex = 3
-      setMsg(`All data has been readed for ${readState.directoryEntry.name}`)
-      log(`File ${actions.file.name} readed.`)
+      setMsg(`All data has been read for ${readState.directoryEntry.name}`)
+      log(`File ${actions.file.name} read.`)
       yield { actions, disk, fs }
     },
     *append() {

@@ -74,7 +74,7 @@ export const fatActions: FSActions = {
       {
         index: 3,
         description: `
-        The data of the file is fully readed.
+        The data of the file is fully read.
         `,
       },
     ],
