@@ -20,8 +20,8 @@ export const ext4Action: FSActions = {
       {
         index: 3,
         description: `
-        For each contigous free blocks found, create an extent for 
-        these block by recording its starting block and its length.
+        For each contiguous free blocks found, create an extent for 
+        these blocks by recording its starting block and its length.
         `,
       },
       {
@@ -58,7 +58,7 @@ export const ext4Action: FSActions = {
       {
         index: 3,
         description: `
-        Mark all allocated block recorded in extents as free in the block bitmap.
+        Mark all allocated blocks recorded in extents as free in the block bitmap.
         `,
       },
       {
@@ -97,7 +97,7 @@ export const ext4Action: FSActions = {
       {
         index: 4,
         description: `
-        Start searching for free block from last allocated block. For each contigous free blocks found, create an extent for these block by recording its starting block and its length.
+        Start searching for free block from last allocated block. For each contiguous free blocks found, create an extent for these blocks by recording its starting block and its length.
         `,
       },
       {
@@ -137,7 +137,7 @@ export const ext4Action: FSActions = {
       {
         index: 3,
         description: `
-        Start searching for free block from first allocated block. For each contigous free blocks found, create an extent for these block by recording its starting block and its length.
+        Start searching for free block from first allocated block. For each contiguous free blocks found, create an extent for these blocks by recording its starting block and its length.
         `,
       },
       {

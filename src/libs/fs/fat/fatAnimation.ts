@@ -1,4 +1,4 @@
-import { isEmpty, remove } from 'lodash-es'
+import { isEmpty } from 'lodash-es'
 import { setState } from './../../../composables/actions'
 import { DirectoryEntry } from './directoryEntry'
 import { fatActions } from './fatAction'
@@ -8,8 +8,8 @@ import type { Disk } from '~/libs/volume'
 import { setMsg, setStepsDesc } from '~/composables/actions'
 import type { Actions } from '~/composables/actions'
 
-import { FatItemState } from '~/libs/fs/fat'
 import type { AnimationGenerator } from '~/composables/animations'
+import { FatItemState } from '~/libs/fs/fat'
 
 interface FatAnimationState {
   firstFreeCluster: FatItem

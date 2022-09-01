@@ -32,7 +32,7 @@ To get started,
 3. Detailed steps and animation will be shown.
 4. Animation could be paused, continued or disabled.
   
-For new user / beginner it is recommended to set animation to manual mode and observe each step. The recommended disk size is between 100 to 150. The maximum size allowed size is 500.
+For new users / beginners it is recommended to set animation to manual mode and observe each step. The recommended disk size is between 100 to 150. The maximum size allowed size is 500.
 
 For more information on each function of the app refer to the documentation below. An app tour is provided by pressing the "Guide" button.
 
@@ -78,7 +78,7 @@ While an animation is not completed, all other actions such as formatting disk o
 
 ### Import / Export
 
-The application state can be exported to a file or copied to the clipboard by clicking the export button (<span class="i-carbon:export icon-btn"></span>) to open the export interface. All file actions is recorded  automatically once the disk is formatted. When the disk is formatted, recorded action previously will be cleared.
+The application state can be exported to a file or copied to the clipboard by clicking the export button (<span class="i-carbon:export icon-btn"></span>) to open the export interface. All file actions are recorded  automatically once the disk is formatted. When the disk is formatted, previously recorded action will be cleared.
 
 To import application state, the user can click on the import button (<span class="i-mdi:database-import icon-btn"></span>) to open the import interface and select to import by paste from clipboard or uploading a JSON file.
 
