@@ -28,7 +28,7 @@ export const fatActions: FSActions = {
       {
         index: 4,
         description: `
-        If file havent completely allocated, continue to:
+        If file have not completely allocated, continue to:
         `,
       },
       {
@@ -136,7 +136,7 @@ export const fatActions: FSActions = {
       {
         index: 3,
         description: `
-        If file havent completely allocated, continue to:
+        If file have not completely allocated, continue to:
         `,
       },
       {

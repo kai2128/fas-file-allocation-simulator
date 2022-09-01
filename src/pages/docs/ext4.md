@@ -7,10 +7,10 @@ useHead({
 [[toc]]
 Ext4 is the default file system used in Linux operating system.
 
-Ext4 store file using indexed allocation method by recording all blocks allocated to a file using extents. FAS only focus on the allocation of file and only implement the concept of bitmap, inode and extent. Other features of ext4 are not implemented.
+Ext4 store file using indexed allocation method by recording all blocks allocated to a file using extents. FAS only focus on the allocation of files and only implements the concept of bitmap, inode and extent. Other features of ext4 are not implemented.
 
 ## Disk layout
-Disk layout of ext4 consist of superblock, group descriptor table, block bitmap, inode bitmap, inode table,  and data blocks. Superblock (not implemented in FAS) records information of filesystem. Group descriptor table (not implemented in FAS) store the location of block bitmap, inode bitmap and inode table. Data blocks is the place to store file data. 
+Disk layout of ext4 consists of superblock, group descriptor table, block bitmap, inode bitmap, inode table,  and data blocks. Superblock (not implemented in FAS) records information about the file system. Group descriptor tables (not implemented in FAS) store the location of block bitmap, inode bitmap and inode table. Data blocks are the place to store file data. 
 
 ### Disk Block bitmap
 - record the state (used/free) of each disk block
@@ -22,7 +22,7 @@ Disk layout of ext4 consist of superblock, group descriptor table, block bitmap,
 - store inodes
 
 ### Inode
-- an unqiue identifier for each file
+- an unique identifier for each file
 - each file is allocated with a inode
 - record metadata of file such as file name, size, date created, etc.
 - extents is also stored in inode
