@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Popper } from 'vue-use-popperjs'
 import { last } from 'lodash-es'
 import { fs } from '~/composables/state'
 import type { FatFs } from '~/libs/fs/fat'
@@ -101,5 +100,11 @@ watchEffect(() => {
 <style scoped>
 .selected {
   --at-apply: bg-gray/20
+}
+.selected .fat-next-cluster .tooltips {
+  display: none;
+}
+.selected-flash .fat-next-cluster .tooltips {
+  display: none;
 }
 </style>
