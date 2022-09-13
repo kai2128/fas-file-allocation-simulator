@@ -119,7 +119,7 @@ export function fatAnimation(fs: FatFs, disk: Disk, actions: Actions): Animation
       // init directory entry in root
       actions.state.stepIndex = 1
       setMsg(`Create new directory entry for ${actions.file.name}`)
-      createState.directoryEntry = new DirectoryEntry(actions.file.name, actions.file.size)
+      createState.directoryEntry = new DirectoryEntry(actions.file.name, Number(actions.file.size))
       fs.rootDirectory.files.push(createState.directoryEntry)
       yield { actions, disk, fs }
 
