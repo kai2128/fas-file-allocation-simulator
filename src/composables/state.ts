@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { isEmpty } from 'lodash-es'
+import { isEmpty, last } from 'lodash-es'
 import type { FSApi } from './../libs/fs/types'
 import { Disk } from '~/libs/volume/disk'
 import { FatFs } from '~/libs/fs/fat'
@@ -42,6 +42,16 @@ export interface HistorySteps {
 }
 
 export const stepsHistory = useStorage('steps', []) as Ref<HistorySteps[]>
+export function checkDefragmentationStep() {
+  const step = last(stepsHistory.value)
+  if (step?.action === 'defragmentation')
+    throw new Error('Defragmentation is performed')
+}
+export function addDefragmentationStep() {
+  stepsHistory.value.push({
+    action: 'defragmentation',
+  })
+}
 export function addFormatStep() {
   const formatSteps = {
     action: 'format',
@@ -107,6 +117,16 @@ export function parseImportSteps(steps: HistorySteps[]) {
         inputs.value.diskSize = diskSize!
         createAndFormatDisk(Number(diskSize), fileSystemSelected!)
       }
+      else if (action === 'defragmentation') {
+        try {
+          checkDefragmentationStep()
+          if (fs.value !== null)
+            fs.value.fs_defragmentation()
+        }
+        catch {
+          continue
+        }
+      }
       else if (['fs_append', 'fs_read', 'fs_write', 'fs_delete', 'fs_create'].includes(action)) {
         inputs.value.fileAction = action
         inputs.value.fileName = fileName!
@@ -130,8 +150,8 @@ export const fs = ref({}) as Ref<FSApi>
 
 export function createAndFormatDisk(size: number, fsType: string) {
   if (size > 500) {
-    notify('Maximum supported disk size is 500. Please set a smaller disk size.', 'ERROR')
     throw new Error('Maximum supported disk size is 500.')
+    notify('Maximum supported disk size is 500. Please set a smaller disk size.', 'ERROR')
   }
 
   disk.value = new Disk(size)

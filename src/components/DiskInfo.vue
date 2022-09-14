@@ -4,7 +4,17 @@ import { animating } from '~/composables/animations'
 
 const diskInfo = $computed(() => disk.value.getDiskInfo())
 const diskGraph = $computed(() => disk.value.generateDiskGraph())
-const defragmentation = () => fs.value.fs_defragmentation()
+const defragmentation = () => {
+  try {
+    checkDefragmentationStep()
+  }
+  catch {
+    notify('The disk has been defragmented', 'INFO')
+    return
+  }
+  fs.value.fs_defragmentation()
+  addDefragmentationStep()
+}
 </script>
 
 <template>

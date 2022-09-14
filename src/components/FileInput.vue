@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { random, sample } from 'lodash-es'
-import { animateState, animating, initAnimation } from '~/composables/animations'
+import { animating, initAnimation } from '~/composables/animations'
 import { addFileActionStep, files, fs, inputs, toggleAniInput } from '~/composables/state'
-import { fatAnimation } from '~/libs/fs/fat/fatAnimation'
 
 const { togglePref, showPref, generatePreferences } = useGeneratePreference()
 const generateInputHandler = () => {
