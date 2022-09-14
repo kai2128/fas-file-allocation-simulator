@@ -92,7 +92,7 @@ export function checkValidSteps(step: HistorySteps) {
     if (!step.fileName)
       throw new Error('Invalid file name.')
   }
-  else {
+  else if (step.action !== 'defragmentation') {
     throw new Error('Invalid actions.')
   }
 }
